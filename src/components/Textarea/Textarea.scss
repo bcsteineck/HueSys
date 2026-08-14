@@ -1,0 +1,7 @@
+@use '../../styles/mixins';
+
+.textarea {
+  @include mixins.field-base;
+  min-height: 6rem;
+  resize: vertical;
+}

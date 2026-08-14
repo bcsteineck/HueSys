@@ -1,0 +1,40 @@
+@use '../../styles/variables' as vars;
+
+.alert {
+  font-family: var(--font-family);
+  color: var(--color-text);
+  padding: vars.$space-3 vars.$space-4;
+  border-radius: var(--radius-md);
+  border: var(--border-width) solid;
+  border-left-width: 3px;
+
+  p {
+    margin: 0;
+  }
+}
+
+// Info has no dedicated status token — it reuses the primary color, which
+// already carries the app's brand meaning for "neutral, informational".
+.alert--info {
+  background-color: color-mix(in oklab, var(--color-primary) 8%, var(--color-background));
+  border-color: color-mix(in oklab, var(--color-primary) 30%, var(--color-background));
+  border-left-color: var(--color-primary);
+}
+
+.alert--success {
+  background-color: color-mix(in oklab, var(--color-success) 8%, var(--color-background));
+  border-color: color-mix(in oklab, var(--color-success) 30%, var(--color-background));
+  border-left-color: var(--color-success);
+}
+
+.alert--warning {
+  background-color: color-mix(in oklab, var(--color-warning) 10%, var(--color-background));
+  border-color: color-mix(in oklab, var(--color-warning) 35%, var(--color-background));
+  border-left-color: var(--color-warning);
+}
+
+.alert--danger {
+  background-color: color-mix(in oklab, var(--color-danger) 8%, var(--color-background));
+  border-color: color-mix(in oklab, var(--color-danger) 30%, var(--color-background));
+  border-left-color: var(--color-danger);
+}

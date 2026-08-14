@@ -1,0 +1,45 @@
+@use './variables' as vars;
+
+// Every interactive component uses this exact focus treatment, so focus
+// states stay visibly consistent across the whole library.
+@mixin focus-ring {
+  &:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+  }
+}
+
+// Shared base for text-entry controls (Input, Textarea, Select): border,
+// radius, padding, transitions, disabled and error states all come from
+// here so the three fields are visually identical apart from their own
+// specifics.
+@mixin field-base {
+  width: 100%;
+  font-family: var(--font-family);
+  font-size: 1rem;
+  color: var(--color-text);
+  background-color: var(--color-background);
+  border: var(--border-width) solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: vars.$space-2 vars.$space-3;
+  transition: border-color var(--transition-fast);
+
+  &::placeholder {
+    color: var(--color-text-muted);
+  }
+
+  &:hover:not(:disabled) {
+    border-color: var(--color-text-muted);
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.6;
+  }
+
+  &[aria-invalid='true'] {
+    border-color: var(--color-danger);
+  }
+
+  @include focus-ring;
+}

@@ -1,3 +1,13 @@
 // SCSS-level constants that aren't design tokens (those come from the
 // Theme object as CSS variables — see src/theme/cssVariables.ts).
 $breakpoint-tablet: 768px;
+
+// Fixed spacing scale shared by every component, so padding and gaps stay
+// consistent across the whole library rather than each component picking
+// its own numbers.
+$space-1: 0.25rem;
+$space-2: 0.5rem;
+$space-3: 0.75rem;
+$space-4: 1rem;
+$space-5: 1.5rem;
+$space-6: 2rem;

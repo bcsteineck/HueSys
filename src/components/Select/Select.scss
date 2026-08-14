@@ -1,0 +1,37 @@
+@use '../../styles/mixins';
+@use '../../styles/variables' as vars;
+
+.select-wrapper {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+
+  // Custom chevron, colored via mask so it stays theme-aware instead of a
+  // hardcoded icon color. Native select arrows look inconsistent across
+  // browsers/OS, so we replace it rather than leaving appearance: auto.
+  &::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    right: vars.$space-3;
+    width: 0.75rem;
+    height: 0.75rem;
+    background-color: var(--color-text-muted);
+    mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M4 6l4 4 4-4' stroke='black' stroke-width='1.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    mask-repeat: no-repeat;
+    mask-position: center;
+    transform: translateY(-50%);
+    pointer-events: none;
+  }
+}
+
+.select {
+  @include mixins.field-base;
+  appearance: none;
+  padding-right: vars.$space-6;
+  cursor: pointer;
+
+  &:disabled {
+    cursor: not-allowed;
+  }
+}
