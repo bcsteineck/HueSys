@@ -14,3 +14,12 @@ export function normalizeColor(input: string): string {
   if (!match) return DEFAULT_PRIMARY_COLOR
   return `#${match[1].toLowerCase()}`
 }
+
+/**
+ * Checks whether input is already a valid six-digit hex color, without
+ * falling back to a default. Used by live-typing UI that needs to know
+ * "is this worth committing yet?" rather than "give me some color".
+ */
+export function isValidHexColor(input: string): boolean {
+  return HEX_COLOR_PATTERN.test(input.trim())
+}

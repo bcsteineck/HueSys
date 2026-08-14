@@ -1,6 +1,6 @@
 import type { CSSProperties } from 'react'
 import { Header } from './layout/Header'
-import { ThemeControls } from './layout/ThemeControls'
+import { ThemeControls } from './layout/ThemeControls/ThemeControls'
 import { ComponentPreview } from './layout/ComponentPreview'
 import { ExportControls } from './layout/ExportControls'
 import { generateColorFoundation } from './theme/color'
@@ -11,7 +11,7 @@ import { useAppState } from './state/useAppState'
 import './App.scss'
 
 function App() {
-  const { state } = useAppState()
+  const { state, updateState } = useAppState()
 
   const colorFoundation = generateColorFoundation(state.color)
   const recipe = getThemeRecipe(state.themeIndex)
@@ -24,7 +24,7 @@ function App() {
         <Header />
       </div>
       <div className="app__theme-controls">
-        <ThemeControls state={state} />
+        <ThemeControls state={state} updateState={updateState} />
       </div>
       <div className="app__preview">
         <ComponentPreview />

@@ -1,0 +1,102 @@
+@use '../../styles/mixins';
+@use '../../styles/variables' as vars;
+
+.theme-controls {
+  display: flex;
+  flex-direction: column;
+  gap: vars.$space-5;
+  padding: vars.$space-5;
+  border-right: var(--border-width) solid var(--color-border);
+}
+
+.theme-controls__title {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.theme-controls__group {
+  display: flex;
+  flex-direction: column;
+  gap: vars.$space-2;
+}
+
+.theme-controls__label {
+  margin: 0;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--color-text-muted);
+}
+
+// --- Primary color ---------------------------------------------------
+
+.color-control {
+  display: flex;
+  align-items: center;
+  gap: vars.$space-2;
+}
+
+.color-control__swatch {
+  flex-shrink: 0;
+  width: 2.25rem;
+  height: 2.25rem;
+  padding: 0;
+  border: var(--border-width) solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: none;
+  cursor: pointer;
+
+  &::-webkit-color-swatch-wrapper {
+    padding: 0;
+  }
+
+  &::-webkit-color-swatch {
+    border: none;
+    border-radius: calc(var(--radius-md) - 1px);
+  }
+
+  &::-moz-color-swatch {
+    border: none;
+    border-radius: calc(var(--radius-md) - 1px);
+  }
+
+  @include mixins.focus-ring;
+}
+
+.color-control__hex {
+  flex: 1;
+  min-width: 0;
+}
+
+// --- Recipe ---------------------------------------------------
+
+.recipe-control {
+  display: flex;
+  flex-direction: column;
+  gap: vars.$space-1;
+}
+
+.recipe-control__nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: vars.$space-2;
+}
+
+.recipe-control__arrow {
+  padding: vars.$space-1 vars.$space-3;
+  font-size: 1.125rem;
+  line-height: 1;
+}
+
+.recipe-control__position {
+  font-size: 0.8125rem;
+  color: var(--color-text-muted);
+  white-space: nowrap;
+}
+
+.recipe-control__name {
+  margin: 0;
+  font-size: 1.125rem;
+  font-weight: 600;
+}

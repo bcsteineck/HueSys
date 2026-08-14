@@ -10,7 +10,7 @@ export interface AppState {
 }
 
 export const defaultAppState: AppState = {
-  color: '4F46E5',
+  color: '4f46e5',
   themeIndex: 0,
   font: 'inter',
 }

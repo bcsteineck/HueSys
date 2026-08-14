@@ -1,5 +1,5 @@
 export { generateColorFoundation } from './generateColorFoundation'
-export { DEFAULT_PRIMARY_COLOR, normalizeColor } from './normalizeColor'
+export { DEFAULT_PRIMARY_COLOR, isValidHexColor, normalizeColor } from './normalizeColor'
 export { contrastRatio, pickAccessibleForeground } from './contrast'
 // Conversion primitives, exposed for the Recipe Engine: it's allowed to
 // nudge individual colors (hue/lightness) using the Color Engine's own

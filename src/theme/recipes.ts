@@ -89,9 +89,16 @@ export const themeRecipes: ThemeRecipe[] = [
 ]
 
 /**
- * Looks up a recipe by index. Any out-of-range or invalid index (negative,
- * fractional, NaN, too large) falls back to recipe #0 rather than throwing.
+ * Clamps an index to a valid recipe position. Any out-of-range or invalid
+ * index (negative, fractional, NaN, too large) resolves to 0 rather than
+ * throwing — the single source of truth both recipe lookup and the
+ * Previous/Next navigation UI rely on.
  */
+export function getThemeRecipeIndex(index: number): number {
+  return Number.isInteger(index) && index >= 0 && index < themeRecipes.length ? index : 0
+}
+
+/** Looks up a recipe by index, safely falling back to recipe #0. */
 export function getThemeRecipe(index: number): ThemeRecipe {
-  return themeRecipes[index] ?? themeRecipes[0]
+  return themeRecipes[getThemeRecipeIndex(index)]
 }
