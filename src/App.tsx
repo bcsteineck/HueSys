@@ -3,14 +3,20 @@ import { Header } from './layout/Header'
 import { ThemeControls } from './layout/ThemeControls'
 import { ComponentPreview } from './layout/ComponentPreview'
 import { ExportControls } from './layout/ExportControls'
-import { defaultTheme } from './theme/defaultTheme'
+import { generateColorFoundation } from './theme/color'
+import { generateTheme } from './theme/generateTheme'
+import { getThemeRecipe } from './theme/recipes'
 import { themeToCssVariables } from './theme/cssVariables'
 import { useAppState } from './state/useAppState'
 import './App.scss'
 
 function App() {
-  const themeStyle = themeToCssVariables(defaultTheme) as CSSProperties
   const { state } = useAppState()
+
+  const colorFoundation = generateColorFoundation(state.color)
+  const recipe = getThemeRecipe(state.themeIndex)
+  const theme = generateTheme(colorFoundation, recipe, state.font)
+  const themeStyle = themeToCssVariables(theme) as CSSProperties
 
   return (
     <div className="app" style={themeStyle}>
