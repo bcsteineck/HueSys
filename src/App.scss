@@ -1,0 +1,36 @@
+@use './styles/variables' as vars;
+
+.app {
+  display: grid;
+  grid-template-areas:
+    'header header header'
+    'theme-controls preview export-controls';
+  grid-template-columns: 240px 1fr 260px;
+  grid-template-rows: auto 1fr;
+  min-height: 100svh;
+
+  @media (max-width: vars.$breakpoint-tablet) {
+    grid-template-areas:
+      'header'
+      'preview'
+      'theme-controls'
+      'export-controls';
+    grid-template-columns: 1fr;
+  }
+}
+
+.app__header {
+  grid-area: header;
+}
+
+.app__theme-controls {
+  grid-area: theme-controls;
+}
+
+.app__preview {
+  grid-area: preview;
+}
+
+.app__export-controls {
+  grid-area: export-controls;
+}

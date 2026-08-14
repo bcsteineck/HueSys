@@ -1,0 +1,3 @@
+// SCSS-level constants that aren't design tokens (those come from the
+// Theme object as CSS variables — see src/theme/cssVariables.ts).
+$breakpoint-tablet: 768px;
