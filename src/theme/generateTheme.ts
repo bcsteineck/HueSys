@@ -1,43 +1,61 @@
+import type { BorderRadius, FontSize, FontWeight, Spacing, StyleState, TypographyState } from '../state/appState'
 import { hexToOklch, oklchToHex, pickAccessibleForeground } from './color'
 import type { ColorScaleStep, Palette } from './color'
 import { resolveFontFamily } from './fonts'
-import type { BorderStrength, RadiusStyle, ShadowStyle, StyleRecipe, SurfaceContrast, Theme, ThemeRadius, ThemeShadows } from './types'
+import type { Theme, ThemeRadius, ThemeSpacing } from './types'
 
-// --- Surface contrast ------------------------------------------------
+// --- Typography scale ------------------------------------------------
 
-// How far apart (in scale steps) background and surface sit. Background
-// stays anchored at the lightest step; only surface moves further away as
-// contrast increases. Both are selections from the Palette's already-
-// generated neutral scale — Style never computes a new color here.
-const SURFACE_CONTRAST_STEPS: Record<SurfaceContrast, { background: ColorScaleStep; surface: ColorScaleStep }> = {
-  low: { background: 50, surface: 100 },
-  medium: { background: 50, surface: 200 },
-  high: { background: 50, surface: 300 },
+// Font Size adjusts a proportional scale, not one global size. "Medium"
+// matches the values the component library used before Typography
+// existed as its own concern, so the default look is unchanged.
+const FONT_SIZE_SCALE: Record<FontSize, { sm: string; base: string; lg: string }> = {
+  small: { sm: '0.75rem', base: '0.875rem', lg: '1rem' },
+  medium: { sm: '0.8125rem', base: '1rem', lg: '1.125rem' },
+  large: { sm: '0.875rem', base: '1.125rem', lg: '1.3125rem' },
 }
 
-// --- Border strength ------------------------------------------------
-
-const BORDER_STRENGTH_STEP: Record<BorderStrength, ColorScaleStep> = {
-  subtle: 200,
-  medium: 300,
-  strong: 400,
+// Font Weight adjusts a small hierarchy (body text vs. interactive
+// controls), not one global weight. "Medium" again matches the previous
+// hardcoded values (unset/400 body, 600 control).
+const FONT_WEIGHT_SCALE: Record<FontWeight, { body: number; control: number }> = {
+  regular: { body: 400, control: 500 },
+  medium: { body: 400, control: 600 },
+  semibold: { body: 500, control: 700 },
 }
 
-// --- Radius style ------------------------------------------------
+// --- Radius scale ------------------------------------------------
 
-const RADIUS_BY_STYLE: Record<RadiusStyle, ThemeRadius> = {
-  sharp: { sm: '2px', md: '4px', lg: '8px' },
-  soft: { sm: '4px', md: '8px', lg: '12px' },
-  round: { sm: '8px', md: '12px', lg: '18px' },
+// "Subtle" matches the previous fixed radius values, so the default look
+// is unchanged; the other three options fan out around it.
+const RADIUS_SCALE: Record<BorderRadius, ThemeRadius> = {
+  sharp: { sm: '2px', md: '4px', lg: '6px' },
+  subtle: { sm: '4px', md: '8px', lg: '12px' },
+  rounded: { sm: '8px', md: '12px', lg: '18px' },
+  soft: { sm: '12px', md: '18px', lg: '28px' },
 }
 
-// --- Shadow style ------------------------------------------------
+// --- Spacing scale ------------------------------------------------
 
-const SHADOWS_BY_STYLE: Record<ShadowStyle, ThemeShadows> = {
-  none: { sm: 'none', md: 'none' },
-  subtle: { sm: '0 1px 2px rgba(0, 0, 0, 0.05)', md: '0 2px 6px rgba(0, 0, 0, 0.06)' },
-  elevated: { sm: '0 1px 3px rgba(0, 0, 0, 0.08)', md: '0 8px 20px rgba(0, 0, 0, 0.1)' },
+// "Medium" matches the fixed spacing scale the component library used
+// before Style existed as its own concern (styles/_variables.scss),
+// so the default look is unchanged.
+const SPACING_SCALE: Record<Spacing, ThemeSpacing> = {
+  compact: { space1: '0.2rem', space2: '0.375rem', space3: '0.5rem', space4: '0.75rem', space5: '1.125rem', space6: '1.5rem' },
+  medium: { space1: '0.25rem', space2: '0.5rem', space3: '0.75rem', space4: '1rem', space5: '1.5rem', space6: '2rem' },
+  spacious: { space1: '0.375rem', space2: '0.75rem', space3: '1rem', space4: '1.5rem', space5: '2rem', space6: '2.75rem' },
 }
+
+// --- Fixed structural defaults ------------------------------------------------
+
+// Not exposed as controls (per product spec). These are the exact values
+// the previous "Minimal" Style used, so the default look is unchanged.
+const FIXED_BACKGROUND_STEP: ColorScaleStep = 50
+const FIXED_SURFACE_STEP: ColorScaleStep = 100
+const FIXED_BORDER_STEP: ColorScaleStep = 200
+const FIXED_SHADOWS = { sm: '0 1px 2px rgba(0, 0, 0, 0.05)', md: '0 2px 6px rgba(0, 0, 0, 0.06)' }
+const FIXED_BORDER_WIDTH = '1px'
+const FIXED_TRANSITION_FAST = '150ms ease'
 
 // --- Primary hover ------------------------------------------------
 
@@ -55,37 +73,36 @@ function derivePrimaryHover(primaryColor: string): string {
 // --- Theme assembly ------------------------------------------------
 
 /**
- * Combines an already-generated Palette with a Style into the final
- * Theme. This is where component-appearance decisions live — Style only
- * selects and recombines colors the Palette Engine already produced (plus
- * small derived interaction states like hover, via the Color Engine's own
- * primitives); it never invents a new color or regenerates the palette.
- * `masterColor`, if provided, records that the palette was anchored to a
- * user-supplied color rather than generated from scratch.
+ * Combines an already-generated Palette (Colors), Typography state, and
+ * Style state into the final Theme. Each concern stays independent:
+ * Typography never touches colors, Style never touches colors or
+ * Typography, and Colors never touch Typography or Style. Structural
+ * properties Style doesn't expose (shadows, border width, transitions,
+ * surface treatment) use fixed sensible defaults. `masterColor`, when
+ * provided, records that the active Brand Palette has an explicit Base
+ * Color (Palette mode) rather than being fully user-supplied (Custom mode).
  */
-export function generateTheme(palette: Palette, style: StyleRecipe, fontId: string, masterColor?: string): Theme {
-  const { background, surface } = SURFACE_CONTRAST_STEPS[style.surfaceContrast]
-  const borderStep = BORDER_STRENGTH_STEP[style.borderStrength]
+export function generateTheme(palette: Palette, typography: TypographyState, style: StyleState, masterColor?: string): Theme {
   const primary = palette.brand.master
   const accent = palette.brand.accentA
+  const fontSize = FONT_SIZE_SCALE[typography.size]
+  const fontWeight = FONT_WEIGHT_SCALE[typography.weight]
 
   return {
     metadata: {
-      name: style.name,
       masterColor: masterColor?.replace('#', ''),
-      styleId: style.id,
     },
     colors: {
       primary,
       primaryHover: derivePrimaryHover(primary),
       primaryText: pickAccessibleForeground(primary),
 
-      background: palette.neutralScale[background],
-      surface: palette.neutralScale[surface],
+      background: palette.neutralScale[FIXED_BACKGROUND_STEP],
+      surface: palette.neutralScale[FIXED_SURFACE_STEP],
 
       text: palette.neutralScale[900],
       textMuted: palette.neutralScale[600],
-      border: palette.neutralScale[borderStep],
+      border: palette.neutralScale[FIXED_BORDER_STEP],
 
       success: palette.semantic.success,
       warning: palette.semantic.warning,
@@ -95,15 +112,21 @@ export function generateTheme(palette: Palette, style: StyleRecipe, fontId: stri
       accentText: pickAccessibleForeground(accent),
     },
     typography: {
-      fontFamily: resolveFontFamily(fontId),
+      fontFamily: resolveFontFamily(typography.font),
+      fontSizeSm: fontSize.sm,
+      fontSizeBase: fontSize.base,
+      fontSizeLg: fontSize.lg,
+      fontWeightBody: fontWeight.body,
+      fontWeightControl: fontWeight.control,
     },
-    radius: RADIUS_BY_STYLE[style.radiusStyle],
-    shadows: SHADOWS_BY_STYLE[style.shadowStyle],
+    radius: RADIUS_SCALE[style.radius],
+    spacing: SPACING_SCALE[style.spacing],
+    shadows: FIXED_SHADOWS,
     borders: {
-      width: '1px',
+      width: FIXED_BORDER_WIDTH,
     },
     transitions: {
-      fast: '150ms ease',
+      fast: FIXED_TRANSITION_FAST,
     },
   }
 }

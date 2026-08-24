@@ -1,15 +1,17 @@
-@use '../../styles/variables' as vars;
-
 .card {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: vars.$space-3;
+  gap: var(--space-3);
+  font-family: var(--font-family);
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-body);
+  color: var(--color-text);
   background-color: var(--color-surface);
   border: var(--border-width) solid var(--color-border);
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-sm);
-  padding: vars.$space-5;
+  padding: var(--space-5);
 
   // Reset default heading/paragraph margins so vertical spacing between
   // children comes from the flex gap above, consistently, regardless of

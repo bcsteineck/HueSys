@@ -18,7 +18,6 @@ const FALLBACK_HUE = 264
 const FALLBACK_HUE_SEED_STEP = 47
 
 interface HarmonyRecipe {
-  name: string
   /** Hue offsets in degrees, relative to the anchor hue. accentA is always the quieter, closer-to-anchor accent; accentB is always the bolder, farther one. */
   deepHueOffset: number
   mutedHueOffset: number
@@ -32,7 +31,6 @@ interface HarmonyRecipe {
 // stay consistent so the choice of recipe never changes how "loud" a
 // palette feels, only which hues it explores.
 const ANALOGOUS: HarmonyRecipe = {
-  name: 'Analogous',
   deepHueOffset: -8,
   mutedHueOffset: 8,
   accentAHueOffset: 35,
@@ -40,7 +38,6 @@ const ANALOGOUS: HarmonyRecipe = {
 }
 
 const COMPLEMENTARY: HarmonyRecipe = {
-  name: 'Complementary',
   deepHueOffset: -6,
   mutedHueOffset: 6,
   accentAHueOffset: 165,
@@ -48,7 +45,6 @@ const COMPLEMENTARY: HarmonyRecipe = {
 }
 
 const SPLIT_COMPLEMENTARY: HarmonyRecipe = {
-  name: 'Split-Complementary',
   deepHueOffset: -6,
   mutedHueOffset: 6,
   accentAHueOffset: 150,
@@ -60,7 +56,6 @@ const SPLIT_COMPLEMENTARY: HarmonyRecipe = {
 // is the recipe used for near-neutral masters, where nothing else would
 // have a "true" hue to relate to.
 const TONAL_ACCENT: HarmonyRecipe = {
-  name: 'Tonal + Accent',
   deepHueOffset: -4,
   mutedHueOffset: 4,
   accentAHueOffset: 8,
@@ -116,6 +111,5 @@ export function generateBrandPalette(rawMasterColor: string, variationSeed = 0):
     muted: roleColor(anchor, recipe.mutedHueOffset, 0.62, mutedChroma),
     accentA: roleColor(anchor, recipe.accentAHueOffset, 0.68, accentChroma),
     accentB: roleColor(anchor, recipe.accentBHueOffset, 0.56, accentChroma),
-    recipeName: recipe.name,
   }
 }

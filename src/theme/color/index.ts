@@ -1,4 +1,5 @@
-export { generatePalette } from './generatePalette'
+export { buildPalette, generatePalette } from './generatePalette'
+export { generateBrandPalette } from './generateBrandPalette'
 export { DEFAULT_PRIMARY_COLOR, isValidHexColor, normalizeColor } from './normalizeColor'
 export { contrastRatio, pickAccessibleForeground } from './contrast'
 // Conversion primitives, exposed for Theme assembly: it's allowed to

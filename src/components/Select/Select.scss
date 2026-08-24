@@ -1,5 +1,4 @@
 @use '../../styles/mixins';
-@use '../../styles/variables' as vars;
 
 .select-wrapper {
   position: relative;
@@ -13,7 +12,7 @@
     content: '';
     position: absolute;
     top: 50%;
-    right: vars.$space-3;
+    right: var(--space-3);
     width: 0.75rem;
     height: 0.75rem;
     background-color: var(--color-text-muted);
@@ -28,7 +27,7 @@
 .select {
   @include mixins.field-base;
   appearance: none;
-  padding-right: vars.$space-6;
+  padding-right: var(--space-6);
   cursor: pointer;
 
   &:disabled {

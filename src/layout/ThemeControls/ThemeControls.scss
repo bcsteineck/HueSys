@@ -92,35 +92,51 @@
   min-width: 0;
 }
 
-// --- Style ---------------------------------------------------
+// --- Color mode + Custom ---------------------------------------------------
 
-.style-control {
+.color-control {
+  display: flex;
+  flex-direction: column;
+  gap: vars.$space-3;
+}
+
+.color-control__mode {
+  display: flex;
+  gap: vars.$space-2;
+}
+
+.custom-color-control {
+  display: flex;
+  flex-direction: column;
+  gap: vars.$space-2;
+  min-width: 16rem;
+}
+
+.custom-color-control__field {
+  display: flex;
+  align-items: center;
+  gap: vars.$space-2;
+}
+
+// --- Style / Typography fields ---------------------------------------------------
+
+.style-control,
+.typography-control {
+  display: flex;
+  flex-direction: column;
+  gap: vars.$space-3;
+  min-width: 12rem;
+}
+
+.style-control__field,
+.typography-control__field {
   display: flex;
   flex-direction: column;
   gap: vars.$space-1;
 }
 
-.style-control__nav {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: vars.$space-2;
-}
-
-.style-control__arrow {
-  padding: vars.$space-1 vars.$space-3;
-  font-size: 1.125rem;
-  line-height: 1;
-}
-
-.style-control__position {
-  font-size: 0.8125rem;
+.style-control__field-label,
+.typography-control__field-label {
+  font-size: 0.75rem;
   color: var(--color-text-muted);
-  white-space: nowrap;
-}
-
-.style-control__name {
-  margin: 0;
-  font-size: 1.125rem;
-  font-weight: 600;
 }

@@ -1,7 +1,7 @@
 import { hexToOklch, oklchToHex } from './colorSpace'
 import { generateBrandPalette } from './generateBrandPalette'
 import { generateNeutralScale } from './generateNeutralScale'
-import type { Oklch, Palette } from './types'
+import type { BrandPalette, Oklch, Palette } from './types'
 
 // Canonical status hues (green/amber/red in OKLCH) — universal starting
 // points so success/warning/danger stay recognizable. They're never used
@@ -51,15 +51,14 @@ const NEUTRAL_DISPLAY_STEPS = {
 } as const
 
 /**
- * The Palette Engine's single entry point: converts a master color (plus
- * an optional variation seed) into the complete Palette — brand colors,
- * the full neutral scale, the fixed neutral display roles, and semantic
- * colors. This is pure color generation; it knows nothing about Style or
- * components, and nothing here ever changes because a different Style
- * was selected.
+ * The Color Foundation step: derives the full Palette — neutral scale,
+ * fixed neutral display roles, and semantic colors — from an
+ * already-known Brand Palette. `brand.master` anchors neutral tinting and
+ * semantic personality, the same role it plays whether the Brand Palette
+ * came from Palette-mode generation or from a user's Custom colors. This
+ * function doesn't care which — it never generates brand colors itself.
  */
-export function generatePalette(rawMasterColor: string, variationSeed = 0): Palette {
-  const brand = generateBrandPalette(rawMasterColor, variationSeed)
+export function buildPalette(brand: BrandPalette): Palette {
   const masterOklch = hexToOklch(brand.master)
   const neutralScale = generateNeutralScale(brand.master)
 
@@ -79,4 +78,14 @@ export function generatePalette(rawMasterColor: string, variationSeed = 0): Pale
       danger: derivePersonalityColor(DANGER_OKLCH, masterOklch),
     },
   }
+}
+
+/**
+ * Convenience entry point for Palette mode: generates the five brand
+ * colors from a master color (plus an optional variation seed), then runs
+ * them through the Color Foundation. Custom mode skips straight to
+ * buildPalette with its own user-supplied Brand Palette instead.
+ */
+export function generatePalette(rawMasterColor: string, variationSeed = 0): Palette {
+  return buildPalette(generateBrandPalette(rawMasterColor, variationSeed))
 }

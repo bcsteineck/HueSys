@@ -1,9 +1,9 @@
-@use '../../styles/variables' as vars;
-
 .alert {
   font-family: var(--font-family);
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-body);
   color: var(--color-text);
-  padding: vars.$space-3 vars.$space-4;
+  padding: var(--space-3) var(--space-4);
   border-radius: var(--radius-md);
   border: var(--border-width) solid;
   border-left-width: 3px;

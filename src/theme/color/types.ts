@@ -23,8 +23,6 @@ export interface BrandPalette {
   muted: string
   accentA: string
   accentB: string
-  /** Which curated harmony recipe produced this palette, e.g. "Split-Complementary". */
-  recipeName: string
 }
 
 /**

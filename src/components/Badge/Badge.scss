@@ -1,13 +1,11 @@
-@use '../../styles/variables' as vars;
-
 .badge {
   display: inline-flex;
   align-items: center;
   font-family: var(--font-family);
-  font-size: 0.8125rem;
-  font-weight: 600;
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-control);
   line-height: 1;
-  padding: vars.$space-1 vars.$space-2;
+  padding: var(--space-1) var(--space-2);
   border-radius: var(--radius-sm);
   border: var(--border-width) solid transparent;
   white-space: nowrap;

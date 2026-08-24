@@ -1,90 +1,94 @@
 import { useEffect, useState } from 'react'
-import { isValidHexColor } from '../theme/color'
-import { fontOptions } from '../theme/fonts'
-import { type AppState, defaultAppState } from './appState'
-
-function parseColor(value: string | null): string {
-  if (value !== null && isValidHexColor(value)) {
-    return value.replace('#', '').toLowerCase()
-  }
-  return defaultAppState.anchorColor
-}
-
-function parseInteger(value: string | null, fallback: number): number {
-  const parsed = Number(value)
-  return value === null || Number.isNaN(parsed) ? fallback : parsed
-}
-
-function parseFont(value: string | null): string {
-  return value !== null && fontOptions.some((option) => option.id === value) ? value : defaultAppState.font
-}
-
-function readStateFromUrl(): AppState {
-  const params = new URLSearchParams(window.location.search)
-  // A completely bare URL (first visit, no shared link) gets the full
-  // default state, including its pinned default master color — a
-  // partially-specified URL (e.g. only ?style=2) still falls back field
-  // by field, since that's a deliberate shared/edited link.
-  if ([...params.keys()].length === 0) return defaultAppState
-
-  return {
-    anchorColor: parseColor(params.get('color')),
-    hasMasterColor: params.get('master') === '1',
-    paletteSeed: parseInteger(params.get('seed'), defaultAppState.paletteSeed),
-    styleIndex: parseInteger(params.get('style'), defaultAppState.styleIndex),
-    font: parseFont(params.get('font')),
-  }
-}
-
-function writeStateToUrl(state: AppState, mode: 'push' | 'replace') {
-  const params = new URLSearchParams({
-    color: state.anchorColor,
-    seed: String(state.paletteSeed),
-    style: String(state.styleIndex),
-    font: state.font,
-  })
-  if (state.hasMasterColor) params.set('master', '1')
-
-  const url = `?${params.toString()}`
-  if (mode === 'push') {
-    window.history.pushState(null, '', url)
-  } else {
-    window.history.replaceState(null, '', url)
-  }
-}
+import type { AppState, ColorState, StyleState, TypographyState } from './appState'
+import { readStateFromUrl, writeStateToUrl } from './urlState'
 
 export interface UpdateStateOptions {
-  /** Use replaceState instead of pushState — for continuous edits (e.g. typing a hex value) that shouldn't spam history with one entry per keystroke. */
-  replace?: boolean
+  /** This is a dashboard navigation change (e.g. switching Colors/Typography/Style), not a design edit — it gets its own pushState entry so browser Back/Forward can step through it. Design edits default to replaceState instead, so they don't spam browser history; Undo/Redo is the mechanism for stepping back through those. */
+  navigation?: boolean
+  /** Skip recording this change in design-state history — used by undo()/redo() themselves so restoring a snapshot doesn't push a new one. */
+  skipHistory?: boolean
 }
+
+interface DesignSnapshot {
+  color: ColorState
+  typography: TypographyState
+  style: StyleState
+}
+
+function toSnapshot(state: AppState): DesignSnapshot {
+  return { color: state.color, typography: state.typography, style: state.style }
+}
+
+const EMPTY_HISTORY = { past: [] as DesignSnapshot[], future: [] as DesignSnapshot[] }
 
 /**
  * The URL is the source of truth for app state: read on load, written on
- * every change (pushState by default, so each control interaction is a
- * navigable history entry; replaceState for continuous edits), and
- * re-read whenever the user navigates Back/Forward.
+ * every change (replaceState by default, so continuous design edits don't
+ * spam browser history; pushState for dashboard navigation), and re-read
+ * whenever the user navigates Back/Forward.
+ *
+ * Design-state Undo/Redo is a separate history stack, restoring complete
+ * Colors/Typography/Style snapshots. It's deliberately not the same thing
+ * as browser history — navigating sections, scrolling, or copying a color
+ * never enters it, only changes to `color`, `typography`, or `style` do.
  */
 export function useAppState() {
   const [state, setState] = useState<AppState>(readStateFromUrl)
+  const [history, setHistory] = useState(EMPTY_HISTORY)
 
-  // Deliberately not a setState updater function: writeStateToUrl is a
-  // side effect (history.pushState), and updater functions must stay pure
-  // — React (in StrictMode) invokes them twice in dev specifically to
-  // catch impurities like this, which would otherwise double-push history
-  // on every single call.
+  // Deliberately not setState updater functions: writeStateToUrl is a side
+  // effect (history.pushState/replaceState), and updater functions must
+  // stay pure — React (in StrictMode) invokes them twice in dev
+  // specifically to catch impurities like this, which would otherwise
+  // double-push history on every single call. Everything below reads from
+  // the closure's `state`/`history` instead.
   function updateState(partial: Partial<AppState>, options?: UpdateStateOptions) {
     const next = { ...state, ...partial }
-    writeStateToUrl(next, options?.replace ? 'replace' : 'push')
+    const isDesignChange = 'color' in partial || 'typography' in partial || 'style' in partial
+    writeStateToUrl(next, options?.navigation ? 'push' : 'replace')
     setState(next)
+    if (isDesignChange && !options?.skipHistory) {
+      setHistory({ past: [...history.past, toSnapshot(state)], future: [] })
+    }
+  }
+
+  function undo() {
+    if (history.past.length === 0) return
+    const snapshot = history.past[history.past.length - 1]
+    const next = { ...state, ...snapshot }
+    writeStateToUrl(next, 'replace')
+    setState(next)
+    setHistory({ past: history.past.slice(0, -1), future: [toSnapshot(state), ...history.future] })
+  }
+
+  function redo() {
+    if (history.future.length === 0) return
+    const snapshot = history.future[0]
+    const next = { ...state, ...snapshot }
+    writeStateToUrl(next, 'replace')
+    setState(next)
+    setHistory({ past: [...history.past, toSnapshot(state)], future: history.future.slice(1) })
   }
 
   useEffect(() => {
     function handlePopState() {
+      // Design history is meaningful relative to the state it was recorded
+      // against — a real Back/Forward navigation can land on an unrelated
+      // design entirely, so it starts a fresh Undo/Redo stack rather than
+      // risk restoring a snapshot that no longer makes sense.
       setState(readStateFromUrl())
+      setHistory(EMPTY_HISTORY)
     }
     window.addEventListener('popstate', handlePopState)
     return () => window.removeEventListener('popstate', handlePopState)
   }, [])
 
-  return { state, updateState }
+  return {
+    state,
+    updateState,
+    undo,
+    redo,
+    canUndo: history.past.length > 0,
+    canRedo: history.future.length > 0,
+  }
 }

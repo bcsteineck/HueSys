@@ -1,8 +1,6 @@
 export interface ThemeMetadata {
-  name: string
-  /** Hex the palette was anchored to, e.g. '4F46E5' — present only when the user explicitly supplied a master color, absent for a randomly generated palette. */
+  /** Hex the palette was anchored to, e.g. '4F46E5' — present only when the active Brand Palette has an explicit Base Color (Palette mode), absent in Custom mode. */
   masterColor?: string
-  styleId: string
 }
 
 export interface ThemeColors {
@@ -26,14 +24,34 @@ export interface ThemeColors {
   accentText: string
 }
 
+/**
+ * Typography tokens. Font Size produces a small proportional scale rather
+ * than one global size; Font Weight produces a small hierarchy (body text
+ * vs. interactive controls) rather than one global weight.
+ */
 export interface ThemeTypography {
   fontFamily: string
+  fontSizeSm: string
+  fontSizeBase: string
+  fontSizeLg: string
+  fontWeightBody: number
+  fontWeightControl: number
 }
 
 export interface ThemeRadius {
   sm: string
   md: string
   lg: string
+}
+
+/** Generated spacing scale — consumed by the generated component library only, never by HueSys's own application layout. */
+export interface ThemeSpacing {
+  space1: string
+  space2: string
+  space3: string
+  space4: string
+  space5: string
+  space6: string
 }
 
 export interface ThemeShadows {
@@ -54,28 +72,8 @@ export interface Theme {
   colors: ThemeColors
   typography: ThemeTypography
   radius: ThemeRadius
+  spacing: ThemeSpacing
   shadows: ThemeShadows
   borders: ThemeBorders
   transitions: ThemeTransitions
-}
-
-export type SurfaceContrast = 'low' | 'medium' | 'high'
-export type BorderStrength = 'subtle' | 'medium' | 'strong'
-export type RadiusStyle = 'sharp' | 'soft' | 'round'
-export type ShadowStyle = 'none' | 'subtle' | 'elevated'
-
-/**
- * Declarative description of a Style's visual character — component
- * appearance only. A StyleRecipe never computes values itself and never
- * influences color generation (that's the Palette Engine's job); Theme
- * assembly reads these characteristics to decide how the Palette that's
- * already been generated gets applied to structural properties.
- */
-export interface StyleRecipe {
-  id: string
-  name: string
-  surfaceContrast: SurfaceContrast
-  borderStrength: BorderStrength
-  radiusStyle: RadiusStyle
-  shadowStyle: ShadowStyle
 }

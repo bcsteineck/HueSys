@@ -1,8 +1,8 @@
 import type { AppState } from '../../state/appState'
 import type { UpdateStateOptions } from '../../state/useAppState'
-import { FontControl } from './FontControl'
-import { PaletteControl } from './PaletteControl'
+import { ColorControl } from './ColorControl'
 import { StyleControl } from './StyleControl'
+import { TypographyControl } from './TypographyControl'
 import './ThemeControls.scss'
 
 export interface ThemeControlsProps {
@@ -11,11 +11,12 @@ export interface ThemeControlsProps {
 }
 
 /**
- * Inputs only — "what would you like HueSys to generate?" Palette and
- * Style are deliberately independent controls: generating a palette never
- * touches the selected Style, and changing Style never touches the
- * palette. What HueSys actually generated lives in the Generated Palette
- * section below this, not here.
+ * Inputs only — "what would you like HueSys to generate?" Colors,
+ * Typography, and Style are deliberately independent controls: changing
+ * one never touches the others. What HueSys actually generated lives in
+ * the Generated Palette section below this, not here. A temporary,
+ * single-column layout for Stage A verification — the real Colors /
+ * Typography / Style dashboard sections belong to Stage B.
  */
 export function ThemeControls({ state, updateState }: ThemeControlsProps) {
   return (
@@ -24,22 +25,18 @@ export function ThemeControls({ state, updateState }: ThemeControlsProps) {
 
       <div className="theme-controls__row">
         <div className="theme-controls__group">
-          <h3 className="theme-controls__label">Palette</h3>
-          <PaletteControl
-            hasMasterColor={state.hasMasterColor}
-            anchorColor={state.anchorColor}
-            onGenerate={(request) => updateState(request)}
-          />
+          <h3 className="theme-controls__label">Colors</h3>
+          <ColorControl color={state.color} onChange={(color) => updateState({ color })} />
+        </div>
+
+        <div className="theme-controls__group">
+          <h3 className="theme-controls__label">Typography</h3>
+          <TypographyControl typography={state.typography} onChange={(typography) => updateState({ typography })} />
         </div>
 
         <div className="theme-controls__group">
           <h3 className="theme-controls__label">Style</h3>
-          <StyleControl styleIndex={state.styleIndex} onChange={(styleIndex) => updateState({ styleIndex })} />
-        </div>
-
-        <div className="theme-controls__group">
-          <h3 className="theme-controls__label">Font</h3>
-          <FontControl font={state.font} onChange={(font) => updateState({ font })} />
+          <StyleControl style={state.style} onChange={(style) => updateState({ style })} />
         </div>
       </div>
     </section>

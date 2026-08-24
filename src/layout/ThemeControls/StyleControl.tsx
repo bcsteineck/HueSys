@@ -1,40 +1,57 @@
-import { Button } from '../../components/Button/Button'
-import { getStyleIndex, styles } from '../../theme/styles'
+import type { ChangeEvent } from 'react'
+import { Select } from '../../components/Select/Select'
+import type { BorderRadius, Spacing, StyleState } from '../../state/appState'
 
 export interface StyleControlProps {
-  styleIndex: number
-  onChange: (styleIndex: number) => void
+  style: StyleState
+  onChange: (next: StyleState) => void
 }
 
-export function StyleControl({ styleIndex, onChange }: StyleControlProps) {
-  const count = styles.length
-  const currentIndex = getStyleIndex(styleIndex)
-  const style = styles[currentIndex]
+const RADIUS_OPTIONS: { value: BorderRadius; label: string }[] = [
+  { value: 'sharp', label: 'Sharp' },
+  { value: 'subtle', label: 'Subtle' },
+  { value: 'rounded', label: 'Rounded' },
+  { value: 'soft', label: 'Soft' },
+]
 
+const SPACING_OPTIONS: { value: Spacing; label: string }[] = [
+  { value: 'compact', label: 'Compact' },
+  { value: 'medium', label: 'Medium' },
+  { value: 'spacious', label: 'Spacious' },
+]
+
+export function StyleControl({ style, onChange }: StyleControlProps) {
   return (
     <div className="style-control">
-      <div className="style-control__nav">
-        <Button
-          variant="ghost"
-          className="style-control__arrow"
-          aria-label="Previous style"
-          onClick={() => onChange((currentIndex - 1 + count) % count)}
+      <label className="style-control__field">
+        <span className="style-control__field-label">Border Radius</span>
+        <Select
+          aria-label="Border radius"
+          value={style.radius}
+          onChange={(event: ChangeEvent<HTMLSelectElement>) => onChange({ ...style, radius: event.target.value as BorderRadius })}
         >
-          ‹
-        </Button>
-        <span className="style-control__position">
-          Style {currentIndex + 1} of {count}
-        </span>
-        <Button
-          variant="ghost"
-          className="style-control__arrow"
-          aria-label="Next style"
-          onClick={() => onChange((currentIndex + 1) % count)}
+          {RADIUS_OPTIONS.map((option) => (
+            <option key={option.value} value={option.value}>
+              {option.label}
+            </option>
+          ))}
+        </Select>
+      </label>
+
+      <label className="style-control__field">
+        <span className="style-control__field-label">Spacing</span>
+        <Select
+          aria-label="Spacing"
+          value={style.spacing}
+          onChange={(event: ChangeEvent<HTMLSelectElement>) => onChange({ ...style, spacing: event.target.value as Spacing })}
         >
-          ›
-        </Button>
-      </div>
-      <p className="style-control__name">{style.name}</p>
+          {SPACING_OPTIONS.map((option) => (
+            <option key={option.value} value={option.value}>
+              {option.label}
+            </option>
+          ))}
+        </Select>
+      </label>
     </div>
   )
 }

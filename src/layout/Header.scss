@@ -1,6 +1,7 @@
 .header {
   display: flex;
   align-items: center;
+  justify-content: space-between;
   padding: 1rem 1.5rem;
   border-bottom: var(--border-width) solid var(--color-border);
 }
@@ -9,4 +10,9 @@
   margin: 0;
   font-size: 1.25rem;
   font-weight: 600;
+}
+
+.header__history {
+  display: flex;
+  gap: 0.5rem;
 }
