@@ -1,6 +1,7 @@
 import type { ChangeEvent } from 'react'
-import { Select } from '../../components/Select/Select'
+import { HueSysSelect } from '../../huesys-ui/HueSysSelect'
 import type { BorderRadius, Spacing, StyleState } from '../../state/appState'
+import './StyleControl.scss'
 
 export interface StyleControlProps {
   style: StyleState
@@ -25,7 +26,7 @@ export function StyleControl({ style, onChange }: StyleControlProps) {
     <div className="style-control">
       <label className="style-control__field">
         <span className="style-control__field-label">Border Radius</span>
-        <Select
+        <HueSysSelect
           aria-label="Border radius"
           value={style.radius}
           onChange={(event: ChangeEvent<HTMLSelectElement>) => onChange({ ...style, radius: event.target.value as BorderRadius })}
@@ -35,12 +36,12 @@ export function StyleControl({ style, onChange }: StyleControlProps) {
               {option.label}
             </option>
           ))}
-        </Select>
+        </HueSysSelect>
       </label>
 
       <label className="style-control__field">
         <span className="style-control__field-label">Spacing</span>
-        <Select
+        <HueSysSelect
           aria-label="Spacing"
           value={style.spacing}
           onChange={(event: ChangeEvent<HTMLSelectElement>) => onChange({ ...style, spacing: event.target.value as Spacing })}
@@ -50,7 +51,7 @@ export function StyleControl({ style, onChange }: StyleControlProps) {
               {option.label}
             </option>
           ))}
-        </Select>
+        </HueSysSelect>
       </label>
     </div>
   )

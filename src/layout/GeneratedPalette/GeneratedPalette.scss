@@ -5,7 +5,6 @@
   display: flex;
   flex-direction: column;
   gap: vars.$space-5;
-  padding: vars.$space-6 vars.$space-5;
 }
 
 // Kept for accessibility (gives this section a real landmark heading) but
@@ -23,15 +22,18 @@
 
 .generated-palette__label {
   margin: 0;
-  font-size: 0.8125rem;
-  font-weight: 600;
-  color: var(--color-text-muted);
+  font-family: var(--huesys-font-family);
+  font-size: 0.6875rem;
+  font-weight: var(--huesys-font-weight-semibold);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--huesys-color-text-muted);
 }
 
 .generated-palette__row {
   display: flex;
   flex-wrap: wrap;
-  gap: 0;
+  gap: vars.$space-2;
 }
 
 // Visually hidden but still announced by screen readers — copy feedback
@@ -41,6 +43,9 @@
 }
 
 // --- Individual swatch ---------------------------------------------------
+// This is HueSys application UI (it lives in the Options Panel, not Live
+// Preview) even though the colors it displays came from the generated
+// Theme — its own chrome (radius, focus ring, overlay type) stays fixed.
 
 .palette-swatch {
   display: flex;
@@ -48,21 +53,23 @@
   flex-direction: column;
   align-items: center;
   gap: vars.$space-1;
-  min-width: 5.5rem;
+  min-width: 4.5rem;
 }
 
-// The palette is a product output, not a small control — noticeably
-// larger than the old in-sidebar version so it reads as prominent.
 .palette-swatch__button {
   position: relative;
   width: 100%;
-  height: 5.5rem;
+  height: 3.5rem;
   padding: 0;
   border: none;
+  border-radius: var(--huesys-radius-sm);
   overflow: hidden;
   cursor: pointer;
 
-  @include mixins.focus-ring;
+  &:focus-visible {
+    outline: 2px solid var(--huesys-color-primary);
+    outline-offset: 2px;
+  }
 }
 
 .palette-swatch__overlay {
@@ -72,13 +79,13 @@
   align-items: center;
   justify-content: center;
   padding: vars.$space-1;
-  font-size: 0.6875rem;
-  font-family: var(--font-family);
+  font-size: 0.625rem;
+  font-family: var(--huesys-font-family);
   color: #fff;
   text-align: center;
   background-color: rgb(0 0 0 / 55%);
   opacity: 0;
-  transition: opacity var(--transition-fast);
+  transition: opacity var(--huesys-transition-fast);
   pointer-events: none;
 }
 
@@ -89,7 +96,8 @@
 }
 
 .palette-swatch__label {
-  font-size: 0.75rem;
-  color: var(--color-text-muted);
+  font-family: var(--huesys-font-family);
+  font-size: 0.6875rem;
+  color: var(--huesys-color-text-muted);
   text-align: center;
 }

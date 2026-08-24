@@ -1,0 +1,33 @@
+@use '../../styles/variables' as vars;
+
+.custom-color-control {
+  display: flex;
+  flex-direction: column;
+  gap: vars.$space-2;
+}
+
+.custom-color-control__field {
+  display: flex;
+  align-items: center;
+  gap: vars.$space-2;
+
+  input[type='color'] {
+    flex-shrink: 0;
+    width: 2.25rem;
+    height: 2.25rem;
+    padding: 0;
+    border: var(--huesys-border-width) solid var(--huesys-color-border);
+    border-radius: var(--huesys-radius-md);
+    background: none;
+    cursor: pointer;
+
+    &::-webkit-color-swatch-wrapper {
+      padding: 0;
+    }
+
+    &::-webkit-color-swatch {
+      border: none;
+      border-radius: calc(var(--huesys-radius-md) - 1px);
+    }
+  }
+}

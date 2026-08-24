@@ -10,17 +10,16 @@ import { Textarea } from '../components/Textarea/Textarea'
 import './ComponentPreview.scss'
 
 /**
- * The live representation of the generated Theme — not a static gallery,
- * but the actual components rendering against whatever the current
- * controls + palette produced. Sits on a neutral white canvas so the
- * generated neutral colors (borders, surfaces, shadows) can be evaluated
- * within the components themselves, not against a themed backdrop.
+ * The generated specimen itself — not a static gallery, but the actual
+ * components rendering against whatever the current controls + palette
+ * produced. Rendered inside the LivePreview shell's neutral white canvas
+ * so the generated neutral colors (borders, surfaces, shadows) can be
+ * evaluated within the components themselves, not against a themed
+ * backdrop.
  */
 export function ComponentPreview() {
   return (
-    <main className="component-preview" aria-label="Live preview">
-      <h2 className="component-preview__title">Live Preview</h2>
-
+    <div className="component-preview">
       <section className="component-preview__section" aria-labelledby="gallery-buttons">
         <h3 id="gallery-buttons" className="component-preview__heading">
           Buttons
@@ -103,6 +102,6 @@ export function ComponentPreview() {
           <Alert variant="danger">Something went wrong — please try again.</Alert>
         </div>
       </section>
-    </main>
+    </div>
   )
 }

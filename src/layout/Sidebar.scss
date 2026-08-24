@@ -1,0 +1,52 @@
+@use '../styles/variables' as vars;
+
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  width: 15rem;
+  flex-shrink: 0;
+  padding: vars.$space-5 vars.$space-4;
+  background-color: var(--huesys-color-sidebar-bg);
+  color: var(--huesys-color-sidebar-text);
+  overflow-y: auto;
+}
+
+.sidebar__brand {
+  margin: 0 0 vars.$space-6;
+  padding: 0 vars.$space-2;
+  font-family: var(--huesys-font-family);
+  font-size: 1.375rem;
+  font-weight: var(--huesys-font-weight-semibold);
+  color: var(--huesys-color-sidebar-text);
+}
+
+.sidebar__bracket {
+  color: var(--huesys-color-accent);
+
+  &:first-child {
+    color: #ec4899;
+  }
+}
+
+.sidebar__section-label {
+  padding: 0 vars.$space-2;
+  margin-bottom: vars.$space-2;
+  font-size: 0.6875rem;
+  font-weight: var(--huesys-font-weight-semibold);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--huesys-color-sidebar-text-muted);
+}
+
+.sidebar__nav {
+  display: flex;
+  flex-direction: column;
+  gap: vars.$space-1;
+}
+
+.sidebar__footer {
+  margin: auto 0 0;
+  padding: 0 vars.$space-2;
+  font-size: 0.75rem;
+  color: var(--huesys-color-sidebar-text-muted);
+}

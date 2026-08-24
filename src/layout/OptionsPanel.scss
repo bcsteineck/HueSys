@@ -1,0 +1,39 @@
+@use '../styles/variables' as vars;
+
+.options-panel {
+  display: flex;
+  flex-direction: column;
+  width: 21rem;
+  flex-shrink: 0;
+  background-color: var(--huesys-color-surface);
+  border: var(--huesys-border-width) solid var(--huesys-color-border);
+  border-radius: var(--huesys-radius-lg);
+  overflow-y: auto;
+}
+
+.options-panel__header {
+  padding: vars.$space-5;
+  border-bottom: var(--huesys-border-width) solid var(--huesys-color-border);
+}
+
+.options-panel__title {
+  margin: 0 0 0.25rem;
+  font-family: var(--huesys-font-family);
+  font-size: var(--huesys-font-size-lg);
+  font-weight: var(--huesys-font-weight-semibold);
+  color: var(--huesys-color-text);
+}
+
+.options-panel__description {
+  margin: 0;
+  font-family: var(--huesys-font-family);
+  font-size: var(--huesys-font-size-sm);
+  color: var(--huesys-color-text-muted);
+}
+
+.options-panel__content {
+  display: flex;
+  flex-direction: column;
+  gap: vars.$space-5;
+  padding: vars.$space-5;
+}

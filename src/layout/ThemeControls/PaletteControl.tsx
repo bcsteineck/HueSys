@@ -1,9 +1,11 @@
 import { useState } from 'react'
-import { Button } from '../../components/Button/Button'
-import { Input } from '../../components/Input/Input'
+import { HueSysButton } from '../../huesys-ui/HueSysButton'
+import { HueSysInput } from '../../huesys-ui/HueSysInput'
+import { RandomizeIcon, RefreshIcon } from '../../huesys-ui/icons'
 import { isValidHexColor, normalizeColor } from '../../theme/color'
 import type { PaletteColorState } from '../../state/appState'
 import { randomizePalette, refreshPalette, setBaseColor } from '../../state/colorActions'
+import './PaletteControl.scss'
 
 export interface PaletteControlProps {
   palette: PaletteColorState
@@ -34,9 +36,10 @@ export function PaletteControl({ palette, onChange }: PaletteControlProps) {
 
   return (
     <div className="palette-control">
-      <Button variant="primary" onClick={() => onChange(randomizePalette())}>
+      <HueSysButton variant="soft" onClick={() => onChange(randomizePalette())}>
+        <RandomizeIcon />
         Randomize
-      </Button>
+      </HueSysButton>
 
       <div className="palette-control__master">
         <span className="palette-control__master-label">Base Color</span>
@@ -48,7 +51,7 @@ export function PaletteControl({ palette, onChange }: PaletteControlProps) {
             onChange={(event) => setDraft(event.target.value)}
             aria-label="Base color picker"
           />
-          <Input
+          <HueSysInput
             className="palette-control__hex"
             value={draft}
             onChange={(event) => setDraft(event.target.value)}
@@ -56,15 +59,16 @@ export function PaletteControl({ palette, onChange }: PaletteControlProps) {
             spellCheck={false}
             aria-label="Base color hex value"
           />
-          <Button variant="secondary" onClick={() => onChange(setBaseColor(draft))} disabled={!draftIsValid}>
-            Generate From Color
-          </Button>
         </div>
+        <HueSysButton variant="outline" onClick={() => onChange(setBaseColor(draft))} disabled={!draftIsValid}>
+          Generate From Color
+        </HueSysButton>
       </div>
 
-      <Button variant="outline" onClick={() => onChange(refreshPalette(palette.baseColor))}>
+      <HueSysButton variant="outline" onClick={() => onChange(refreshPalette(palette.baseColor))}>
+        <RefreshIcon />
         Refresh
-      </Button>
+      </HueSysButton>
     </div>
   )
 }

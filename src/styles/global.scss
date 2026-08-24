@@ -1,3 +1,5 @@
+@use './huesys-tokens';
+
 *,
 *::before,
 *::after {
@@ -10,10 +12,13 @@ body {
   padding: 0;
 }
 
+// The generated component library sets its own font/color from the
+// generated Theme wherever it's actually mounted (.app__preview); this is
+// just a sane fallback for anything rendered outside that subtree.
 body {
-  font-family: var(--font-family);
-  font-size: var(--font-size-base);
-  font-weight: var(--font-weight-body);
-  color: var(--color-text);
-  background-color: var(--color-background);
+  font-family: var(--huesys-font-family);
+  font-size: var(--huesys-font-size-base);
+  font-weight: var(--huesys-font-weight-regular);
+  color: var(--huesys-color-text);
+  background-color: var(--huesys-color-bg);
 }

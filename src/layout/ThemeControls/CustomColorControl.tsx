@@ -1,6 +1,7 @@
-import { Input } from '../../components/Input/Input'
+import { HueSysInput } from '../../huesys-ui/HueSysInput'
 import { isValidHexColor, normalizeColor } from '../../theme/color'
 import type { BrandPalette } from '../../theme/color'
+import './CustomColorControl.scss'
 
 export interface CustomColorControlProps {
   colors: BrandPalette
@@ -17,7 +18,7 @@ const FIELDS: { key: keyof BrandPalette; label: string }[] = [
 
 /**
  * Direct editing of all five Brand Palette colors. A temporary,
- * unstyled-for-Figma control for Stage A verification — the real Custom
+ * unstyled-for-Figma control for Stage B verification — the real Custom
  * editing experience belongs to Stage C.
  */
 export function CustomColorControl({ colors, onChange }: CustomColorControlProps) {
@@ -36,7 +37,7 @@ export function CustomColorControl({ colors, onChange }: CustomColorControlProps
             onChange={(event) => handleFieldChange(key, event.target.value)}
             aria-label={`${label} color picker`}
           />
-          <Input
+          <HueSysInput
             value={colors[key]}
             onChange={(event) => handleFieldChange(key, event.target.value)}
             spellCheck={false}

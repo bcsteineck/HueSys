@@ -1,24 +1,27 @@
+// The wide-desktop workspace: fills the viewport, Header/Sidebar/Options
+// stay stationary, and only Live Preview (plus Options, if its own
+// content overflows) scrolls — the document/body never does. Full
+// medium/small responsive behavior belongs to Stage F; this shell avoids
+// decisions (fixed widths only where content genuinely needs them,
+// flexible elsewhere) that would make that work harder later.
 .app {
   display: flex;
   flex-direction: column;
-  min-height: 100svh;
-  // These variables are declared on this element via inline style (the
-  // fixed HueSys brand theme), so resolving them here — rather than
-  // relying on global.scss's body rule, which sits above .app and can't
-  // see variables declared on a descendant — is what actually makes the
-  // fixed identity visible.
-  font-family: var(--font-family);
-  color: var(--color-text);
+  height: 100svh;
+  background-color: var(--huesys-color-bg);
+  overflow: hidden;
 }
 
-.app__body {
+.app__workspace {
   display: flex;
-  flex-direction: column;
-  width: 100%;
-  max-width: 1400px;
-  margin: 0 auto;
+  flex: 1;
+  min-height: 0;
+  gap: 1rem;
+  padding: 1rem;
 }
 
-.app__preview {
-  flex: 1;
+.sidebar,
+.options-panel,
+.live-preview {
+  min-height: 0;
 }

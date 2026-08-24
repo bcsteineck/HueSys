@@ -1,0 +1,29 @@
+.huesys-input {
+  width: 100%;
+  font-family: var(--huesys-font-family);
+  font-size: var(--huesys-font-size-sm);
+  color: var(--huesys-color-text);
+  background-color: var(--huesys-color-surface);
+  border: var(--huesys-border-width) solid var(--huesys-color-border);
+  border-radius: var(--huesys-radius-md);
+  padding: 0.5rem 0.75rem;
+  transition: border-color var(--huesys-transition-fast);
+
+  &::placeholder {
+    color: var(--huesys-color-text-muted);
+  }
+
+  &:hover:not(:disabled) {
+    border-color: var(--huesys-color-text-muted);
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.6;
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--huesys-color-primary);
+    outline-offset: 2px;
+  }
+}

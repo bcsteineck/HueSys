@@ -1,0 +1,43 @@
+@use '../styles/variables' as vars;
+
+.live-preview {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-width: 0;
+  background-color: var(--huesys-color-surface);
+  border: var(--huesys-border-width) solid var(--huesys-color-border);
+  border-radius: var(--huesys-radius-lg);
+  overflow: hidden;
+}
+
+.live-preview__header {
+  padding: vars.$space-5;
+  border-bottom: var(--huesys-border-width) solid var(--huesys-color-border);
+}
+
+.live-preview__title {
+  margin: 0 0 0.25rem;
+  font-family: var(--huesys-font-family);
+  font-size: var(--huesys-font-size-lg);
+  font-weight: var(--huesys-font-weight-semibold);
+  color: var(--huesys-color-text);
+}
+
+.live-preview__description {
+  margin: 0;
+  font-family: var(--huesys-font-family);
+  font-size: var(--huesys-font-size-sm);
+  color: var(--huesys-color-text-muted);
+}
+
+// The scroll region — and only this region — scrolls independently at
+// wide desktop sizes, per the dashboard spec's workspace behavior.
+.live-preview__scroll {
+  flex: 1;
+  overflow-y: auto;
+  // A deliberately neutral white canvas, never tinted by the generated
+  // Theme's background/surface tokens — those stay visible only through
+  // the generated components themselves.
+  background-color: #fff;
+}

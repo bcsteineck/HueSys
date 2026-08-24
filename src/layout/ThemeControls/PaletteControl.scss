@@ -1,0 +1,63 @@
+@use '../../styles/variables' as vars;
+
+.palette-control {
+  display: flex;
+  flex-direction: column;
+  gap: vars.$space-3;
+}
+
+.palette-control__master {
+  display: flex;
+  flex-direction: column;
+  gap: vars.$space-2;
+}
+
+.palette-control__master-label {
+  font-family: var(--huesys-font-family);
+  font-size: 0.6875rem;
+  font-weight: var(--huesys-font-weight-semibold);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--huesys-color-text-muted);
+}
+
+.palette-control__master-row {
+  display: flex;
+  align-items: center;
+  gap: vars.$space-2;
+}
+
+.palette-control__swatch {
+  flex-shrink: 0;
+  width: 2.25rem;
+  height: 2.25rem;
+  padding: 0;
+  border: var(--huesys-border-width) solid var(--huesys-color-border);
+  border-radius: var(--huesys-radius-md);
+  background: none;
+  cursor: pointer;
+
+  &::-webkit-color-swatch-wrapper {
+    padding: 0;
+  }
+
+  &::-webkit-color-swatch {
+    border: none;
+    border-radius: calc(var(--huesys-radius-md) - 1px);
+  }
+
+  &::-moz-color-swatch {
+    border: none;
+    border-radius: calc(var(--huesys-radius-md) - 1px);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--huesys-color-primary);
+    outline-offset: 2px;
+  }
+}
+
+.palette-control__hex {
+  flex: 1;
+  min-width: 0;
+}

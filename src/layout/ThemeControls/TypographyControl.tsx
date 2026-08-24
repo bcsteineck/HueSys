@@ -1,7 +1,8 @@
 import type { ChangeEvent } from 'react'
-import { Select } from '../../components/Select/Select'
+import { HueSysSelect } from '../../huesys-ui/HueSysSelect'
 import { fontOptions } from '../../theme/fonts'
 import type { FontSize, FontWeight, TypographyState } from '../../state/appState'
+import './TypographyControl.scss'
 
 export interface TypographyControlProps {
   typography: TypographyState
@@ -25,7 +26,7 @@ export function TypographyControl({ typography, onChange }: TypographyControlPro
     <div className="typography-control">
       <label className="typography-control__field">
         <span className="typography-control__field-label">Font</span>
-        <Select
+        <HueSysSelect
           aria-label="Font"
           value={typography.font}
           onChange={(event: ChangeEvent<HTMLSelectElement>) => onChange({ ...typography, font: event.target.value })}
@@ -35,12 +36,12 @@ export function TypographyControl({ typography, onChange }: TypographyControlPro
               {option.label}
             </option>
           ))}
-        </Select>
+        </HueSysSelect>
       </label>
 
       <label className="typography-control__field">
         <span className="typography-control__field-label">Font Size</span>
-        <Select
+        <HueSysSelect
           aria-label="Font size"
           value={typography.size}
           onChange={(event: ChangeEvent<HTMLSelectElement>) => onChange({ ...typography, size: event.target.value as FontSize })}
@@ -50,12 +51,12 @@ export function TypographyControl({ typography, onChange }: TypographyControlPro
               {option.label}
             </option>
           ))}
-        </Select>
+        </HueSysSelect>
       </label>
 
       <label className="typography-control__field">
         <span className="typography-control__field-label">Font Weight</span>
-        <Select
+        <HueSysSelect
           aria-label="Font weight"
           value={typography.weight}
           onChange={(event: ChangeEvent<HTMLSelectElement>) => onChange({ ...typography, weight: event.target.value as FontWeight })}
@@ -65,7 +66,7 @@ export function TypographyControl({ typography, onChange }: TypographyControlPro
               {option.label}
             </option>
           ))}
-        </Select>
+        </HueSysSelect>
       </label>
     </div>
   )

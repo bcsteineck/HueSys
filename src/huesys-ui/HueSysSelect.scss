@@ -1,0 +1,43 @@
+.huesys-select-wrapper {
+  position: relative;
+  display: block;
+  width: 100%;
+
+  &::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    right: 0.75rem;
+    width: 0.75rem;
+    height: 0.75rem;
+    background-color: var(--huesys-color-text-muted);
+    mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M4 6l4 4 4-4' stroke='black' stroke-width='1.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    mask-repeat: no-repeat;
+    mask-position: center;
+    transform: translateY(-50%);
+    pointer-events: none;
+  }
+}
+
+.huesys-select {
+  width: 100%;
+  appearance: none;
+  font-family: var(--huesys-font-family);
+  font-size: var(--huesys-font-size-sm);
+  color: var(--huesys-color-text);
+  background-color: var(--huesys-color-surface);
+  border: var(--huesys-border-width) solid var(--huesys-color-border);
+  border-radius: var(--huesys-radius-md);
+  padding: 0.5rem 2rem 0.5rem 0.75rem;
+  cursor: pointer;
+  transition: border-color var(--huesys-transition-fast);
+
+  &:hover {
+    border-color: var(--huesys-color-text-muted);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--huesys-color-primary);
+    outline-offset: 2px;
+  }
+}

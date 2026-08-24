@@ -1,18 +1,26 @@
-.header {
+@use '../styles/variables' as vars;
+
+.app-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 1rem 1.5rem;
-  border-bottom: var(--border-width) solid var(--color-border);
+  flex-shrink: 0;
+  padding: vars.$space-4 vars.$space-5;
+  background-color: var(--huesys-color-surface);
+  border-bottom: var(--huesys-border-width) solid var(--huesys-color-border);
 }
 
-.header__title {
+.app-header__tagline {
   margin: 0;
-  font-size: 1.25rem;
-  font-weight: 600;
+  font-family: var(--huesys-font-family);
+  font-size: var(--huesys-font-size-base);
+  font-weight: var(--huesys-font-weight-medium);
+  color: var(--huesys-color-text);
 }
 
-.header__history {
+.app-header__actions {
   display: flex;
-  gap: 0.5rem;
+  align-items: center;
+  gap: vars.$space-2;
+  flex-shrink: 0;
 }

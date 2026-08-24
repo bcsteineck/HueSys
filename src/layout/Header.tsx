@@ -1,4 +1,5 @@
-import { Button } from '../components/Button/Button'
+import { HueSysButton } from '../huesys-ui/HueSysButton'
+import { ExportIcon, RedoIcon, UndoIcon } from '../huesys-ui/icons'
 import './Header.scss'
 
 export interface HeaderProps {
@@ -9,21 +10,31 @@ export interface HeaderProps {
 }
 
 /**
- * Undo/Redo live here as plain temporary controls for Stage A verification
- * — the real placement, styling, and Export button belong to the Stage B
- * dashboard shell.
+ * Fixed HueSys application chrome. Export is visually present in its
+ * Figma position but stays disabled — the Export Engine is a later phase.
  */
 export function Header({ canUndo, canRedo, onUndo, onRedo }: HeaderProps) {
   return (
-    <header className="header">
-      <h1 className="header__title">HueSys</h1>
-      <div className="header__history">
-        <Button variant="ghost" onClick={onUndo} disabled={!canUndo}>
+    <header className="app-header">
+      <p className="app-header__tagline">Build and export a React design system from a color palette.</p>
+      <div className="app-header__actions">
+        <HueSysButton variant="outline" onClick={onUndo} disabled={!canUndo} title="Undo">
+          <UndoIcon />
           Undo
-        </Button>
-        <Button variant="ghost" onClick={onRedo} disabled={!canRedo}>
+        </HueSysButton>
+        <HueSysButton variant="outline" onClick={onRedo} disabled={!canRedo} title="Redo">
+          <RedoIcon />
           Redo
-        </Button>
+        </HueSysButton>
+        <HueSysButton
+          variant="primary"
+          disabled
+          aria-label="Export (not yet available)"
+          title="Export (not yet available)"
+        >
+          <ExportIcon />
+          Export
+        </HueSysButton>
       </div>
     </header>
   )
