@@ -1,8 +1,8 @@
 export interface ThemeMetadata {
   name: string
-  /** Hex input color the theme was generated from, e.g. '4F46E5'. */
-  primaryColor: string
-  recipeId: string
+  /** Hex the palette was anchored to, e.g. '4F46E5' — present only when the user explicitly supplied a master color, absent for a randomly generated palette. */
+  masterColor?: string
+  styleId: string
 }
 
 export interface ThemeColors {
@@ -20,6 +20,10 @@ export interface ThemeColors {
   success: string
   warning: string
   danger: string
+  /** A second, genuinely different palette hue — for content that wants palette variety without status meaning (e.g. an "accent" Badge, an "info" Alert). */
+  accent: string
+  /** Text/icon color for content placed on an accent-colored surface. */
+  accentText: string
 }
 
 export interface ThemeTypography {
@@ -55,25 +59,23 @@ export interface Theme {
   transitions: ThemeTransitions
 }
 
-export type NeutralTemperature = 'warm' | 'neutral' | 'cool'
 export type SurfaceContrast = 'low' | 'medium' | 'high'
 export type BorderStrength = 'subtle' | 'medium' | 'strong'
 export type RadiusStyle = 'sharp' | 'soft' | 'round'
 export type ShadowStyle = 'none' | 'subtle' | 'elevated'
-export type PrimaryColorUsage = 'minimal' | 'balanced' | 'bold'
 
 /**
- * Declarative description of a theme's character. A recipe never computes
- * values itself — the (future) Theme Engine reads these characteristics to
- * derive a Theme from a primary color.
+ * Declarative description of a Style's visual character — component
+ * appearance only. A StyleRecipe never computes values itself and never
+ * influences color generation (that's the Palette Engine's job); Theme
+ * assembly reads these characteristics to decide how the Palette that's
+ * already been generated gets applied to structural properties.
  */
-export interface ThemeRecipe {
+export interface StyleRecipe {
   id: string
   name: string
-  neutralTemperature: NeutralTemperature
   surfaceContrast: SurfaceContrast
   borderStrength: BorderStrength
   radiusStyle: RadiusStyle
   shadowStyle: ShadowStyle
-  primaryColorUsage: PrimaryColorUsage
 }

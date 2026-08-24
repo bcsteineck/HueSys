@@ -1,0 +1,95 @@
+@use '../../styles/mixins';
+@use '../../styles/variables' as vars;
+
+.generated-palette {
+  display: flex;
+  flex-direction: column;
+  gap: vars.$space-5;
+  padding: vars.$space-6 vars.$space-5;
+}
+
+// Kept for accessibility (gives this section a real landmark heading) but
+// hidden visually — "Generated Palette" as a heading isn't needed
+// visually once the Brand/Neutral Palette labels below it carry that.
+.generated-palette__title {
+  @include mixins.sr-only;
+}
+
+.generated-palette__group {
+  display: flex;
+  flex-direction: column;
+  gap: vars.$space-3;
+}
+
+.generated-palette__label {
+  margin: 0;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--color-text-muted);
+}
+
+.generated-palette__row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0;
+}
+
+// Visually hidden but still announced by screen readers — copy feedback
+// shouldn't depend on being able to see the overlay text change.
+.generated-palette__announcer {
+  @include mixins.sr-only;
+}
+
+// --- Individual swatch ---------------------------------------------------
+
+.palette-swatch {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: center;
+  gap: vars.$space-1;
+  min-width: 5.5rem;
+}
+
+// The palette is a product output, not a small control — noticeably
+// larger than the old in-sidebar version so it reads as prominent.
+.palette-swatch__button {
+  position: relative;
+  width: 100%;
+  height: 5.5rem;
+  padding: 0;
+  border: none;
+  overflow: hidden;
+  cursor: pointer;
+
+  @include mixins.focus-ring;
+}
+
+.palette-swatch__overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: vars.$space-1;
+  font-size: 0.6875rem;
+  font-family: var(--font-family);
+  color: #fff;
+  text-align: center;
+  background-color: rgb(0 0 0 / 55%);
+  opacity: 0;
+  transition: opacity var(--transition-fast);
+  pointer-events: none;
+}
+
+.palette-swatch__button:hover .palette-swatch__overlay,
+.palette-swatch__button:focus-visible .palette-swatch__overlay,
+.palette-swatch__button--copied .palette-swatch__overlay {
+  opacity: 1;
+}
+
+.palette-swatch__label {
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+  text-align: center;
+}

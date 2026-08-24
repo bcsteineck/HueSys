@@ -4,15 +4,22 @@
 .theme-controls {
   display: flex;
   flex-direction: column;
-  gap: vars.$space-5;
+  gap: vars.$space-4;
   padding: vars.$space-5;
-  border-right: var(--border-width) solid var(--color-border);
+  border-bottom: var(--border-width) solid var(--color-border);
 }
 
 .theme-controls__title {
   margin: 0;
   font-size: 1rem;
   font-weight: 600;
+}
+
+.theme-controls__row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: vars.$space-6;
 }
 
 .theme-controls__group {
@@ -28,15 +35,32 @@
   color: var(--color-text-muted);
 }
 
-// --- Primary color ---------------------------------------------------
+// --- Palette ---------------------------------------------------
 
-.color-control {
+.palette-control {
+  display: flex;
+  flex-direction: column;
+  gap: vars.$space-3;
+}
+
+.palette-control__master {
+  display: flex;
+  flex-direction: column;
+  gap: vars.$space-1;
+}
+
+.palette-control__master-label {
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+}
+
+.palette-control__master-row {
   display: flex;
   align-items: center;
   gap: vars.$space-2;
 }
 
-.color-control__swatch {
+.palette-control__swatch {
   flex-shrink: 0;
   width: 2.25rem;
   height: 2.25rem;
@@ -63,39 +87,39 @@
   @include mixins.focus-ring;
 }
 
-.color-control__hex {
+.palette-control__hex {
   flex: 1;
   min-width: 0;
 }
 
-// --- Recipe ---------------------------------------------------
+// --- Style ---------------------------------------------------
 
-.recipe-control {
+.style-control {
   display: flex;
   flex-direction: column;
   gap: vars.$space-1;
 }
 
-.recipe-control__nav {
+.style-control__nav {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: vars.$space-2;
 }
 
-.recipe-control__arrow {
+.style-control__arrow {
   padding: vars.$space-1 vars.$space-3;
   font-size: 1.125rem;
   line-height: 1;
 }
 
-.recipe-control__position {
+.style-control__position {
   font-size: 0.8125rem;
   color: var(--color-text-muted);
   white-space: nowrap;
 }
 
-.recipe-control__name {
+.style-control__name {
   margin: 0;
   font-size: 1.125rem;
   font-weight: 600;

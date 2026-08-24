@@ -36,10 +36,9 @@
 .button--secondary {
   background-color: var(--color-surface);
   color: var(--color-text);
-  border-color: var(--color-border);
 
   &:hover:not(:disabled) {
-    border-color: var(--color-primary);
+    background-color: var(--color-border);
   }
 }
 

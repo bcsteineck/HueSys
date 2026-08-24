@@ -7,12 +7,12 @@ function parseColor(value: string | null): string {
   if (value !== null && isValidHexColor(value)) {
     return value.replace('#', '').toLowerCase()
   }
-  return defaultAppState.color
+  return defaultAppState.anchorColor
 }
 
-function parseThemeIndex(value: string | null): number {
+function parseInteger(value: string | null, fallback: number): number {
   const parsed = Number(value)
-  return value === null || Number.isNaN(parsed) ? defaultAppState.themeIndex : parsed
+  return value === null || Number.isNaN(parsed) ? fallback : parsed
 }
 
 function parseFont(value: string | null): string {
@@ -21,19 +21,30 @@ function parseFont(value: string | null): string {
 
 function readStateFromUrl(): AppState {
   const params = new URLSearchParams(window.location.search)
+  // A completely bare URL (first visit, no shared link) gets the full
+  // default state, including its pinned default master color — a
+  // partially-specified URL (e.g. only ?style=2) still falls back field
+  // by field, since that's a deliberate shared/edited link.
+  if ([...params.keys()].length === 0) return defaultAppState
+
   return {
-    color: parseColor(params.get('color')),
-    themeIndex: parseThemeIndex(params.get('theme')),
+    anchorColor: parseColor(params.get('color')),
+    hasMasterColor: params.get('master') === '1',
+    paletteSeed: parseInteger(params.get('seed'), defaultAppState.paletteSeed),
+    styleIndex: parseInteger(params.get('style'), defaultAppState.styleIndex),
     font: parseFont(params.get('font')),
   }
 }
 
 function writeStateToUrl(state: AppState, mode: 'push' | 'replace') {
   const params = new URLSearchParams({
-    color: state.color,
-    theme: String(state.themeIndex),
+    color: state.anchorColor,
+    seed: String(state.paletteSeed),
+    style: String(state.styleIndex),
     font: state.font,
   })
+  if (state.hasMasterColor) params.set('master', '1')
+
   const url = `?${params.toString()}`
   if (mode === 'push') {
     window.history.pushState(null, '', url)

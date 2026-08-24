@@ -13,12 +13,13 @@
   }
 }
 
-// Info has no dedicated status token — it reuses the primary color, which
-// already carries the app's brand meaning for "neutral, informational".
+// Info has no dedicated status token — it uses the palette's accent color,
+// which reads as "neutral, informational" without just repeating primary
+// (the brand color) or a status hue.
 .alert--info {
-  background-color: color-mix(in oklab, var(--color-primary) 8%, var(--color-background));
-  border-color: color-mix(in oklab, var(--color-primary) 30%, var(--color-background));
-  border-left-color: var(--color-primary);
+  background-color: color-mix(in oklab, var(--color-accent) 8%, var(--color-background));
+  border-color: color-mix(in oklab, var(--color-accent) 30%, var(--color-background));
+  border-left-color: var(--color-accent);
 }
 
 .alert--success {

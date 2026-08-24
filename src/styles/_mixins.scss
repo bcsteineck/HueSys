@@ -1,5 +1,21 @@
 @use './variables' as vars;
 
+// Hides content visually while keeping it in the accessibility tree —
+// `display: none`/`visibility: hidden` would remove it from both. Use for
+// text that only needs to exist for screen readers (e.g. a heading that
+// gives a section landmark meaning, or a live-region announcement).
+@mixin sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
 // Every interactive component uses this exact focus treatment, so focus
 // states stay visibly consistent across the whole library.
 @mixin focus-ring {

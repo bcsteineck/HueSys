@@ -17,6 +17,8 @@ export function themeToCssVariables(theme: Theme): Record<string, string> {
     '--color-success': theme.colors.success,
     '--color-warning': theme.colors.warning,
     '--color-danger': theme.colors.danger,
+    '--color-accent': theme.colors.accent,
+    '--color-accent-text': theme.colors.accentText,
     '--font-family': theme.typography.fontFamily,
     '--radius-sm': theme.radius.sm,
     '--radius-md': theme.radius.md,

@@ -1,13 +1,16 @@
-# Changelog
+# HueSys Changelog
 
-## v0.1.0
+## Unreleased
 
-- Initial architecture
-- Theme engine
-- Recipe engine
-- Component library
-- Interactive playground
+### Dashboard Redesign
 
-## Upcoming
+HueSys is being restructured around a simpler design-system generation model:
 
-- Export engine
+```text
+Colors
++
+Typography
++
+Style
+↓
+Generated Theme

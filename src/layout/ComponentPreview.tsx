@@ -1,7 +1,6 @@
 import { Alert } from '../components/Alert/Alert'
 import { Badge } from '../components/Badge/Badge'
 import { Button } from '../components/Button/Button'
-import { Card } from '../components/Card/Card'
 import { Checkbox } from '../components/Checkbox/Checkbox'
 import { Input } from '../components/Input/Input'
 import { Radio } from '../components/Radio/Radio'
@@ -11,14 +10,16 @@ import { Textarea } from '../components/Textarea/Textarea'
 import './ComponentPreview.scss'
 
 /**
- * A validation gallery, not the final playground UI — it exists to prove
- * every component and variant renders correctly against the live Theme.
- * Phase 4 replaces this with the real interactive preview.
+ * The live representation of the generated Theme — not a static gallery,
+ * but the actual components rendering against whatever the current
+ * controls + palette produced. Sits on a neutral white canvas so the
+ * generated neutral colors (borders, surfaces, shadows) can be evaluated
+ * within the components themselves, not against a themed backdrop.
  */
 export function ComponentPreview() {
   return (
-    <main className="component-preview" aria-label="Component preview">
-      <h2 className="component-preview__title">Preview</h2>
+    <main className="component-preview" aria-label="Live preview">
+      <h2 className="component-preview__title">Live Preview</h2>
 
       <section className="component-preview__section" aria-labelledby="gallery-buttons">
         <h3 id="gallery-buttons" className="component-preview__heading">
@@ -91,6 +92,7 @@ export function ComponentPreview() {
           <div className="component-preview__row">
             <Badge>Neutral</Badge>
             <Badge variant="primary">Primary</Badge>
+            <Badge variant="accent">Accent</Badge>
             <Badge variant="success">Success</Badge>
             <Badge variant="warning">Warning</Badge>
             <Badge variant="danger">Danger</Badge>
@@ -99,19 +101,6 @@ export function ComponentPreview() {
           <Alert variant="success">Your changes were saved successfully.</Alert>
           <Alert variant="warning">This action may have unintended side effects.</Alert>
           <Alert variant="danger">Something went wrong — please try again.</Alert>
-        </div>
-      </section>
-
-      <section className="component-preview__section" aria-labelledby="gallery-layout">
-        <h3 id="gallery-layout" className="component-preview__heading">
-          Layout
-        </h3>
-        <div className="component-preview__stage">
-          <Card>
-            <h2>Account</h2>
-            <p>Welcome back.</p>
-            <Button>Continue</Button>
-          </Card>
         </div>
       </section>
     </main>
