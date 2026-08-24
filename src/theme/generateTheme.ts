@@ -1,7 +1,7 @@
 import type { BorderRadius, FontSize, FontWeight, Spacing, StyleState, TypographyState } from '../state/appState'
 import { hexToOklch, oklchToHex, pickAccessibleForeground } from './color'
 import type { ColorScaleStep, Palette } from './color'
-import { resolveFontFamily } from './fonts'
+import { resolveFontFamily, resolveFontWeight } from './fonts'
 import type { Theme, ThemeRadius, ThemeSpacing } from './types'
 
 // --- Typography scale ------------------------------------------------
@@ -116,8 +116,12 @@ export function generateTheme(palette: Palette, typography: TypographyState, sty
       fontSizeSm: fontSize.sm,
       fontSizeBase: fontSize.base,
       fontSizeLg: fontSize.lg,
-      fontWeightBody: fontWeight.body,
-      fontWeightControl: fontWeight.control,
+      // Not every curated font ships every requested weight (e.g.
+      // Merriweather has no 500/600) — resolve to the nearest weight the
+      // selected font actually supports rather than relying on the
+      // browser's synthetic bold/thin.
+      fontWeightBody: resolveFontWeight(typography.font, fontWeight.body),
+      fontWeightControl: resolveFontWeight(typography.font, fontWeight.control),
     },
     radius: RADIUS_SCALE[style.radius],
     spacing: SPACING_SCALE[style.spacing],
