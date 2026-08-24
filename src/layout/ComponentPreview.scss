@@ -11,6 +11,18 @@
   display: flex;
   flex-direction: column;
   gap: vars.$space-3;
+  min-width: 0;
+}
+
+// Pairs two related groups side by side (Inputs|Selection Controls,
+// Alerts|Badges) at a proportion that roughly matches the Figma
+// composition, using minmax(0, Nfr) rather than fixed pixel columns so it
+// never overflows its container.
+.component-preview__grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr);
+  gap: vars.$space-6;
+  align-items: start;
 }
 
 .component-preview__heading {
@@ -38,6 +50,10 @@
   flex-direction: column;
   align-items: flex-start;
   gap: vars.$space-4;
+  max-width: 24rem;
+}
+
+.component-preview__card {
   max-width: 24rem;
 }
 
