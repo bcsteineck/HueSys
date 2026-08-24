@@ -39,7 +39,7 @@ export function OptionsPanel({ state, palette, updateState }: OptionsPanelProps)
         {state.activeSection === 'colors' && (
           <>
             <ColorControl color={state.color} onChange={(color) => updateState({ color })} />
-            <GeneratedPalette palette={palette} />
+            <GeneratedPalette palette={palette} showBrandPalette={state.color.mode === 'palette'} />
           </>
         )}
         {state.activeSection === 'typography' && (

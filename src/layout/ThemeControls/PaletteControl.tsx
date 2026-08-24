@@ -13,11 +13,13 @@ export interface PaletteControlProps {
 }
 
 /**
- * Three independent ways to get a palette: Randomize picks an entirely new
- * Base Color and direction; entering a Base Color anchors generation to
- * it; Refresh keeps the current Base Color and explores another palette
- * around it. All three only ever touch Palette color state — never
- * Typography or Style.
+ * Three independent ways to get a palette: entering a Base Color anchors
+ * generation to it (committed the moment it becomes a valid six-digit
+ * hex — incomplete values like "#6E5C" never touch design state);
+ * Refresh keeps the current Base Color and explores another palette
+ * around it; Randomize picks an entirely new Base Color and direction.
+ * All three only ever touch Palette color state — never Typography or
+ * Style.
  */
 export function PaletteControl({ palette, onChange }: PaletteControlProps) {
   const [draft, setDraft] = useState(`#${palette.baseColor.replace('#', '')}`)
@@ -32,42 +34,50 @@ export function PaletteControl({ palette, onChange }: PaletteControlProps) {
     setDraft(`#${palette.baseColor.replace('#', '')}`)
   }
 
+  function handleDraftChange(value: string) {
+    setDraft(value)
+    if (isValidHexColor(value)) {
+      onChange(setBaseColor(value))
+    }
+  }
+
   const draftIsValid = isValidHexColor(draft)
 
   return (
     <div className="palette-control">
-      <HueSysButton variant="soft" onClick={() => onChange(randomizePalette())}>
-        <RandomizeIcon />
-        Randomize
-      </HueSysButton>
-
-      <div className="palette-control__master">
-        <span className="palette-control__master-label">Base Color</span>
-        <div className="palette-control__master-row">
+      <div className="palette-control__base">
+        <span className="palette-control__label">Base Color</span>
+        <div className="palette-control__base-row">
           <input
             type="color"
             className="palette-control__swatch"
             value={draftIsValid ? normalizeColor(draft) : '#000000'}
-            onChange={(event) => setDraft(event.target.value)}
+            onChange={(event) => handleDraftChange(event.target.value)}
             aria-label="Base color picker"
           />
           <HueSysInput
             className="palette-control__hex"
             value={draft}
-            onChange={(event) => setDraft(event.target.value)}
+            onChange={(event) => handleDraftChange(event.target.value)}
             placeholder="#4F46E5"
             spellCheck={false}
             aria-label="Base color hex value"
           />
+          <HueSysButton
+            variant="outline"
+            iconOnly
+            onClick={() => onChange(refreshPalette(palette.baseColor))}
+            aria-label="Generate another palette"
+            title="Generate another palette"
+          >
+            <RefreshIcon />
+          </HueSysButton>
         </div>
-        <HueSysButton variant="outline" onClick={() => onChange(setBaseColor(draft))} disabled={!draftIsValid}>
-          Generate From Color
-        </HueSysButton>
       </div>
 
-      <HueSysButton variant="outline" onClick={() => onChange(refreshPalette(palette.baseColor))}>
-        <RefreshIcon />
-        Refresh
+      <HueSysButton variant="soft" onClick={() => onChange(randomizePalette())}>
+        <RandomizeIcon />
+        Randomize
       </HueSysButton>
     </div>
   )

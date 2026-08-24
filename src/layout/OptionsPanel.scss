@@ -1,13 +1,22 @@
 @use '../styles/variables' as vars;
 
+// Options and Live Preview share the workspace row roughly 1:2 (matching
+// the Figma layout's proportions) via flex-grow rather than a fixed
+// pixel split, so the ratio holds at any workspace width. Options hugs
+// its own content height (like Figma) instead of stretching to match
+// Live Preview — it only scrolls internally if that content overflows
+// the available row height.
 .options-panel {
   display: flex;
   flex-direction: column;
-  width: 21rem;
-  flex-shrink: 0;
+  flex: 1 1 0;
+  min-width: 18rem;
+  align-self: flex-start;
+  max-height: 100%;
   background-color: var(--huesys-color-surface);
   border: var(--huesys-border-width) solid var(--huesys-color-border);
   border-radius: var(--huesys-radius-lg);
+  box-shadow: var(--huesys-shadow-panel);
   overflow-y: auto;
 }
 
@@ -34,6 +43,6 @@
 .options-panel__content {
   display: flex;
   flex-direction: column;
-  gap: vars.$space-5;
+  gap: vars.$space-6;
   padding: vars.$space-5;
 }

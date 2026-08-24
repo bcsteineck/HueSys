@@ -1,5 +1,17 @@
+@use '../../styles/mixins';
+
 .color-control {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: 1.5rem;
+}
+
+.color-control__mode {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.color-control__label {
+  @include mixins.huesys-label;
 }

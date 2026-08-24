@@ -60,3 +60,15 @@
 
   @include focus-ring;
 }
+
+// HueSys UI only (fixed --huesys-* tokens) — the small uppercase section
+// label used above Color Mode, Base Color, Brand Palette, Neutral
+// Palette, etc. throughout the Options Panel.
+@mixin huesys-label {
+  font-family: var(--huesys-font-family);
+  font-size: var(--huesys-font-size-sm);
+  font-weight: var(--huesys-font-weight-semibold);
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  color: var(--huesys-color-text-muted);
+}

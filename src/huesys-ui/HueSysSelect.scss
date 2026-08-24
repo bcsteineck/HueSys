@@ -21,14 +21,15 @@
 
 .huesys-select {
   width: 100%;
+  min-height: 2.75rem;
   appearance: none;
   font-family: var(--huesys-font-family);
-  font-size: var(--huesys-font-size-sm);
+  font-size: var(--huesys-font-size-base);
   color: var(--huesys-color-text);
   background-color: var(--huesys-color-surface);
   border: var(--huesys-border-width) solid var(--huesys-color-border);
   border-radius: var(--huesys-radius-md);
-  padding: 0.5rem 2rem 0.5rem 0.75rem;
+  padding: 0.5rem 2rem 0.5rem 1rem;
   cursor: pointer;
   transition: border-color var(--huesys-transition-fast);
 

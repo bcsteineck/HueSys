@@ -31,11 +31,13 @@ function App() {
 
   return (
     <div className="app">
-      <Header canUndo={canUndo} canRedo={canRedo} onUndo={undo} onRedo={redo} />
-      <div className="app__workspace">
-        <Sidebar activeSection={state.activeSection} onNavigate={handleNavigate} />
-        <OptionsPanel state={state} palette={palette} updateState={updateState} />
-        <LivePreview previewStyle={previewStyle} />
+      <Sidebar activeSection={state.activeSection} onNavigate={handleNavigate} />
+      <div className="workspace">
+        <Header canUndo={canUndo} canRedo={canRedo} onUndo={undo} onRedo={redo} />
+        <div className="workspace__content">
+          <OptionsPanel state={state} palette={palette} updateState={updateState} />
+          <LivePreview previewStyle={previewStyle} />
+        </div>
       </div>
     </div>
   )

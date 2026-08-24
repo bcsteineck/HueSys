@@ -1,18 +1,27 @@
-// The wide-desktop workspace: fills the viewport, Header/Sidebar/Options
-// stay stationary, and only Live Preview (plus Options, if its own
-// content overflows) scrolls — the document/body never does. Full
-// medium/small responsive behavior belongs to Stage F; this shell avoids
-// decisions (fixed widths only where content genuinely needs them,
-// flexible elsewhere) that would make that work harder later.
+// The application shell: Sidebar (flush to the viewport's top/left/bottom
+// edges) beside a Workspace column (Header, then Options + Live Preview).
+// Full medium/small responsive behavior belongs to Stage F; this shell
+// avoids decisions (fixed widths only where content genuinely needs
+// them, flexible elsewhere) that would make that work harder later.
 .app {
   display: flex;
-  flex-direction: column;
   height: 100svh;
-  background-color: var(--huesys-color-bg);
   overflow: hidden;
 }
 
-.app__workspace {
+// Fills the row's full height via flex's default align-items: stretch —
+// deliberately not a hardcoded height, so it naturally tracks the
+// viewport rather than reproducing a fixed Figma frame height.
+.workspace {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-width: 0;
+  min-height: 0;
+  background-color: var(--huesys-color-bg);
+}
+
+.workspace__content {
   display: flex;
   flex: 1;
   min-height: 0;

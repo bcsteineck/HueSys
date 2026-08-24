@@ -6,6 +6,13 @@ import './GeneratedPalette.scss'
 
 export interface GeneratedPaletteProps {
   palette: Palette
+  /**
+   * In Custom mode, the Custom color editor already occupies the Brand
+   * Palette's visual footprint — showing this read-only copy alongside it
+   * would just duplicate the same five colors. Neutral Palette remains
+   * useful either way, since it's always derived/read-only.
+   */
+  showBrandPalette?: boolean
 }
 
 /**
@@ -15,7 +22,7 @@ export interface GeneratedPaletteProps {
  * same generation produced. Both come straight from the Palette Engine's
  * output — neither one is affected by which Style is currently selected.
  */
-export function GeneratedPalette({ palette }: GeneratedPaletteProps) {
+export function GeneratedPalette({ palette, showBrandPalette = true }: GeneratedPaletteProps) {
   const [announcement, setAnnouncement] = useState('')
 
   function handleCopy(hex: string) {
@@ -25,7 +32,7 @@ export function GeneratedPalette({ palette }: GeneratedPaletteProps) {
   return (
     <section className="generated-palette" aria-label="Generated palette">
       <h2 className="generated-palette__title">Generated Palette</h2>
-      <BrandPalette brand={palette.brand} onCopy={handleCopy} />
+      {showBrandPalette && <BrandPalette brand={palette.brand} onCopy={handleCopy} />}
       <NeutralPalette neutrals={palette.neutrals} onCopy={handleCopy} />
       <span className="generated-palette__announcer" aria-live="polite">
         {announcement}

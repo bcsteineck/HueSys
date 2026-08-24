@@ -3,6 +3,8 @@ import './HueSysButton.scss'
 
 export interface HueSysButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: 'primary' | 'soft' | 'outline' | 'ghost'
+  /** A square, label-less button (e.g. an icon-only Refresh) — still requires an accessible name via aria-label. */
+  iconOnly?: boolean
 }
 
 /**
@@ -11,7 +13,9 @@ export interface HueSysButtonProps extends ButtonHTMLAttributes<HTMLButtonElemen
  * actions (Randomize/Refresh/mode switching/etc). Not exported and not
  * related to the generated, exportable Button component.
  */
-export function HueSysButton({ variant = 'outline', className, type = 'button', ...props }: HueSysButtonProps) {
-  const classes = ['huesys-button', `huesys-button--${variant}`, className].filter(Boolean).join(' ')
+export function HueSysButton({ variant = 'outline', iconOnly = false, className, type = 'button', ...props }: HueSysButtonProps) {
+  const classes = ['huesys-button', `huesys-button--${variant}`, iconOnly && 'huesys-button--icon-only', className]
+    .filter(Boolean)
+    .join(' ')
   return <button type={type} className={classes} {...props} />
 }

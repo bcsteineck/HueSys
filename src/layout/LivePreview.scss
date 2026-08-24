@@ -3,11 +3,12 @@
 .live-preview {
   display: flex;
   flex-direction: column;
-  flex: 1;
+  flex: 2 1 0;
   min-width: 0;
   background-color: var(--huesys-color-surface);
   border: var(--huesys-border-width) solid var(--huesys-color-border);
   border-radius: var(--huesys-radius-lg);
+  box-shadow: var(--huesys-shadow-panel);
   overflow: hidden;
 }
 

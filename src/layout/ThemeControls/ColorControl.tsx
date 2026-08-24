@@ -24,12 +24,15 @@ const MODE_OPTIONS: { value: ColorMode; label: string }[] = [
 export function ColorControl({ color, onChange }: ColorControlProps) {
   return (
     <div className="color-control">
-      <SegmentedControl
-        aria-label="Color mode"
-        options={MODE_OPTIONS}
-        value={color.mode}
-        onChange={(mode) => onChange(switchColorMode(color, mode))}
-      />
+      <div className="color-control__mode">
+        <span className="color-control__label">Color Mode</span>
+        <SegmentedControl
+          aria-label="Color mode"
+          options={MODE_OPTIONS}
+          value={color.mode}
+          onChange={(mode) => onChange(switchColorMode(color, mode))}
+        />
+      </div>
 
       {color.mode === 'palette' ? (
         <PaletteControl palette={color.palette} onChange={(palette) => onChange({ ...color, palette })} />

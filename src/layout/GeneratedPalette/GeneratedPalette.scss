@@ -22,18 +22,13 @@
 
 .generated-palette__label {
   margin: 0;
-  font-family: var(--huesys-font-family);
-  font-size: 0.6875rem;
-  font-weight: var(--huesys-font-weight-semibold);
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-  color: var(--huesys-color-text-muted);
+  @include mixins.huesys-label;
 }
 
 .generated-palette__row {
   display: flex;
-  flex-wrap: wrap;
-  gap: vars.$space-2;
+  align-items: flex-start;
+  gap: 1rem;
 }
 
 // Visually hidden but still announced by screen readers — copy feedback
@@ -49,17 +44,17 @@
 
 .palette-swatch {
   display: flex;
-  flex: 1;
+  flex: 1 0 0;
   flex-direction: column;
   align-items: center;
   gap: vars.$space-1;
-  min-width: 4.5rem;
+  min-width: 0;
 }
 
 .palette-swatch__button {
   position: relative;
   width: 100%;
-  height: 3.5rem;
+  height: 3.125rem;
   padding: 0;
   border: none;
   border-radius: var(--huesys-radius-sm);
@@ -97,7 +92,7 @@
 
 .palette-swatch__label {
   font-family: var(--huesys-font-family);
-  font-size: 0.6875rem;
+  font-size: var(--huesys-font-size-sm);
   color: var(--huesys-color-text-muted);
   text-align: center;
 }
