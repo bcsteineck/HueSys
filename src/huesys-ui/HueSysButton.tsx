@@ -2,7 +2,7 @@ import type { ButtonHTMLAttributes } from 'react'
 import './HueSysButton.scss'
 
 export interface HueSysButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-  variant?: 'primary' | 'soft' | 'outline' | 'ghost'
+  variant?: 'primary' | 'soft' | 'outline' | 'ghost' | 'special'
   /** A square, label-less button (e.g. an icon-only Refresh) — still requires an accessible name via aria-label. */
   iconOnly?: boolean
 }

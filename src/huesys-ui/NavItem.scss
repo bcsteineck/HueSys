@@ -30,6 +30,12 @@
 .nav-item--active {
   background-color: var(--huesys-color-sidebar-active-bg);
   color: var(--huesys-color-sidebar-text);
+
+  // Figma renders the active item's icon as a purple-to-pink gradient,
+  // distinct from the plain currentColor swap the label text gets.
+  .nav-item__icon svg {
+    stroke: url(#nav-icon-gradient);
+  }
 }
 
 .nav-item__icon {

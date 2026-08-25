@@ -30,6 +30,10 @@
   padding-right: var(--space-6);
   cursor: pointer;
 
+  &:hover:not(:disabled) {
+    background-color: color-mix(in oklab, var(--color-border) 25%, var(--color-surface));
+  }
+
   &:disabled {
     cursor: not-allowed;
   }

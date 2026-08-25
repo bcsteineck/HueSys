@@ -6,7 +6,6 @@
   padding: var(--space-3) var(--space-4);
   border-radius: var(--radius-md);
   border: var(--border-width) solid;
-  border-left-width: 3px;
 
   p {
     margin: 0;
@@ -18,24 +17,20 @@
 // (the brand color) or a status hue.
 .alert--info {
   background-color: color-mix(in oklab, var(--color-accent) 8%, var(--color-background));
-  border-color: color-mix(in oklab, var(--color-accent) 30%, var(--color-background));
-  border-left-color: var(--color-accent);
+  border-color: var(--color-accent);
 }
 
 .alert--success {
   background-color: color-mix(in oklab, var(--color-success) 8%, var(--color-background));
-  border-color: color-mix(in oklab, var(--color-success) 30%, var(--color-background));
-  border-left-color: var(--color-success);
+  border-color: var(--color-success);
 }
 
 .alert--warning {
   background-color: color-mix(in oklab, var(--color-warning) 10%, var(--color-background));
-  border-color: color-mix(in oklab, var(--color-warning) 35%, var(--color-background));
-  border-left-color: var(--color-warning);
+  border-color: var(--color-warning);
 }
 
 .alert--danger {
   background-color: color-mix(in oklab, var(--color-danger) 8%, var(--color-background));
-  border-color: color-mix(in oklab, var(--color-danger) 30%, var(--color-background));
-  border-left-color: var(--color-danger);
+  border-color: var(--color-danger);
 }

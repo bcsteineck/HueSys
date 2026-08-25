@@ -27,7 +27,7 @@ export function Header({ canUndo, canRedo, onUndo, onRedo }: HeaderProps) {
           Redo
         </HueSysButton>
         <HueSysButton
-          variant="primary"
+          variant="special"
           disabled
           aria-label="Export (not yet available)"
           title="Export (not yet available)"

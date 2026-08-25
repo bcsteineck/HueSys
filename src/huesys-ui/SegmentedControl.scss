@@ -3,9 +3,8 @@
   width: 100%;
   min-height: 2.75rem;
   padding: 0.25rem;
-  gap: 0.25rem;
+  gap: 0.5rem;
   background-color: var(--huesys-color-bg);
-  border: var(--huesys-border-width) solid var(--huesys-color-control-border);
   border-radius: var(--huesys-radius-md);
 }
 
@@ -16,21 +15,24 @@
   font-weight: var(--huesys-font-weight-semibold);
   color: var(--huesys-color-text-muted);
   background: none;
-  border: none;
-  border-radius: calc(var(--huesys-radius-md) - 0.25rem);
+  // Transparent, not none: reserves the same 1px focus-visible will use,
+  // so gaining a dashed border on focus doesn't shift layout.
+  border: 1px dashed transparent;
+  border-radius: var(--huesys-radius-sm);
   padding: 0.4rem 1rem;
   cursor: pointer;
   transition:
     background-color var(--huesys-transition-fast),
     color var(--huesys-transition-fast);
 
-  &:hover {
+  &:hover:not(.segmented-control__option--active),
+  &:active:not(.segmented-control__option--active) {
     color: var(--huesys-color-text);
+    background-color: var(--huesys-color-border);
   }
 
   &:focus-visible {
-    outline: 2px solid var(--huesys-color-primary);
-    outline-offset: 2px;
+    border-color: var(--huesys-color-text-muted);
   }
 }
 
