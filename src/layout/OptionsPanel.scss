@@ -18,6 +18,17 @@
   border-radius: var(--huesys-radius-lg);
   box-shadow: var(--huesys-shadow-panel);
   overflow-y: auto;
+
+  // Below this width Options stacks above Live Preview in normal document
+  // flow (see .workspace__content) — it should grow with its content
+  // instead of capping/scrolling internally, so the page itself scrolls.
+  @media (max-width: vars.$breakpoint-tablet) {
+    width: 100%;
+    min-width: 0;
+    max-height: none;
+    align-self: auto;
+    overflow-y: visible;
+  }
 }
 
 .options-panel__header {

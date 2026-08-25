@@ -12,6 +12,15 @@
   --huesys-color-bg: #f6f6f8;
   --huesys-color-surface: #ffffff;
   --huesys-color-border: #e2e2e8;
+  // Distinct from --huesys-color-border: that one is for decorative/
+  // structural boundaries (panel, card, header dividers), which stay
+  // close to Figma's light Neutral-30 value. This one is for interactive
+  // form controls (inputs, selects, the segmented control track, color
+  // swatches, outline buttons) where the border IS the primary way a
+  // user perceives the control's boundary — WCAG 1.4.11 wants at least
+  // 3:1 against the adjacent background for that case, which the lighter
+  // decorative value falls well short of (~1.3:1 on white).
+  --huesys-color-control-border: #8c8c9c;
   --huesys-color-text: #16161f;
   --huesys-color-text-muted: #6b6b78;
 

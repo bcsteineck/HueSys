@@ -29,7 +29,7 @@ export function OptionsPanel({ state, palette, updateState }: OptionsPanelProps)
   const copy = SECTION_COPY[state.activeSection]
 
   return (
-    <section className="options-panel" aria-label="Options">
+    <section id="options-panel" className="options-panel" aria-label="Options" tabIndex={-1}>
       <div className="options-panel__header">
         <h2 className="options-panel__title">{copy.title}</h2>
         <p className="options-panel__description">{copy.description}</p>

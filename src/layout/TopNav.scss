@@ -1,0 +1,57 @@
+@use '../styles/variables' as vars;
+
+// Hidden at wide desktop (Sidebar handles navigation there); becomes the
+// primary navigation once the Sidebar hides at $breakpoint-wide.
+.top-nav {
+  display: none;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0 1rem;
+  background-color: var(--huesys-color-surface);
+  border-bottom: var(--huesys-border-width) solid var(--huesys-color-border);
+  overflow-x: auto;
+
+  @media (max-width: vars.$breakpoint-wide) {
+    display: flex;
+  }
+}
+
+.top-nav__item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-shrink: 0;
+  font-family: var(--huesys-font-family);
+  font-size: var(--huesys-font-size-base);
+  font-weight: var(--huesys-font-weight-medium);
+  color: var(--huesys-color-text-muted);
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  padding: 0.875rem 0.75rem;
+  cursor: pointer;
+  transition:
+    color var(--huesys-transition-fast),
+    border-color var(--huesys-transition-fast);
+
+  &:hover {
+    color: var(--huesys-color-text);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--huesys-color-primary);
+    outline-offset: -2px;
+  }
+}
+
+// Active state is communicated by more than color alone: bottom border,
+// icon/text weight, and aria-current="page" together.
+.top-nav__item--active {
+  color: var(--huesys-color-primary);
+  font-weight: var(--huesys-font-weight-semibold);
+  border-bottom-color: var(--huesys-color-primary);
+}
+
+.top-nav__icon {
+  display: inline-flex;
+}

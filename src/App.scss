@@ -1,12 +1,23 @@
+@use './styles/variables' as vars;
+
 // The application shell: Sidebar (flush to the viewport's top/left/bottom
 // edges) beside a Workspace column (Header, then Options + Live Preview).
-// Full medium/small responsive behavior belongs to Stage F; this shell
-// avoids decisions (fixed widths only where content genuinely needs
-// them, flexible elsewhere) that would make that work harder later.
+//
+// Below $breakpoint-tablet, the desktop "viewport app with internal panel
+// scrolling" model gives way to a normal scrolling document — see the
+// dashboard spec's mobile scroll model. Above it, Options/Live Preview
+// keep their own independent scroll regions and the document itself never
+// scrolls.
 .app {
   display: flex;
   height: 100svh;
   overflow: hidden;
+
+  @media (max-width: vars.$breakpoint-tablet) {
+    display: block;
+    height: auto;
+    overflow: visible;
+  }
 }
 
 // Fills the row's full height via flex's default align-items: stretch —
@@ -19,6 +30,10 @@
   min-width: 0;
   min-height: 0;
   background-color: var(--huesys-color-bg);
+
+  @media (max-width: vars.$breakpoint-tablet) {
+    min-height: 100svh;
+  }
 }
 
 .workspace__content {
@@ -27,10 +42,41 @@
   min-height: 0;
   gap: 1rem;
   padding: 1rem;
+
+  // Options and Live Preview stack once there's no longer genuinely
+  // enough width for both side by side.
+  @media (max-width: vars.$breakpoint-tablet) {
+    flex-direction: column;
+    height: auto;
+  }
 }
 
 .sidebar,
 .options-panel,
 .live-preview {
   min-height: 0;
+}
+
+// Lets keyboard users bypass the Colors/Typography/Style navigation and
+// land directly on Options — invisible until it receives focus.
+.skip-link {
+  position: fixed;
+  top: -3rem;
+  left: 1rem;
+  z-index: 100;
+  padding: 0.625rem 1rem;
+  background-color: var(--huesys-color-primary);
+  color: var(--huesys-color-primary-text);
+  font-family: var(--huesys-font-family);
+  font-size: var(--huesys-font-size-base);
+  font-weight: var(--huesys-font-weight-semibold);
+  border-radius: var(--huesys-radius-md);
+  text-decoration: none;
+  transition: top var(--huesys-transition-fast);
+
+  &:focus-visible {
+    top: 1rem;
+    outline: 2px solid var(--huesys-color-primary-text);
+    outline-offset: 2px;
+  }
 }

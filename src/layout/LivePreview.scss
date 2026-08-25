@@ -10,6 +10,13 @@
   border-radius: var(--huesys-radius-lg);
   box-shadow: var(--huesys-shadow-panel);
   overflow: hidden;
+
+  // Stacked below Options at this width — grow with content instead of
+  // clipping/scrolling internally, so the page scrolls as one document.
+  @media (max-width: vars.$breakpoint-tablet) {
+    width: 100%;
+    overflow: visible;
+  }
 }
 
 .live-preview__header {
@@ -41,4 +48,12 @@
   // Theme's background/surface tokens — those stay visible only through
   // the generated components themselves.
   background-color: #fff;
+  // The Live Preview specimen grids (Inputs|Selection Controls,
+  // Alerts|Badges) collapse based on this container's actual rendered
+  // width, not viewport assumptions — see ComponentPreview.scss.
+  container-type: inline-size;
+
+  @media (max-width: vars.$breakpoint-tablet) {
+    overflow-y: visible;
+  }
 }

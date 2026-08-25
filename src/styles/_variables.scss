@@ -1,5 +1,11 @@
 // SCSS-level constants that aren't design tokens (those come from the
 // Theme object as CSS variables — see src/theme/cssVariables.ts).
+//
+// Content-driven, not device-driven: $breakpoint-wide is where Sidebar +
+// Options + Live Preview stop comfortably fitting together (240px Sidebar
+// + ~288px minimum Options + a usable Preview pane); $breakpoint-tablet
+// is where Options and Live Preview themselves stop fitting side by side.
+$breakpoint-wide: 1100px;
 $breakpoint-tablet: 768px;
 
 // Fixed spacing scale shared by every component, so padding and gaps stay

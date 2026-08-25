@@ -9,6 +9,12 @@
   background-color: var(--huesys-color-sidebar-bg);
   color: var(--huesys-color-sidebar-text);
   overflow-y: auto;
+
+  // Below this width the vertical Sidebar no longer comfortably coexists
+  // with Options + Live Preview — TopNav takes over navigation instead.
+  @media (max-width: vars.$breakpoint-wide) {
+    display: none;
+  }
 }
 
 .sidebar__brand {

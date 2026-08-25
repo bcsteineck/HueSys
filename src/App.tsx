@@ -1,6 +1,7 @@
 import type { CSSProperties } from 'react'
 import { Header } from './layout/Header'
 import { Sidebar } from './layout/Sidebar'
+import { TopNav } from './layout/TopNav'
 import { OptionsPanel } from './layout/OptionsPanel'
 import { LivePreview } from './layout/LivePreview'
 import { buildPalette } from './theme/color'
@@ -31,9 +32,13 @@ function App() {
 
   return (
     <div className="app">
+      <a className="skip-link" href="#options-panel">
+        Skip to options
+      </a>
       <Sidebar activeSection={state.activeSection} onNavigate={handleNavigate} />
       <div className="workspace">
         <Header canUndo={canUndo} canRedo={canRedo} onUndo={undo} onRedo={redo} />
+        <TopNav activeSection={state.activeSection} onNavigate={handleNavigate} />
         <div className="workspace__content">
           <OptionsPanel state={state} palette={palette} updateState={updateState} />
           <LivePreview previewStyle={previewStyle} />

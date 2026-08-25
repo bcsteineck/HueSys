@@ -1,7 +1,6 @@
-import type { ReactNode } from 'react'
-import { ColorsIcon, StyleIcon, TypographyIcon } from '../huesys-ui/icons'
 import { NavItem } from '../huesys-ui/NavItem'
 import type { ActiveSection } from '../state/appState'
+import { NAV_SECTIONS } from './navSections'
 import './Sidebar.scss'
 
 export interface SidebarProps {
@@ -9,13 +8,12 @@ export interface SidebarProps {
   onNavigate: (section: ActiveSection) => void
 }
 
-const SECTIONS: { value: ActiveSection; label: string; icon: ReactNode }[] = [
-  { value: 'colors', label: 'Colors', icon: <ColorsIcon /> },
-  { value: 'typography', label: 'Typography', icon: <TypographyIcon /> },
-  { value: 'style', label: 'Style', icon: <StyleIcon /> },
-]
-
-/** Fixed HueSys application chrome — the primary Colors/Typography/Style navigation. */
+/**
+ * Fixed HueSys application chrome — the primary Colors/Typography/Style
+ * navigation at wide desktop sizes. Hidden below $breakpoint-wide in favor
+ * of TopNav; both call the same `onNavigate`, so there is only ever one
+ * source of navigation state regardless of which is visible.
+ */
 export function Sidebar({ activeSection, onNavigate }: SidebarProps) {
   return (
     <nav className="sidebar" aria-label="Primary">
@@ -31,7 +29,7 @@ export function Sidebar({ activeSection, onNavigate }: SidebarProps) {
 
       <span className="sidebar__section-label">Theme</span>
       <div className="sidebar__nav">
-        {SECTIONS.map((section) => (
+        {NAV_SECTIONS.map((section) => (
           <NavItem
             key={section.value}
             icon={section.icon}

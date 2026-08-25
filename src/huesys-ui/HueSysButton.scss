@@ -57,7 +57,7 @@
 .huesys-button--outline {
   background-color: var(--huesys-color-surface);
   color: var(--huesys-color-text);
-  border-color: var(--huesys-color-border);
+  border-color: var(--huesys-color-control-border);
 
   &:hover:not(:disabled) {
     background-color: var(--huesys-color-bg);

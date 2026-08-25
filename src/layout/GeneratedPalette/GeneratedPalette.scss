@@ -25,9 +25,12 @@
   @include mixins.huesys-label;
 }
 
+// Five swatches at wide widths, reflowing to fewer columns as the Options
+// Panel narrows — never overflowing and never shrinking swatches below a
+// usable size. Color order is preserved by grid's natural reading order.
 .generated-palette__row {
-  display: flex;
-  align-items: flex-start;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(3rem, 1fr));
   gap: 1rem;
 }
 
@@ -44,7 +47,6 @@
 
 .palette-swatch {
   display: flex;
-  flex: 1 0 0;
   flex-direction: column;
   align-items: center;
   gap: vars.$space-1;

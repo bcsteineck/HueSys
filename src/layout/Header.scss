@@ -2,8 +2,10 @@
 
 .app-header {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
+  row-gap: vars.$space-3;
   flex-shrink: 0;
   padding: vars.$space-4 vars.$space-5;
   background-color: var(--huesys-color-surface);
@@ -12,6 +14,8 @@
 
 .app-header__tagline {
   margin: 0;
+  flex: 1 1 auto;
+  min-width: 12rem;
   font-family: var(--huesys-font-family);
   font-size: var(--huesys-font-size-base);
   font-weight: var(--huesys-font-weight-medium);
@@ -21,6 +25,7 @@
 .app-header__actions {
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
   gap: vars.$space-2;
   flex-shrink: 0;
 }
