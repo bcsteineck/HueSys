@@ -48,6 +48,13 @@
   @media (max-width: vars.$breakpoint-tablet) {
     flex-direction: column;
     height: auto;
+    // Reserves room for the fixed Undo/Redo/Export bar (see
+    // Header.scss's .app-header__actions) so the last of the scrolling
+    // page content never sits underneath it. Sized generously — the bar's
+    // own content-driven height plus its padding — rather than measured
+    // exactly, since either is trivially safe on a "content ends, blank
+    // space follows" mobile page.
+    padding-bottom: calc(5rem + env(safe-area-inset-bottom));
   }
 }
 

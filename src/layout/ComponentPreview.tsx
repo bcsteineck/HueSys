@@ -37,7 +37,7 @@ export function ComponentPreview() {
         </div>
       </section>
 
-      <div className="component-preview__grid">
+      <div className="component-preview__gallery">
         <section className="component-preview__section" aria-labelledby="gallery-inputs">
           <h3 id="gallery-inputs" className="component-preview__heading">
             Inputs
@@ -85,18 +85,37 @@ export function ComponentPreview() {
             <Switch disabled>Disabled switch</Switch>
           </div>
         </section>
-      </div>
 
-      <div className="component-preview__grid">
+        <section className="component-preview__section" aria-labelledby="gallery-typography">
+          <h3 id="gallery-typography" className="component-preview__heading">
+            Typography
+          </h3>
+          <div className="component-preview__stage component-preview__typography">
+            <p className="component-preview__type-lg">Build better interfaces.</p>
+            <p className="component-preview__type-base">
+              Create consistent, accessible components using your generated design system.
+            </p>
+            <p className="component-preview__type-sm">Supporting text and secondary information.</p>
+          </div>
+        </section>
+
         <section className="component-preview__section" aria-labelledby="gallery-alerts">
           <h3 id="gallery-alerts" className="component-preview__heading">
             Alerts
           </h3>
           <div className="component-preview__stage component-preview__column">
-            <Alert variant="info">Informational message for context that doesn't require action.</Alert>
-            <Alert variant="success">Your changes were saved successfully.</Alert>
-            <Alert variant="warning">This action may have unintended side effects.</Alert>
-            <Alert variant="danger">Something went wrong — please try again.</Alert>
+            <Alert variant="info" title="Heads up">
+              Informational message for context that doesn't require action.
+            </Alert>
+            <Alert variant="success" title="Success">
+              Your changes were saved successfully.
+            </Alert>
+            <Alert variant="warning" title="Warning">
+              This action may have unintended side effects.
+            </Alert>
+            <Alert variant="danger" title="Error">
+              Something went wrong — please try again.
+            </Alert>
           </div>
         </section>
 
@@ -113,20 +132,20 @@ export function ComponentPreview() {
             <Badge variant="danger">Danger</Badge>
           </div>
         </section>
-      </div>
 
-      <section className="component-preview__section" aria-labelledby="gallery-cards">
-        <h3 id="gallery-cards" className="component-preview__heading">
-          Cards
-        </h3>
-        <div className="component-preview__stage">
-          <Card className="component-preview__card">
-            <h4>Upgrade to Pro</h4>
-            <p>Unlock advanced features and priority support for your team.</p>
-            <Button variant="primary">Upgrade</Button>
-          </Card>
-        </div>
-      </section>
+        <section className="component-preview__section" aria-labelledby="gallery-cards">
+          <h3 id="gallery-cards" className="component-preview__heading">
+            Cards
+          </h3>
+          <div className="component-preview__stage">
+            <Card className="component-preview__card">
+              <h4>Upgrade to Pro</h4>
+              <p>Unlock advanced features and priority support for your team.</p>
+              <Button variant="primary">Upgrade</Button>
+            </Card>
+          </div>
+        </section>
+      </div>
     </div>
   )
 }

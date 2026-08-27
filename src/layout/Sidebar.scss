@@ -20,17 +20,11 @@
 .sidebar__brand {
   margin: 0 0 vars.$space-6;
   padding: 0 vars.$space-2;
-  font-family: var(--huesys-font-family);
-  font-size: 1.375rem;
-  font-weight: var(--huesys-font-weight-semibold);
-  color: var(--huesys-color-sidebar-text);
-}
 
-.sidebar__bracket {
-  color: var(--huesys-color-accent);
-
-  &:first-child {
-    color: #ec4899;
+  svg {
+    display: block;
+    width: 8.75rem;
+    height: auto;
   }
 }
 

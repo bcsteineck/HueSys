@@ -17,10 +17,13 @@
 }
 
 // Every interactive component uses this exact focus treatment, so focus
-// states stay visibly consistent across the whole library.
+// states stay visibly consistent across the whole library. --color-focus-
+// ring is Primary when Primary reads clearly against the page background,
+// otherwise a guaranteed-visible neutral fallback — resolved centrally in
+// Theme generation, never decided here.
 @mixin focus-ring {
   &:focus-visible {
-    outline: 2px solid var(--color-primary);
+    outline: 2px solid var(--color-focus-ring);
     outline-offset: 2px;
   }
 }
@@ -36,6 +39,14 @@
   font-weight: var(--font-weight-body);
   color: var(--color-text);
   background-color: var(--color-background);
+  // Quiet by default: the field is also identifiable by its background,
+  // shape, and adjacent label, so resting-state contrast doesn't need to
+  // carry the whole burden (WCAG 1.4.11 is about the boundary being
+  // *perceivable*, not about maximizing contrast everywhere it's legal
+  // to). --color-border-strong is reserved for hover, one deliberate step
+  // "this is getting more interactive" before the dedicated focus/error
+  // treatments below — using it here too would make every field look
+  // outlined all the time instead of only when it matters.
   border: var(--border-width) solid var(--color-border);
   border-radius: var(--radius-md);
   padding: var(--space-2) var(--space-3);
@@ -46,14 +57,14 @@
   }
 
   &:hover:not(:disabled) {
-    border-color: var(--color-text-muted);
+    border-color: var(--color-border-strong);
   }
 
   &:disabled {
     cursor: not-allowed;
-    background-color: color-mix(in oklab, var(--color-border) 40%, var(--color-surface));
+    background-color: var(--color-disabled);
     border-color: var(--color-border);
-    color: var(--color-text-muted);
+    color: var(--color-disabled-text);
   }
 
   &[aria-invalid='true'] {
@@ -63,7 +74,18 @@
   @include focus-ring;
 
   &:focus-visible {
-    border-color: var(--color-primary);
+    // --color-focus-ring, not the raw --color-primary: same reasoning as
+    // Button's Outline/Ghost text — this needs to stay visible against
+    // the field's own light surface even when Primary itself is too
+    // light to read there.
+    border-color: var(--color-focus-ring);
+  }
+
+  // A focused error field must keep signaling "error," not just "focused"
+  // — this compound selector's higher specificity is what makes it win
+  // over the plain :focus-visible rule above, regardless of source order.
+  &[aria-invalid='true']:focus-visible {
+    border-color: var(--color-danger);
   }
 }
 

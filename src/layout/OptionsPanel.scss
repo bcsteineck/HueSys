@@ -26,6 +26,13 @@
     width: 100%;
     min-width: 0;
     max-height: none;
+    // Not just a sizing hint: flex-basis 0 leaves this item's height
+    // dependent on the row's available space, which .workspace__content no
+    // longer defines at this width (height: auto). Without flex: none it
+    // stays squeezed to whatever indefinite share the browser resolves,
+    // and content overflows the box instead of growing it — `overflow:
+    // visible` alone doesn't stop that, it just stops clipping it.
+    flex: none;
     align-self: auto;
     overflow-y: visible;
   }

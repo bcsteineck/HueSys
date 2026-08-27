@@ -1,5 +1,6 @@
 import type { CSSProperties } from 'react'
 import { Header } from './layout/Header'
+import { MobileHeader } from './layout/MobileHeader'
 import { Sidebar } from './layout/Sidebar'
 import { TopNav } from './layout/TopNav'
 import { OptionsPanel } from './layout/OptionsPanel'
@@ -37,6 +38,7 @@ function App() {
       </a>
       <Sidebar activeSection={state.activeSection} onNavigate={handleNavigate} />
       <div className="workspace">
+        <MobileHeader />
         <Header canUndo={canUndo} canRedo={canRedo} onUndo={undo} onRedo={redo} />
         <TopNav activeSection={state.activeSection} onNavigate={handleNavigate} />
         <div className="workspace__content">

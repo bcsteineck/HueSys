@@ -1,35 +1,58 @@
 @use '../styles/variables' as vars;
 
+// Buttons stands alone at full width (flex-direction: column's default
+// align-items: stretch handles that); the rest flow into the masonry
+// gallery below it. Padding/gap use the fixed vars.$space-* scale, not the
+// generated --space-* tokens: this is HueSys's own gallery chrome, not
+// generated content, so it must not react to the Style panel's Spacing
+// control (same reasoning as the border-radius note below).
 .component-preview {
-  padding: vars.$space-6 vars.$space-5;
+  padding: vars.$space-5;
   display: flex;
   flex-direction: column;
-  gap: vars.$space-6;
+  gap: vars.$space-4;
 }
 
+// A real masonry layout, not a grid/flexbox row that forces every card in
+// the same "row" to align — CSS multi-column packs each card into
+// whichever column has room next, so cards of different heights (a short
+// Badges card next to a tall Inputs card) sit flush against each other
+// like an image gallery instead of leaving gaps to match a row height.
+// column-width is a target, not a cap: the browser fits as many columns
+// of at least that width as the pane allows, collapsing to one column
+// when it's narrow — no separate breakpoint needed.
+.component-preview__gallery {
+  column-width: 20rem;
+  column-gap: vars.$space-4;
+}
+
+// Each section is its own bordered card (Figma's "ComponentCard"). This
+// card itself — its border, radius, padding, gap — is HueSys UI: it's the
+// gallery's own presentational chrome for grouping/labeling a demo, not
+// one of the 10 generated/exportable components. So unlike the generated
+// controls it contains, it must stay fixed rather than react to the Style
+// panel: radius uses the same static --huesys-radius-md token the rest of
+// HueSys's own UI uses (not the generated --radius-lg), and padding/gap
+// use the fixed vars.$space-* scale (not the generated --space-* tokens).
+// Border color is still the generated --color-border, since which
+// palette is active is a Colors concern, not a Style one.
 .component-preview__section {
   display: flex;
   flex-direction: column;
-  gap: vars.$space-3;
+  gap: vars.$space-4;
   min-width: 0;
-}
+  padding: vars.$space-5;
+  border: var(--border-width) solid var(--color-border);
+  border-radius: var(--huesys-radius-md);
 
-// Pairs two related groups side by side (Inputs|Selection Controls,
-// Alerts|Badges) at a proportion that roughly matches the Figma
-// composition, using minmax(0, Nfr) rather than fixed pixel columns so it
-// never overflows its container. Collapses to one column based on the
-// Live Preview pane's own rendered width (a container query, via
-// container-type set on .live-preview__scroll) rather than the overall
-// viewport — the pane can be narrow even on a wide screen, e.g. next to a
-// wide Options Panel.
-.component-preview__grid {
-  display: grid;
-  grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr);
-  gap: vars.$space-6;
-  align-items: start;
-
-  @container (max-width: 40rem) {
-    grid-template-columns: 1fr;
+  // Only load-bearing inside the masonry gallery: break-inside keeps a
+  // card from being sliced across two columns, and margin-bottom is
+  // column layout's only way to put equal space between stacked cards
+  // within a column — matched to column-gap so spacing reads as even in
+  // both directions.
+  .component-preview__gallery > & {
+    break-inside: avoid;
+    margin-bottom: vars.$space-4;
   }
 }
 
@@ -44,6 +67,42 @@
 
 .component-preview__stage {
   background-color: transparent;
+}
+
+// The three levels differ only in the generated font-size/weight/color
+// tokens they consume — no new type scale, just the existing lg/base/sm
+// tokens Typography already generates. Vertical gap is fixed gallery
+// chrome (same reasoning as .component-preview__column above), not a
+// generated --space-* token, since it's spacing *between demo specimens*,
+// not spacing a generated component owns.
+.component-preview__typography {
+  display: flex;
+  flex-direction: column;
+  gap: vars.$space-3;
+}
+
+.component-preview__type-lg {
+  margin: 0;
+  font-family: var(--font-family);
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-control);
+  color: var(--color-text);
+}
+
+.component-preview__type-base {
+  margin: 0;
+  font-family: var(--font-family);
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-body);
+  color: var(--color-text);
+}
+
+.component-preview__type-sm {
+  margin: 0;
+  font-family: var(--font-family);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-body);
+  color: var(--color-text-muted);
 }
 
 .component-preview__row {
@@ -61,8 +120,23 @@
   max-width: 24rem;
 }
 
+// The Cards demo tile is HueSys gallery chrome wrapping a generated
+// component (same reasoning as .component-preview__section's fixed
+// radius above): it deliberately overrides Card's own themed
+// background/border so the demo always reads as a clean white surface
+// regardless of the active palette's neutral tint. --huesys-color-border,
+// not a generated --color-* token: the border here is HueSys gallery
+// chrome (like .component-preview__section's own border), not part of
+// the generated component being demoed, so it should stay fixed rather
+// than shift with the active palette. --shadow-md (not the base Card's
+// --shadow-sm) is a fixed, non-palette-reactive constant, so reusing it
+// here doesn't leak theme color either — it's just a bit more pronounced,
+// giving the card a raised feel on top of the border's flat separation.
 .component-preview__card {
   max-width: 24rem;
+  background-color: #fff;
+  border: var(--huesys-border-width) solid var(--huesys-color-border);
+  box-shadow: var(--shadow-md);
 }
 
 .component-preview__fieldset {

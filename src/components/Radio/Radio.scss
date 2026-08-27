@@ -24,6 +24,9 @@
   width: 1.125rem;
   height: 1.125rem;
   margin: 0;
+  // Quiet by default — see Checkbox's identical reasoning: emphasis comes
+  // from the Primary fill on selection, not from the unselected border
+  // being dark.
   border: var(--border-width) solid var(--color-border);
   // A radio's circular shape is its semantic signal ("choose one" vs. a
   // checkbox's "choose many") — unlike other components it deliberately
@@ -33,6 +36,10 @@
   transition:
     background-color var(--transition-fast),
     border-color var(--transition-fast);
+
+  &:hover:not(:disabled):not(:checked) {
+    border-color: var(--color-border-strong);
+  }
 
   &::before {
     content: '';

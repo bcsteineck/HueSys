@@ -41,6 +41,15 @@ export interface PaletteNeutrals {
 
 /** Success/warning/danger, generated to feel like part of this specific palette rather than fixed generic colors. */
 export interface PaletteSemantic {
+  /**
+   * Deliberately Accent's own color, not a separately generated hue — see
+   * ThemeColors.info in theme/types.ts for the full reasoning (Info and
+   * the Accent Badge are meant to feel related). Exposed here, at the
+   * Color Foundation level, so both Theme generation and any read-only
+   * palette display share the same single source rather than each
+   * re-deriving "Info = Accent" independently.
+   */
+  info: string
   success: string
   warning: string
   danger: string

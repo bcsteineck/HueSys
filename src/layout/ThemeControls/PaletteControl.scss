@@ -27,9 +27,9 @@
   width: 2.75rem;
   height: 2.75rem;
   padding: 0;
-  border: var(--huesys-border-width) solid var(--huesys-color-control-border);
   border-radius: 50%;
   background: none;
+  border: none;
   cursor: pointer;
 
   &::-webkit-color-swatch-wrapper {

@@ -7,8 +7,17 @@ import { COLOR_SCALE_STEPS, type ColorScale } from './types'
  * Chroma applied across the whole neutral scale. Fixed and small — not
  * derived from the primary's own chroma — so a highly saturated primary
  * doesn't produce a visibly colored "neutral" scale.
+ *
+ * Deliberately tiny: OKLCH's displayable chroma range shrinks sharply near
+ * white/black, so a fixed chroma is not equally subtle at every step. The
+ * palest steps (50/100) are exactly where `background`/`surface`/`disabled`
+ * live, and are also where the least chroma "headroom" exists before a
+ * neutral reads as a describable color (green-gray, purple-gray, etc.)
+ * rather than an neutral with a whisper of personality. Calibrated small
+ * enough that even a highly saturated primary keeps structural surfaces
+ * genuinely neutral.
  */
-const NEUTRAL_TINT_CHROMA = 0.012
+const NEUTRAL_TINT_CHROMA = 0.004
 
 /**
  * Below this input chroma, the primary is close enough to gray that its

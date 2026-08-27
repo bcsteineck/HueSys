@@ -2,8 +2,20 @@ import { useEffect, useState } from 'react'
 
 export interface PaletteSwatchProps {
   hex: string
-  /** Permanent caption below the swatch (e.g. "Background") — omitted for Brand Palette swatches, which stay unlabeled. */
+  /**
+   * Used to build the accessible name (e.g. "Copy Background, #F4F5F8")
+   * regardless of `showLabel`. Omitted for Brand Palette swatches, which
+   * stay unlabeled even accessibly — they're presented as a set, not
+   * individually named roles.
+   */
   label?: string
+  /**
+   * Also renders `label` as a visible caption below the swatch — for
+   * palettes like Semantic where the role name itself (Success/Warning/
+   * Danger) is the meaningful part, not just the color. Off by default so
+   * Brand/Neutral's existing unlabeled presentation is unaffected.
+   */
+  showLabel?: boolean
   onCopy: (hex: string) => void
 }
 
@@ -15,7 +27,7 @@ const COPIED_FEEDBACK_DURATION_MS = 1000
  * ~1s, scoped to that swatch alone. Shared by the Brand and Neutral
  * palettes so the copy interaction only exists once.
  */
-export function PaletteSwatch({ hex, label, onCopy }: PaletteSwatchProps) {
+export function PaletteSwatch({ hex, label, showLabel, onCopy }: PaletteSwatchProps) {
   const [copied, setCopied] = useState(false)
 
   // Cancel any pending "Copied!" feedback if the color itself changes
@@ -57,6 +69,7 @@ export function PaletteSwatch({ hex, label, onCopy }: PaletteSwatchProps) {
       >
         <span className="palette-swatch__overlay">{copied ? '✓ Copied!' : value}</span>
       </button>
+      {showLabel && label && <span className="palette-swatch__label">{label}</span>}
     </div>
   )
 }

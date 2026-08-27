@@ -12,13 +12,13 @@
     background-color var(--transition-fast),
     border-color var(--transition-fast);
 
-  &:active:not(:disabled) {
-    filter: brightness(0.92);
-  }
-
+  // Neutral, not a dimmed version of whichever variant was disabled — a
+  // disabled Primary button shouldn't still read as "primary, just faded."
   &:disabled {
     cursor: not-allowed;
-    opacity: 0.6;
+    background-color: var(--color-disabled);
+    color: var(--color-disabled-text);
+    border-color: transparent;
   }
 
   @include mixins.focus-ring;
@@ -31,32 +31,50 @@
   &:hover:not(:disabled) {
     background-color: var(--color-primary-hover);
   }
-}
 
-.button--secondary {
-  background-color: var(--color-surface);
-  color: var(--color-text);
-
-  &:hover:not(:disabled) {
-    background-color: var(--color-border);
+  &:active:not(:disabled) {
+    background-color: var(--color-primary-active);
   }
 }
 
-.button--outline {
-  background-color: transparent;
-  color: var(--color-primary);
-  border-color: var(--color-primary);
+// Secondary is a *treatment* — a lower-emphasis surface derived from
+// Primary/Muted (see ThemeColors.secondary) — not gray and not Accent.
+// Reused verbatim by Badge's Primary variant for the same reason.
+.button--secondary {
+  background-color: var(--color-secondary);
+  color: var(--color-secondary-text);
 
   &:hover:not(:disabled) {
-    background-color: var(--color-surface);
+    background-color: var(--color-secondary-hover);
+  }
+
+  &:active:not(:disabled) {
+    filter: brightness(0.96);
+  }
+}
+
+// color/border-color use --color-secondary-text, not the raw
+// --color-primary directly: secondaryText already resolves to Primary
+// itself whenever Primary reads legibly on a light surface (the ordinary
+// case, so this looks identical to using --color-primary directly), but
+// falls back to a safe alternative when Primary is too light to read as
+// text/border against the page — a real failure otherwise, not a
+// hypothetical one (a pastel-yellow Primary is invisible here without it).
+.button--outline {
+  background-color: transparent;
+  color: var(--color-secondary-text);
+  border-color: var(--color-secondary-text);
+
+  &:hover:not(:disabled) {
+    background-color: var(--color-secondary);
   }
 }
 
 .button--ghost {
   background-color: transparent;
-  color: var(--color-primary);
+  color: var(--color-secondary-text);
 
   &:hover:not(:disabled) {
-    background-color: var(--color-surface);
+    background-color: var(--color-secondary);
   }
 }

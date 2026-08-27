@@ -13,8 +13,11 @@
 
   // Stacked below Options at this width — grow with content instead of
   // clipping/scrolling internally, so the page scrolls as one document.
+  // flex: none is load-bearing here, not just overflow: visible — see the
+  // matching comment on .live-preview__scroll below.
   @media (max-width: vars.$breakpoint-tablet) {
     width: 100%;
+    flex: none;
     overflow: visible;
   }
 }
@@ -54,6 +57,19 @@
   container-type: inline-size;
 
   @media (max-width: vars.$breakpoint-tablet) {
+    // flex: 1 gives this a flex-basis of 0 — with .live-preview no longer
+    // defining a height for it to grow into (flex: none, above), it has
+    // no available space to resolve against and collapses instead of
+    // sizing to its content. Dropping to flex: none lets it just be as
+    // tall as the specimen grid actually renders.
+    flex: none;
     overflow-y: visible;
+    // At the wide-desktop size, .live-preview's own overflow: hidden clips
+    // this opaque white region to the parent's rounded corners for free.
+    // overflow: visible above gives that up, so this has to round its own
+    // bottom corners (it's the last child, flush with .live-preview's
+    // bottom edge) to still read as one continuously-rounded panel.
+    border-bottom-left-radius: var(--huesys-radius-lg);
+    border-bottom-right-radius: var(--huesys-radius-lg);
   }
 }

@@ -1,5 +1,14 @@
 import type { BorderRadius, FontSize, FontWeight, Spacing, StyleState, TypographyState } from '../state/appState'
-import { hexToOklch, oklchToHex, pickAccessibleForeground } from './color'
+import {
+  contrastRatio,
+  deriveInteractionShift,
+  deriveSolidSurface,
+  deriveStrongSurface,
+  deriveTintedSurface,
+  neutralScaleMidpoint,
+  pickAccessibleNeutralStep,
+  resolveForeground,
+} from './color'
 import type { ColorScaleStep, Palette } from './color'
 import { resolveFontFamily, resolveFontWeight } from './fonts'
 import type { Theme, ThemeRadius, ThemeSpacing } from './types'
@@ -57,18 +66,30 @@ const FIXED_SHADOWS = { sm: '0 1px 2px rgba(0, 0, 0, 0.05)', md: '0 2px 6px rgba
 const FIXED_BORDER_WIDTH = '1px'
 const FIXED_TRANSITION_FAST = '150ms ease'
 
-// --- Primary hover ------------------------------------------------
+// --- Interaction-state shifts ------------------------------------------------
 
-// Fixed — not a Style concern. Darkens light primaries and lightens dark
-// primaries by the same amount, so hover stays visible either way.
-const PRIMARY_HOVER_SHIFT = 0.08
+// Fixed — not a Style concern. Darkens light surfaces and lightens dark
+// ones by the same amount, so hover/active stay visible either way. Active
+// shifts further than hover in the same direction, so pressed feedback
+// reads as "more of the same," not a different color.
+const HOVER_SHIFT = 0.08
+const ACTIVE_SHIFT = 0.14
 
-function derivePrimaryHover(primaryColor: string): string {
-  const oklch = hexToOklch(primaryColor)
-  const direction = oklch.l > 0.5 ? -1 : 1
-  const l = Math.min(1, Math.max(0, oklch.l + direction * PRIMARY_HOVER_SHIFT))
-  return oklchToHex({ ...oklch, l })
-}
+// --- Disabled surface ------------------------------------------------
+
+// Sits between the neutral scale's `surface` and `border` steps — visibly
+// muted without going as dark as a structural border would look as a
+// fill. `disabledText` reuses the scale's existing 500 step directly (no
+// interpolation needed): dark enough to stay perceivable, light enough to
+// read as de-emphasized.
+const DISABLED_SURFACE_STEP_FROM: ColorScaleStep = 100
+const DISABLED_SURFACE_STEP_TO: ColorScaleStep = 200
+const DISABLED_SURFACE_WEIGHT = 0.6
+// 700, not a lighter/subtler step: the fill (a visibly muted, tinted
+// neutral) is what signals "disabled," not the text itself needing to
+// look faint — disabled content still has to be readable at normal-text
+// contrast against its own (light) disabled fill.
+const DISABLED_TEXT_STEP: ColorScaleStep = 700
 
 // --- Theme assembly ------------------------------------------------
 
@@ -85,8 +106,43 @@ function derivePrimaryHover(primaryColor: string): string {
 export function generateTheme(palette: Palette, typography: TypographyState, style: StyleState, masterColor?: string): Theme {
   const primary = palette.brand.master
   const accent = palette.brand.accentA
+  const neutralScale = palette.neutralScale
+  const background = neutralScale[FIXED_BACKGROUND_STEP]
   const fontSize = FONT_SIZE_SCALE[typography.size]
   const fontWeight = FONT_WEIGHT_SCALE[typography.weight]
+
+  // Secondary: a lower-emphasis treatment *derived from* Primary/Muted,
+  // not an independently-chosen color — see deriveTintedSurface's doc.
+  // Reused by the Secondary Button, Badge's Primary variant, and
+  // Outline/Ghost's hover fill, so all three read as the same "quietly
+  // branded" language instead of each inventing its own tint.
+  const secondarySurface = deriveTintedSurface(palette.brand.muted, neutralScale, primary)
+
+  // Alerts *and* Badge's success/warning/danger/accent variants all use
+  // the calm Tinted tier now — a light surface with a darker
+  // border/text pulled from the same tier, rather than the bolder Strong/
+  // Solid fills those badges used previously. Info deliberately shares
+  // Accent's hue rather than a fixed blue family (see ThemeColors.info doc).
+  const successSurface = deriveTintedSurface(palette.semantic.success, neutralScale)
+  const warningSurface = deriveTintedSurface(palette.semantic.warning, neutralScale)
+  const dangerSurface = deriveTintedSurface(palette.semantic.danger, neutralScale)
+  const infoSurface = deriveTintedSurface(accent, neutralScale)
+  const accentSurface = deriveTintedSurface(accent, neutralScale)
+
+  // The Strong tier (bolder than Tinted) isn't consumed by any component
+  // right now — Badge's success/warning/danger variants moved to Tinted
+  // above — but stays exposed on Theme in case a future treatment wants
+  // a bolder small-surface option again.
+  const successStrong = deriveStrongSurface(palette.semantic.success, neutralScale)
+  const warningStrong = deriveStrongSurface(palette.semantic.warning, neutralScale)
+  const dangerStrong = deriveStrongSurface(palette.semantic.danger, neutralScale)
+
+  // Accent Badge is the one Solid surface allowed to adjust — Primary
+  // can't (the Base Color must stay exact), so it only gets the improved
+  // foreground-direction logic below, never a surface nudge. Kept
+  // alongside `accentSurface` above (not currently consumed by any
+  // component) since a future bold/solid Accent treatment may still want it.
+  const accentSolid = deriveSolidSurface(accent, neutralScale)
 
   return {
     metadata: {
@@ -94,22 +150,57 @@ export function generateTheme(palette: Palette, typography: TypographyState, sty
     },
     colors: {
       primary,
-      primaryHover: derivePrimaryHover(primary),
-      primaryText: pickAccessibleForeground(primary),
+      primaryHover: deriveInteractionShift(primary, HOVER_SHIFT),
+      primaryActive: deriveInteractionShift(primary, ACTIVE_SHIFT),
+      primaryText: resolveForeground(primary, neutralScale),
 
-      background: palette.neutralScale[FIXED_BACKGROUND_STEP],
-      surface: palette.neutralScale[FIXED_SURFACE_STEP],
+      secondary: secondarySurface.background,
+      secondaryHover: deriveInteractionShift(secondarySurface.background, HOVER_SHIFT),
+      secondaryText: secondarySurface.text,
 
-      text: palette.neutralScale[900],
-      textMuted: palette.neutralScale[600],
-      border: palette.neutralScale[FIXED_BORDER_STEP],
+      background,
+      surface: neutralScale[FIXED_SURFACE_STEP],
+      text: neutralScale[900],
+      textMuted: neutralScale[600],
+
+      border: neutralScale[FIXED_BORDER_STEP],
+      borderStrong: pickAccessibleNeutralStep(neutralScale, background),
+
+      disabled: neutralScaleMidpoint(neutralScale, DISABLED_SURFACE_STEP_FROM, DISABLED_SURFACE_STEP_TO, DISABLED_SURFACE_WEIGHT),
+      disabledText: neutralScale[DISABLED_TEXT_STEP],
 
       success: palette.semantic.success,
-      warning: palette.semantic.warning,
-      danger: palette.semantic.danger,
+      successText: successSurface.text,
+      successSurface: successSurface.background,
+      successStrongText: successStrong.text,
+      successStrong: successStrong.background,
 
-      accent,
-      accentText: pickAccessibleForeground(accent),
+      warning: palette.semantic.warning,
+      warningText: warningSurface.text,
+      warningSurface: warningSurface.background,
+      warningStrongText: warningStrong.text,
+      warningStrong: warningStrong.background,
+
+      danger: palette.semantic.danger,
+      dangerText: dangerSurface.text,
+      dangerSurface: dangerSurface.background,
+      dangerStrongText: dangerStrong.text,
+      dangerStrong: dangerStrong.background,
+
+      // Raw accent, not accentSolid — Alert's info border-color must stay
+      // untouched by this pass (see Alert.scss), and deriveTintedSurface
+      // only reads accent's hue/chroma anyway, so which one feeds it here
+      // makes no visual difference to infoSurface/infoText.
+      info: accent,
+      infoText: infoSurface.text,
+      infoSurface: infoSurface.background,
+
+      accent: accentSolid.background,
+      accentText: accentSolid.text,
+      accentSurface: accentSurface.background,
+      accentSurfaceText: accentSurface.text,
+
+      focusRing: contrastRatio(primary, background) >= 3 ? primary : pickAccessibleNeutralStep(neutralScale, background),
     },
     typography: {
       fontFamily: resolveFontFamily(typography.font),

@@ -1,0 +1,23 @@
+@use '../styles/variables' as vars;
+
+// Hidden at wide desktop — Sidebar already shows the wordmark there.
+// Becomes the app's only visible branding once Sidebar hides, same
+// breakpoint TopNav takes over navigation at.
+.mobile-header {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  height: 3.25rem;
+  padding: 0 vars.$space-4;
+  background-color: var(--huesys-color-sidebar-bg);
+
+  svg {
+    display: block;
+    width: 7.75rem;
+    height: auto;
+  }
+
+  @media (max-width: vars.$breakpoint-wide) {
+    display: flex;
+  }
+}

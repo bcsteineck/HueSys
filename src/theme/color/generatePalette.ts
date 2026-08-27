@@ -73,6 +73,7 @@ export function buildPalette(brand: BrandPalette): Palette {
       text: neutralScale[NEUTRAL_DISPLAY_STEPS.text],
     },
     semantic: {
+      info: brand.accentA,
       success: derivePersonalityColor(SUCCESS_OKLCH, masterOklch),
       warning: derivePersonalityColor(WARNING_OKLCH, masterOklch),
       danger: derivePersonalityColor(DANGER_OKLCH, masterOklch),

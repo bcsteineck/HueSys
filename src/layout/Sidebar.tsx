@@ -1,3 +1,4 @@
+import { HueSysLogo } from '../huesys-ui/HueSysLogo'
 import { NavItem } from '../huesys-ui/NavItem'
 import type { ActiveSection } from '../state/appState'
 import { NAV_SECTIONS } from './navSections'
@@ -34,13 +35,7 @@ export function Sidebar({ activeSection, onNavigate }: SidebarProps) {
         </defs>
       </svg>
       <h1 className="sidebar__brand">
-        <span className="sidebar__bracket" aria-hidden="true">
-          {'<'}
-        </span>
-        HueSys
-        <span className="sidebar__bracket" aria-hidden="true">
-          {'/>'}
-        </span>
+        <HueSysLogo />
       </h1>
 
       <span className="sidebar__section-label">Theme</span>

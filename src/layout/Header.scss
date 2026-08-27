@@ -28,4 +28,28 @@
   flex-wrap: wrap;
   gap: vars.$space-2;
   flex-shrink: 0;
+
+  // Below this width the app is already a single-column, normally-
+  // scrolling document (see App.scss) — Undo/Redo/Export leave the header
+  // entirely and dock to a fixed bar at the bottom of the screen instead,
+  // staying reachable without scrolling back up. Undo/Redo stay grouped
+  // on the left via normal flex flow; Export is pushed to the right edge
+  // with an auto margin rather than a separate wrapper element.
+  @media (max-width: vars.$breakpoint-tablet) {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 20;
+    flex-wrap: nowrap;
+    gap: vars.$space-3;
+    padding: vars.$space-3 vars.$space-4;
+    padding-bottom: calc(#{vars.$space-3} + env(safe-area-inset-bottom));
+    background-color: var(--huesys-color-surface);
+    box-shadow: 0 -1px 4px rgb(15 15 30 / 8%);
+
+    > :last-child {
+      margin-left: auto;
+    }
+  }
 }

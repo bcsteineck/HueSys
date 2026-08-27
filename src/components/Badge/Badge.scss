@@ -11,38 +11,47 @@
   white-space: nowrap;
 }
 
+// Neutral uses the neutral border/text tokens directly, rather than a
+// role color — otherwise it follows the exact same shape as every
+// variant below it.
 .badge--neutral {
   background-color: var(--color-surface);
   color: var(--color-text-muted);
   border-color: var(--color-border);
 }
 
+// Every colored variant below shares one formula (see Alert's identical
+// pattern): a light Tint background, with a darker version of the same
+// color carrying both the border and the text — never a separate color
+// for each. Primary reuses the Secondary treatment (see
+// ThemeColors.secondary) so it visibly belongs to Primary without
+// competing with an actual Primary Button.
 .badge--primary {
-  background-color: color-mix(in oklab, var(--color-primary) 12%, var(--color-background));
-  color: var(--color-primary);
-  border-color: color-mix(in oklab, var(--color-primary) 35%, var(--color-background));
+  background-color: var(--color-secondary);
+  color: var(--color-secondary-text);
+  border-color: var(--color-secondary-text);
 }
 
 .badge--accent {
-  background-color: color-mix(in oklab, var(--color-accent) 14%, var(--color-background));
-  color: var(--color-accent);
-  border-color: color-mix(in oklab, var(--color-accent) 40%, var(--color-background));
+  background-color: var(--color-accent-surface);
+  color: var(--color-accent-surface-text);
+  border-color: var(--color-accent-surface-text);
 }
 
 .badge--success {
-  background-color: color-mix(in oklab, var(--color-success) 12%, var(--color-background));
-  color: var(--color-success);
-  border-color: color-mix(in oklab, var(--color-success) 35%, var(--color-background));
+  background-color: var(--color-success-surface);
+  color: var(--color-success-text);
+  border-color: var(--color-success-text);
 }
 
 .badge--warning {
-  background-color: color-mix(in oklab, var(--color-warning) 15%, var(--color-background));
-  color: var(--color-warning);
-  border-color: color-mix(in oklab, var(--color-warning) 40%, var(--color-background));
+  background-color: var(--color-warning-surface);
+  color: var(--color-warning-text);
+  border-color: var(--color-warning-text);
 }
 
 .badge--danger {
-  background-color: color-mix(in oklab, var(--color-danger) 12%, var(--color-background));
-  color: var(--color-danger);
-  border-color: color-mix(in oklab, var(--color-danger) 35%, var(--color-background));
+  background-color: var(--color-danger-surface);
+  color: var(--color-danger-text);
+  border-color: var(--color-danger-text);
 }

@@ -25,12 +25,15 @@
   @include mixins.huesys-label;
 }
 
-// Five swatches at wide widths, reflowing to fewer columns as the Options
-// Panel narrows — never overflowing and never shrinking swatches below a
-// usable size. Color order is preserved by grid's natural reading order.
+// Swatches wrap as the Options Panel narrows, rather than stretching to
+// fill it — a fixed-size square reads as "a color chip," not a variable-
+// width bar, and a short row (e.g. Semantic Palette's four) shouldn't
+// stretch to match a longer one's width. flex-start keeps them packed to
+// the leading edge instead of spreading out to fill leftover space.
 .generated-palette__row {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(3rem, 1fr));
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
   gap: 1rem;
 }
 
@@ -48,15 +51,18 @@
 .palette-swatch {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-start;
   gap: vars.$space-1;
-  min-width: 0;
+  // Fixed, not flex/grid-stretched: swatches are always a 1:1 square (see
+  // aspect-ratio below) regardless of how many share a row.
+  width: 3.125rem;
+  flex-shrink: 0;
 }
 
 .palette-swatch__button {
   position: relative;
   width: 100%;
-  height: 3.125rem;
+  aspect-ratio: 1 / 1;
   padding: 0;
   border: none;
   border-radius: var(--huesys-radius-sm);
@@ -94,7 +100,7 @@
 
 .palette-swatch__label {
   font-family: var(--huesys-font-family);
-  font-size: var(--huesys-font-size-sm);
+  font-size: var(--huesys-font-size-xs);
   color: var(--huesys-color-text-muted);
   text-align: center;
 }

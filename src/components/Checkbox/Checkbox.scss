@@ -24,12 +24,21 @@
   width: 1.125rem;
   height: 1.125rem;
   margin: 0;
+  // Quiet by default — see field-base's identical reasoning: an unchecked
+  // box is also identifiable by its shape, fill, and adjacent label, so it
+  // doesn't need guardrail-strength border contrast to be perceivable.
+  // Checked emphasis comes from the Primary fill below, not from the
+  // unchecked border being dark.
   border: var(--border-width) solid var(--color-border);
   border-radius: var(--radius-sm);
   background-color: var(--color-background);
   transition:
     background-color var(--transition-fast),
     border-color var(--transition-fast);
+
+  &:hover:not(:disabled):not(:checked) {
+    border-color: var(--color-border-strong);
+  }
 
   &::before {
     content: '';
