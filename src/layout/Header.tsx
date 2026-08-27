@@ -7,13 +7,12 @@ export interface HeaderProps {
   canRedo: boolean
   onUndo: () => void
   onRedo: () => void
+  /** Opens the Export dialog. Header only knows it has an Export action — the current Theme/typography data the dialog needs lives in App.tsx, not here. */
+  onOpenExport: () => void
 }
 
-/**
- * Fixed HueSys application chrome. Export is visually present in its
- * Figma position but stays disabled — the Export Engine is a later phase.
- */
-export function Header({ canUndo, canRedo, onUndo, onRedo }: HeaderProps) {
+/** Fixed HueSys application chrome. */
+export function Header({ canUndo, canRedo, onUndo, onRedo, onOpenExport }: HeaderProps) {
   return (
     <header className="app-header">
       <p className="app-header__tagline">Build and export a React design system from a color palette.</p>
@@ -26,12 +25,7 @@ export function Header({ canUndo, canRedo, onUndo, onRedo }: HeaderProps) {
           <RedoIcon />
           Redo
         </HueSysButton>
-        <HueSysButton
-          variant="special"
-          disabled
-          aria-label="Export (not yet available)"
-          title="Export (not yet available)"
-        >
+        <HueSysButton variant="special" onClick={onOpenExport}>
           <ExportIcon />
           Export
         </HueSysButton>

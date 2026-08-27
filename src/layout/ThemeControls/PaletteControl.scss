@@ -1,4 +1,4 @@
-@use '../../styles/mixins';
+@use '../../styles/huesys-mixins';
 
 .palette-control {
   display: flex;
@@ -13,7 +13,7 @@
 }
 
 .palette-control__label {
-  @include mixins.huesys-label;
+  @include huesys-mixins.huesys-label;
 }
 
 .palette-control__base-row {

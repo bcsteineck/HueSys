@@ -1,4 +1,4 @@
-@use '../../styles/mixins';
+@use '../../styles/huesys-mixins';
 @use '../../styles/variables' as vars;
 
 .generated-palette {
@@ -11,7 +11,7 @@
 // hidden visually — "Generated Palette" as a heading isn't needed
 // visually once the Brand/Neutral Palette labels below it carry that.
 .generated-palette__title {
-  @include mixins.sr-only;
+  @include huesys-mixins.sr-only;
 }
 
 .generated-palette__group {
@@ -22,7 +22,7 @@
 
 .generated-palette__label {
   margin: 0;
-  @include mixins.huesys-label;
+  @include huesys-mixins.huesys-label;
 }
 
 // Swatches wrap as the Options Panel narrows, rather than stretching to
@@ -40,7 +40,7 @@
 // Visually hidden but still announced by screen readers — copy feedback
 // shouldn't depend on being able to see the overlay text change.
 .generated-palette__announcer {
-  @include mixins.sr-only;
+  @include huesys-mixins.sr-only;
 }
 
 // --- Individual swatch ---------------------------------------------------

@@ -1,4 +1,4 @@
-@use '../../styles/mixins';
+@use '../../styles/huesys-mixins';
 
 .typography-control {
   display: flex;
@@ -13,5 +13,5 @@
 }
 
 .typography-control__field-label {
-  @include mixins.huesys-label;
+  @include huesys-mixins.huesys-label;
 }

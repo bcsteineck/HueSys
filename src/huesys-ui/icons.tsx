@@ -14,6 +14,7 @@ import {
   Palette,
   Type,
   SquareRoundCorner,
+  X,
   type LucideProps,
 } from 'lucide-react'
 
@@ -49,4 +50,8 @@ export function TypographyIcon(props: LucideProps) {
 
 export function StyleIcon(props: LucideProps) {
   return <SquareRoundCorner size={ICON_SIZE} {...props} />
+}
+
+export function CloseIcon(props: LucideProps) {
+  return <X size={ICON_SIZE} {...props} />
 }

@@ -1,20 +1,8 @@
-@use './variables' as vars;
-
-// Hides content visually while keeping it in the accessibility tree —
-// `display: none`/`visibility: hidden` would remove it from both. Use for
-// text that only needs to exist for screen readers (e.g. a heading that
-// gives a section landmark meaning, or a live-region announcement).
-@mixin sr-only {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  white-space: nowrap;
-  border: 0;
-}
+// Generated/exportable component library only — every mixin here is
+// consumed exclusively by src/components/*. Kept free of any --huesys-*
+// token so this file can be reused verbatim (raw-imported) by the Export
+// Engine. HueSys application-only mixins (sr-only, huesys-label) live in
+// styles/_huesys-mixins.scss instead.
 
 // Every interactive component uses this exact focus treatment, so focus
 // states stay visibly consistent across the whole library. --color-focus-
@@ -87,16 +75,4 @@
   &[aria-invalid='true']:focus-visible {
     border-color: var(--color-danger);
   }
-}
-
-// HueSys UI only (fixed --huesys-* tokens) — the small uppercase section
-// label used above Color Mode, Base Color, Brand Palette, Neutral
-// Palette, etc. throughout the Options Panel.
-@mixin huesys-label {
-  font-family: var(--huesys-font-family);
-  font-size: var(--huesys-font-size-sm);
-  font-weight: var(--huesys-font-weight-semibold);
-  letter-spacing: 0.03em;
-  text-transform: uppercase;
-  color: var(--huesys-color-text-muted);
 }

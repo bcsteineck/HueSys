@@ -1,0 +1,136 @@
+// HueSys application chrome — fixed --huesys-* tokens only, never the
+// generated Theme. This dialog's appearance must stay identical no matter
+// what Colors/Typography/Style the user has generated.
+.export-dialog {
+  width: min(28rem, calc(100vw - 2rem));
+  max-width: 100%;
+  max-height: min(32rem, calc(100vh - 4rem));
+  padding: 0;
+  border: none;
+  border-radius: var(--huesys-radius-lg);
+  box-shadow: var(--huesys-shadow-md);
+  background-color: var(--huesys-color-surface);
+  color: var(--huesys-color-text);
+  font-family: var(--huesys-font-family);
+
+  &::backdrop {
+    background-color: rgb(15 15 30 / 45%);
+  }
+}
+
+.export-dialog__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 1.25rem 1.25rem 0.75rem;
+}
+
+.export-dialog__title {
+  margin: 0;
+  font-size: var(--huesys-font-size-lg);
+  font-weight: var(--huesys-font-weight-semibold);
+}
+
+.export-dialog__close {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  flex-shrink: 0;
+  border: none;
+  border-radius: var(--huesys-radius-sm);
+  background: transparent;
+  color: var(--huesys-color-text-muted);
+  cursor: pointer;
+
+  &:hover {
+    background-color: var(--huesys-color-bg);
+    color: var(--huesys-color-text);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--huesys-color-primary);
+    outline-offset: 2px;
+  }
+}
+
+.export-dialog__options {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding: 0.5rem 1.25rem 1.25rem;
+}
+
+.export-dialog__option {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.5rem;
+  padding: 1rem;
+  border: var(--huesys-border-width) solid var(--huesys-color-border);
+  border-radius: var(--huesys-radius-md);
+}
+
+.export-dialog__option-title {
+  margin: 0;
+  font-size: var(--huesys-font-size-base);
+  font-weight: var(--huesys-font-weight-semibold);
+}
+
+.export-dialog__option-description {
+  margin: 0;
+  font-size: var(--huesys-font-size-sm);
+  color: var(--huesys-color-text-muted);
+}
+
+.export-dialog__action {
+  align-self: stretch;
+  min-height: 2.5rem;
+  margin-top: 0.25rem;
+  border: none;
+  border-radius: var(--huesys-radius-sm);
+  background-color: var(--huesys-color-primary);
+  color: var(--huesys-color-primary-text);
+  font-family: var(--huesys-font-family);
+  font-size: var(--huesys-font-size-base);
+  font-weight: var(--huesys-font-weight-semibold);
+  cursor: pointer;
+  transition: background-color var(--huesys-transition-fast);
+
+  &:hover:not(:disabled) {
+    background-color: var(--huesys-color-primary-hover);
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+    background-color: var(--huesys-color-bg);
+    color: var(--huesys-color-text-muted);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--huesys-color-primary);
+    outline-offset: 2px;
+  }
+}
+
+.export-dialog__error {
+  margin: 0 1.25rem 1.25rem;
+  padding: 0.75rem;
+  border-radius: var(--huesys-radius-sm);
+  background-color: var(--huesys-color-bg);
+  color: var(--huesys-color-text);
+  font-size: var(--huesys-font-size-sm);
+}
+
+.export-dialog__retry {
+  border: none;
+  background: transparent;
+  color: var(--huesys-color-primary);
+  font: inherit;
+  font-weight: var(--huesys-font-weight-semibold);
+  cursor: pointer;
+  padding: 0;
+  text-decoration: underline;
+}

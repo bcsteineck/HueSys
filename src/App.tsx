@@ -1,10 +1,11 @@
-import type { CSSProperties } from 'react'
+import { useState, type CSSProperties } from 'react'
 import { Header } from './layout/Header'
 import { MobileHeader } from './layout/MobileHeader'
 import { Sidebar } from './layout/Sidebar'
 import { TopNav } from './layout/TopNav'
 import { OptionsPanel } from './layout/OptionsPanel'
 import { LivePreview } from './layout/LivePreview'
+import { ExportDialog } from './huesys-ui/ExportDialog'
 import { buildPalette } from './theme/color'
 import { generateTheme } from './theme/generateTheme'
 import { themeToCssVariables } from './theme/cssVariables'
@@ -15,6 +16,7 @@ import './App.scss'
 
 function App() {
   const { state, updateState, undo, redo, canUndo, canRedo } = useAppState()
+  const [exportOpen, setExportOpen] = useState(false)
 
   const brand = activeBrandPalette(state.color)
   const palette = buildPalette(brand)
@@ -39,13 +41,14 @@ function App() {
       <Sidebar activeSection={state.activeSection} onNavigate={handleNavigate} />
       <div className="workspace">
         <MobileHeader />
-        <Header canUndo={canUndo} canRedo={canRedo} onUndo={undo} onRedo={redo} />
+        <Header canUndo={canUndo} canRedo={canRedo} onUndo={undo} onRedo={redo} onOpenExport={() => setExportOpen(true)} />
         <TopNav activeSection={state.activeSection} onNavigate={handleNavigate} />
         <div className="workspace__content">
           <OptionsPanel state={state} palette={palette} updateState={updateState} />
           <LivePreview previewStyle={previewStyle} />
         </div>
       </div>
+      <ExportDialog open={exportOpen} onClose={() => setExportOpen(false)} theme={theme} fontId={state.typography.font} />
     </div>
   )
 }
