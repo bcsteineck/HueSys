@@ -10,9 +10,17 @@
   font-weight: var(--font-weight-body);
   color: var(--color-text);
 
+  // Dedicated disabled tokens, not opacity — same approach field-base
+  // (Input/Textarea/Select) already uses. A flat opacity fade barely
+  // changed an already-quiet off-state track, making a genuinely
+  // disabled switch nearly indistinguishable from one that's simply
+  // switched off; --color-disabled is deliberately a *flatter* neutral
+  // (its border and fill land close in lightness — see .switch__input's
+  // own :disabled rule below), so the whole control recedes instead of
+  // just dimming uniformly.
   &:has(:disabled) {
     cursor: not-allowed;
-    opacity: 0.6;
+    color: var(--color-disabled-text);
   }
 }
 
@@ -23,32 +31,26 @@
   width: 2.25rem;
   height: 1.25rem;
   margin: 0;
-  // Quiet by default — see Checkbox's identical reasoning: emphasis comes
-  // from the Primary fill when On, not from the Off track border being
-  // dark.
-  border: var(--border-width) solid var(--color-border);
+  // No border, on purpose: a solid Off track (the 2nd-darkest step of the
+  // generated Neutral Palette — clearly a "toggle," not a pale outline
+  // easily mistaken for disabled) carries the resting state by itself.
+  border: none;
   // A switch's pill shape is its semantic signal ("on/off toggle" vs. a
   // checkbox's "choose many") — like Radio's circle, it deliberately does
   // not follow the generated radius scale. 9999px (not 50%) guarantees a
   // full pill regardless of the track's own width/height.
   border-radius: 9999px;
-  background-color: var(--color-surface);
-  transition:
-    background-color var(--transition-fast),
-    border-color var(--transition-fast);
-
-  &:hover:not(:disabled):not(:checked) {
-    border-color: var(--color-border-strong);
-  }
+  background-color: var(--color-text-muted);
+  transition: background-color var(--transition-fast);
 
   &::before {
     content: '';
     position: absolute;
     // top: 50% + translateY(-50%), not a fixed top offset: a fixed offset
-    // has to be hand-tuned against the track's exact height/border-width
-    // and drifts out of true center the moment either changes. This stays
-    // centered regardless. translateY is folded into the same transform
-    // as the checked-state translateX below so the slide animation doesn't
+    // has to be hand-tuned against the track's exact height and drifts out
+    // of true center the moment it changes. This stays centered
+    // regardless. translateY is folded into the same transform as the
+    // checked-state translateX below so the slide animation doesn't
     // clobber it.
     top: 50%;
     left: 0.15rem;
@@ -56,7 +58,10 @@
     height: 0.85rem;
     // A perfect circle, same fixed-shape reasoning as the track above.
     border-radius: 50%;
-    background-color: var(--color-background);
+    // Always literal white, on/off/checked alike — not resolved per
+    // track color, so the thumb reads as one consistent physical piece
+    // regardless of which color is currently behind it.
+    background-color: #fff;
     box-shadow: var(--shadow-sm);
     transform: translateY(-50%);
     transition: transform var(--transition-fast);
@@ -64,20 +69,18 @@
 
   &:checked {
     background-color: var(--color-primary);
-    border-color: var(--color-primary);
   }
 
   &:checked::before {
     transform: translateY(-50%) translateX(1rem);
-    // Centrally resolved against --color-primary (see resolveForeground),
-    // not hardcoded — same mechanism Checkbox's checkmark and Radio's dot
-    // use, so a light Primary gets a dark thumb and a dark Primary gets a
-    // light one automatically.
-    background-color: var(--color-primary-text);
   }
 
+  // Disabled uses its own flatter, paler fill — clearly lighter than the
+  // Off track's solid --color-text-muted — so it reads as "receded,"
+  // never confusable with a merely switched-off control.
   &:disabled {
     cursor: not-allowed;
+    background-color: var(--color-disabled);
   }
 
   @include mixins.focus-ring;

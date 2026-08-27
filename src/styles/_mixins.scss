@@ -38,7 +38,7 @@
   font-size: var(--font-size-base);
   font-weight: var(--font-weight-body);
   color: var(--color-text);
-  background-color: var(--color-background);
+  background-color: var(--color-field-background);
   // Quiet by default: the field is also identifiable by its background,
   // shape, and adjacent label, so resting-state contrast doesn't need to
   // carry the whole burden (WCAG 1.4.11 is about the boundary being

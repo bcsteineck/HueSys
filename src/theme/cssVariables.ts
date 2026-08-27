@@ -16,6 +16,7 @@ export function themeToCssVariables(theme: Theme): Record<string, string> {
     '--color-secondary-text': theme.colors.secondaryText,
 
     '--color-background': theme.colors.background,
+    '--color-field-background': theme.colors.fieldBackground,
     '--color-surface': theme.colors.surface,
     '--color-text': theme.colors.text,
     '--color-text-muted': theme.colors.textMuted,

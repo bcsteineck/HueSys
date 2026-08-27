@@ -23,6 +23,8 @@ export interface ThemeColors {
   secondaryText: string
 
   background: string
+  /** Input/Textarea/Select's own background — lightened ~50% of the way from `background` toward white, since fields sit directly against the (truly white) Live Preview canvas rather than a Card-like surface. */
+  fieldBackground: string
   surface: string
   text: string
   /** Secondary text — placeholders, helper text, muted labels. */

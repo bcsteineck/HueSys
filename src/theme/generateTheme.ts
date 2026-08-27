@@ -5,7 +5,9 @@ import {
   deriveSolidSurface,
   deriveStrongSurface,
   deriveTintedSurface,
+  hexToOklch,
   neutralScaleMidpoint,
+  oklchToHex,
   pickAccessibleNeutralStep,
   resolveForeground,
 } from './color'
@@ -61,7 +63,12 @@ const SPACING_SCALE: Record<Spacing, ThemeSpacing> = {
 // the previous "Minimal" Style used, so the default look is unchanged.
 const FIXED_BACKGROUND_STEP: ColorScaleStep = 50
 const FIXED_SURFACE_STEP: ColorScaleStep = 100
-const FIXED_BORDER_STEP: ColorScaleStep = 200
+// 300, not 200 — resting borders (fields, unchecked Checkbox/Radio,
+// off Switch) were nearly invisible against the equally-light 50/100
+// background/surface steps. One step darker keeps it clearly a "quiet"
+// border (borderStrong's guaranteed-3:1 hover tier lands much further
+// down the scale, around 600, so the two stay well separated).
+const FIXED_BORDER_STEP: ColorScaleStep = 300
 const FIXED_SHADOWS = { sm: '0 1px 2px rgba(0, 0, 0, 0.05)', md: '0 2px 6px rgba(0, 0, 0, 0.06)' }
 const FIXED_BORDER_WIDTH = '1px'
 const FIXED_TRANSITION_FAST = '150ms ease'
@@ -108,6 +115,22 @@ export function generateTheme(palette: Palette, typography: TypographyState, sty
   const accent = palette.brand.accentA
   const neutralScale = palette.neutralScale
   const background = neutralScale[FIXED_BACKGROUND_STEP]
+
+  // Input/Textarea/Select's own background — lightened halfway from
+  // `background` toward literal white. Even `background` itself (already
+  // the lightest generated neutral step) reads as visibly grayish once
+  // it's the fill of a small field sitting directly against the truly
+  // white Live Preview canvas around it; halving both the remaining
+  // lightness gap and the chroma keeps it a genuine (if faint) neutral
+  // rather than jumping straight to a hardcoded white. Scoped to fields
+  // via their own token — Card and the page background are untouched.
+  const backgroundOklch = hexToOklch(background)
+  const fieldBackground = oklchToHex({
+    l: backgroundOklch.l + (1 - backgroundOklch.l) * 0.5,
+    c: backgroundOklch.c * 0.5,
+    h: backgroundOklch.h,
+  })
+
   const fontSize = FONT_SIZE_SCALE[typography.size]
   const fontWeight = FONT_WEIGHT_SCALE[typography.weight]
 
@@ -159,6 +182,7 @@ export function generateTheme(palette: Palette, typography: TypographyState, sty
       secondaryText: secondarySurface.text,
 
       background,
+      fieldBackground,
       surface: neutralScale[FIXED_SURFACE_STEP],
       text: neutralScale[900],
       textMuted: neutralScale[600],
