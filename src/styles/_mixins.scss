@@ -1,14 +1,3 @@
-// Generated/exportable component library only — every mixin here is
-// consumed exclusively by src/components/*. Kept free of any --huesys-*
-// token so this file can be reused verbatim (raw-imported) by the Export
-// Engine. HueSys application-only mixins (sr-only, huesys-label) live in
-// styles/_huesys-mixins.scss instead.
-
-// Every interactive component uses this exact focus treatment, so focus
-// states stay visibly consistent across the whole library. --color-focus-
-// ring is Primary when Primary reads clearly against the page background,
-// otherwise a guaranteed-visible neutral fallback — resolved centrally in
-// Theme generation, never decided here.
 @mixin focus-ring {
   &:focus-visible {
     outline: 2px solid var(--color-focus-ring);
@@ -16,10 +5,6 @@
   }
 }
 
-// Shared base for text-entry controls (Input, Textarea, Select): border,
-// radius, padding, transitions, disabled and error states all come from
-// here so the three fields are visually identical apart from their own
-// specifics.
 @mixin field-base {
   width: 100%;
   font-family: var(--font-family);
@@ -27,14 +12,6 @@
   font-weight: var(--font-weight-body);
   color: var(--color-text);
   background-color: var(--color-field-background);
-  // Quiet by default: the field is also identifiable by its background,
-  // shape, and adjacent label, so resting-state contrast doesn't need to
-  // carry the whole burden (WCAG 1.4.11 is about the boundary being
-  // *perceivable*, not about maximizing contrast everywhere it's legal
-  // to). --color-border-strong is reserved for hover, one deliberate step
-  // "this is getting more interactive" before the dedicated focus/error
-  // treatments below — using it here too would make every field look
-  // outlined all the time instead of only when it matters.
   border: var(--border-width) solid var(--color-border);
   border-radius: var(--radius-md);
   padding: var(--space-2) var(--space-3);
@@ -62,16 +39,10 @@
   @include focus-ring;
 
   &:focus-visible {
-    // --color-focus-ring, not the raw --color-primary: same reasoning as
-    // Button's Outline/Ghost text — this needs to stay visible against
-    // the field's own light surface even when Primary itself is too
-    // light to read there.
     border-color: var(--color-focus-ring);
   }
 
-  // A focused error field must keep signaling "error," not just "focused"
-  // — this compound selector's higher specificity is what makes it win
-  // over the plain :focus-visible rule above, regardless of source order.
+  // Higher specificity than the plain :focus-visible rule above wins regardless of source order.
   &[aria-invalid='true']:focus-visible {
     border-color: var(--color-danger);
   }

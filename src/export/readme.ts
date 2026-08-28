@@ -28,6 +28,8 @@ Your project needs:
 
 This is not an npm package. Copy the \`components/\`, \`styles/\`, and \`index.ts\` into your project (e.g. as \`src/huesys-components/\`) and import from there.
 
+If you open this folder on its own — before copying it into a project — your editor may show errors like \`Cannot find module 'react/jsx-runtime'\` or \`JSX.IntrinsicElements\`. That's expected: this folder intentionally ships without its own \`package.json\` or TypeScript config, so nothing here declares a React/TypeScript environment on its own. The errors resolve once the files are inside a project with React, TypeScript, and \`@types/react\` installed.
+
 ## Using the theme
 
 Import \`styles/theme.css\` once, near your app's entry point, before any component renders:

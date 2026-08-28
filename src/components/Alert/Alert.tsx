@@ -5,17 +5,13 @@ export type AlertVariant = 'info' | 'success' | 'warning' | 'danger'
 
 export interface AlertProps extends Omit<HTMLAttributes<HTMLDivElement>, 'title'> {
   variant?: AlertVariant
-  /** Bold heading — every Alert has one; the semantic icon and title share the same row. */
   title: string
-  /** Supporting copy shown below the title. */
   children?: ReactNode
-  /** Called after the alert dismisses itself via the close button. */
+  /** Fires after the alert has already dismissed itself. */
   onClose?: () => void
 }
 
-// Urgent variants interrupt screen readers immediately (role="alert");
-// informational ones announce politely (role="status") without stealing
-// focus from whatever the user was doing.
+// Urgent variants use role="alert" (interrupts screen readers); others use role="status" (announces politely).
 const URGENT_VARIANTS: AlertVariant[] = ['warning', 'danger']
 
 export function Alert({ variant = 'info', title, children, onClose, className, ...rest }: AlertProps) {

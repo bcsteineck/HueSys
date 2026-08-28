@@ -24,13 +24,8 @@
   width: 1.125rem;
   height: 1.125rem;
   margin: 0;
-  // Quiet by default — see Checkbox's identical reasoning: emphasis comes
-  // from the Primary fill on selection, not from the unselected border
-  // being dark.
   border: var(--border-width) solid var(--color-border);
-  // A radio's circular shape is its semantic signal ("choose one" vs. a
-  // checkbox's "choose many") — unlike other components it deliberately
-  // does not follow the recipe's radius style.
+  // Circular shape signals "choose one," so it doesn't follow the generated radius scale.
   border-radius: 50%;
   background-color: var(--color-background);
   transition:

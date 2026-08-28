@@ -5,9 +5,7 @@
   display: inline-block;
   width: 100%;
 
-  // Custom chevron, colored via mask so it stays theme-aware instead of a
-  // hardcoded icon color. Native select arrows look inconsistent across
-  // browsers/OS, so we replace it rather than leaving appearance: auto.
+  // Custom chevron: native select arrows render inconsistently across browsers/OS.
   &::after {
     content: '';
     position: absolute;

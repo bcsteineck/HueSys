@@ -12,8 +12,6 @@
     background-color var(--transition-fast),
     border-color var(--transition-fast);
 
-  // Neutral, not a dimmed version of whichever variant was disabled — a
-  // disabled Primary button shouldn't still read as "primary, just faded."
   &:disabled {
     cursor: not-allowed;
     background-color: var(--color-disabled);
@@ -37,9 +35,6 @@
   }
 }
 
-// Secondary is a *treatment* — a lower-emphasis surface derived from
-// Primary/Muted (see ThemeColors.secondary) — not gray and not Accent.
-// Reused verbatim by Badge's Primary variant for the same reason.
 .button--secondary {
   background-color: var(--color-secondary);
   color: var(--color-secondary-text);
@@ -53,13 +48,7 @@
   }
 }
 
-// color/border-color use --color-secondary-text, not the raw
-// --color-primary directly: secondaryText already resolves to Primary
-// itself whenever Primary reads legibly on a light surface (the ordinary
-// case, so this looks identical to using --color-primary directly), but
-// falls back to a safe alternative when Primary is too light to read as
-// text/border against the page — a real failure otherwise, not a
-// hypothetical one (a pastel-yellow Primary is invisible here without it).
+// --color-secondary-text, not --color-primary: stays legible even when Primary itself is too light to read as text.
 .button--outline {
   background-color: transparent;
   color: var(--color-secondary-text);

@@ -7,21 +7,12 @@
   font-size: var(--font-size-base);
   font-weight: var(--font-weight-body);
   color: var(--color-text);
-  // White/near-white, not --color-surface: Card is a quiet, content-first
-  // container — its content (Buttons, Badges, selection states) should
-  // provide the visual personality, not the container itself. Separation
-  // comes mainly from the shadow below; --color-surface (one step above
-  // background) is enough of a boundary on its own without also reaching
-  // for --color-border's stronger, functional-boundary contrast.
   background-color: var(--color-background);
   border: var(--border-width) solid var(--color-surface);
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-sm);
   padding: var(--space-5);
 
-  // Reset default heading/paragraph margins so vertical spacing between
-  // children comes from the flex gap above, consistently, regardless of
-  // what a consumer puts inside.
   h1,
   h2,
   h3,

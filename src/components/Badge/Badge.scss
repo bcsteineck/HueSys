@@ -11,21 +11,12 @@
   white-space: nowrap;
 }
 
-// Neutral uses the neutral border/text tokens directly, rather than a
-// role color — otherwise it follows the exact same shape as every
-// variant below it.
 .badge--neutral {
   background-color: var(--color-surface);
   color: var(--color-text-muted);
   border-color: var(--color-border);
 }
 
-// Every colored variant below shares one formula (see Alert's identical
-// pattern): a light Tint background, with a darker version of the same
-// color carrying both the border and the text — never a separate color
-// for each. Primary reuses the Secondary treatment (see
-// ThemeColors.secondary) so it visibly belongs to Primary without
-// competing with an actual Primary Button.
 .badge--primary {
   background-color: var(--color-secondary);
   color: var(--color-secondary-text);

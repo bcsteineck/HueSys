@@ -3,19 +3,10 @@
 .alert {
   display: flex;
   flex-direction: column;
-  // Figma's spec uses a literal 10px row gap here (vs. the 12px/16px
-  // elsewhere that line up exactly with --space-3/--space-4) — 8px is the
-  // closest step on our shared scale, so this stays theme-reactive rather
-  // than opting out of the user's Spacing setting for one pixel-perfect
-  // value.
   gap: var(--space-2);
   font-family: var(--font-family);
   font-size: var(--font-size-base);
   font-weight: var(--font-weight-body);
-  // Neutral text color, not semantic — the title and close button read
-  // this via `inherit`/`currentColor`. Only the border and icon (each
-  // overridden per variant below) carry the semantic color; a literal
-  // white background is common to every variant.
   color: var(--color-text);
   background-color: #ffffff;
   padding: var(--space-4);
@@ -24,11 +15,6 @@
   box-shadow: var(--shadow-md);
 }
 
-// Each variant overrides only the border color and the icon's fill — the
-// semantic color's one job here — leaving background/title/close neutral
-// and shared. Info derives from the palette's Accent hue rather than a
-// fixed blue family, so it feels related to an Accent Badge without being
-// identical.
 .alert--info {
   border-color: var(--color-info);
 }
@@ -78,11 +64,6 @@
   }
 }
 
-// Icons are rendered exactly like Checkbox's checkmark and Select's
-// chevron — a `mask-image` data URI colored via `background-color`. Color
-// is set per variant below (not `currentColor`) since the icon is the one
-// element besides the border that carries the semantic color while title/
-// close stay neutral.
 .alert__icon {
   flex-shrink: 0;
   width: 1.25rem;
