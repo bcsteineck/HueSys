@@ -649,8 +649,8 @@ Radius options:
 ```text
 Sharp
 Subtle
-Rounded
 Soft
+Rounded
 ```
 
 Each option maps to a generated radius scale.

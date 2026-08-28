@@ -29,8 +29,26 @@ function parseFontWeight(value: string | null): FontWeight {
   return value === 'regular' || value === 'medium' || value === 'semibold' ? value : defaultAppState.typography.weight
 }
 
+// The `radius` URL parameter's serialized vocabulary is intentionally
+// frozen to what it has always meant (independent of BorderRadius's
+// current internal/UI names) — this is what lets a URL created before the
+// Soft/Rounded naming correction keep reproducing the exact radius it
+// always did, rather than silently flipping to the opposite treatment.
+const RADIUS_FROM_URL: Record<string, BorderRadius> = {
+  sharp: 'sharp',
+  subtle: 'subtle',
+  rounded: 'soft',
+  soft: 'rounded',
+}
+const RADIUS_TO_URL: Record<BorderRadius, string> = {
+  sharp: 'sharp',
+  subtle: 'subtle',
+  soft: 'rounded',
+  rounded: 'soft',
+}
+
 function parseRadius(value: string | null): BorderRadius {
-  return value === 'sharp' || value === 'subtle' || value === 'rounded' || value === 'soft' ? value : defaultAppState.style.radius
+  return (value !== null && RADIUS_FROM_URL[value]) || defaultAppState.style.radius
 }
 
 function parseSpacing(value: string | null): Spacing {
@@ -110,7 +128,7 @@ export function writeStateToUrl(state: AppState, mode: 'push' | 'replace') {
     font: state.typography.font,
     size: state.typography.size,
     weight: state.typography.weight,
-    radius: state.style.radius,
+    radius: RADIUS_TO_URL[state.style.radius],
     spacing: state.style.spacing,
   })
   // Base Color and variation only apply in Palette mode — Custom mode has

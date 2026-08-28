@@ -312,8 +312,8 @@ Options:
 
 - Sharp
 - Subtle
-- Rounded
 - Soft
+- Rounded
 
 ### Spacing
 
@@ -797,8 +797,8 @@ Options:
 ```text
 Sharp
 Subtle
-Rounded
 Soft
+Rounded
 ```
 
 Each produces an appropriate radius scale.

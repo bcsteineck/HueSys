@@ -753,8 +753,8 @@ Border Radius options:
 ```text
 Sharp
 Subtle
-Rounded
 Soft
+Rounded
 ```
 
 Each option defines a radius scale.
@@ -768,10 +768,10 @@ sm / md / lg → very little or no radius
 Subtle
 sm / md / lg → restrained radius
 
-Rounded
+Soft
 sm / md / lg → clearly rounded
 
-Soft
+Rounded
 sm / md / lg → generous radius
 ```
 

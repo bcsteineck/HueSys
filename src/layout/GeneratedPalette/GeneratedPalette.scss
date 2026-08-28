@@ -46,7 +46,7 @@
 // --- Individual swatch ---------------------------------------------------
 // This is HueSys application UI (it lives in the Options Panel, not Live
 // Preview) even though the colors it displays came from the generated
-// Theme — its own chrome (radius, focus ring, overlay type) stays fixed.
+// Theme — its own chrome (radius, focus ring, tooltip) stays fixed.
 
 .palette-swatch {
   display: flex;
@@ -60,13 +60,11 @@
 }
 
 .palette-swatch__button {
-  position: relative;
   width: 100%;
   aspect-ratio: 1 / 1;
   padding: 0;
   border: none;
   border-radius: var(--huesys-radius-sm);
-  overflow: hidden;
   cursor: pointer;
 
   &:focus-visible {
@@ -75,27 +73,26 @@
   }
 }
 
-.palette-swatch__overlay {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: vars.$space-1;
-  font-size: 0.625rem;
+// Fixed (not absolute) so it's positioned from the swatch's actual
+// viewport coordinates, computed in PaletteSwatch.tsx — this is what lets
+// it render above the Options Panel's scrollable container instead of
+// being clipped by it. Centered on, and offset above, the swatch via
+// transform rather than JS measuring the tooltip's own width.
+.palette-swatch__tooltip {
+  position: fixed;
+  transform: translate(-50%, calc(-100% - 0.375rem));
+  z-index: 50;
+  padding: 0.25rem 0.5rem;
+  border: var(--huesys-border-width) solid var(--huesys-color-border);
+  border-radius: var(--huesys-radius-sm);
+  background-color: var(--huesys-color-surface);
+  color: var(--huesys-color-text);
   font-family: var(--huesys-font-family);
-  color: #fff;
-  text-align: center;
-  background-color: rgb(0 0 0 / 55%);
-  opacity: 0;
-  transition: opacity var(--huesys-transition-fast);
+  font-size: 0.75rem;
+  font-weight: var(--huesys-font-weight-medium);
+  white-space: nowrap;
+  box-shadow: var(--huesys-shadow-sm);
   pointer-events: none;
-}
-
-.palette-swatch__button:hover .palette-swatch__overlay,
-.palette-swatch__button:focus-visible .palette-swatch__overlay,
-.palette-swatch__button--copied .palette-swatch__overlay {
-  opacity: 1;
 }
 
 .palette-swatch__label {

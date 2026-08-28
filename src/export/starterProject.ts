@@ -127,7 +127,7 @@ body {
   font-size: var(--font-size-base);
   font-weight: var(--font-weight-body);
   color: var(--color-text);
-  background-color: var(--color-background);
+  background-color: #fff;
 }
 `
 
@@ -138,6 +138,7 @@ const APP_SCSS = `.demo {
   display: flex;
   flex-direction: column;
   gap: var(--space-5);
+  background-color: #fff;
 }
 
 .demo__row {
@@ -145,6 +146,12 @@ const APP_SCSS = `.demo {
   flex-wrap: wrap;
   align-items: center;
   gap: var(--space-3);
+}
+
+// Demo scaffolding only — keeps the Card sections on a plain white canvas
+// rather than the Card component's own background, without touching Card.scss.
+.demo .card {
+  background-color: #fff;
 }
 `
 

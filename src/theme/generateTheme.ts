@@ -42,8 +42,8 @@ const FONT_WEIGHT_SCALE: Record<FontWeight, { body: number; control: number }> =
 const RADIUS_SCALE: Record<BorderRadius, ThemeRadius> = {
   sharp: { sm: '2px', md: '4px', lg: '6px' },
   subtle: { sm: '4px', md: '8px', lg: '12px' },
-  rounded: { sm: '8px', md: '12px', lg: '18px' },
-  soft: { sm: '12px', md: '18px', lg: '28px' },
+  soft: { sm: '8px', md: '12px', lg: '18px' },
+  rounded: { sm: '12px', md: '18px', lg: '28px' },
 }
 
 // --- Spacing scale ------------------------------------------------

@@ -11,8 +11,8 @@ export interface StyleControlProps {
 const RADIUS_OPTIONS: { value: BorderRadius; label: string }[] = [
   { value: 'sharp', label: 'Sharp' },
   { value: 'subtle', label: 'Subtle' },
-  { value: 'rounded', label: 'Rounded' },
   { value: 'soft', label: 'Soft' },
+  { value: 'rounded', label: 'Rounded' },
 ]
 
 const SPACING_OPTIONS: { value: Spacing; label: string }[] = [

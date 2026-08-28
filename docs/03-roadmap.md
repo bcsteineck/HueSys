@@ -35,7 +35,7 @@ The current focus is completing the core HueSys design-system generation experie
 
 ### Style
 
-- Sharp / Subtle / Rounded / Soft Border Radius options
+- Sharp / Subtle / Soft / Rounded Border Radius options
 - Compact / Medium / Spacious Spacing options
 - Generated radius and spacing scales
 - Sensible fixed defaults for structural properties not exposed as controls

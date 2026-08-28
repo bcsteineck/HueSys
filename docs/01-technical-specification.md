@@ -156,8 +156,8 @@ Options:
 
 - Sharp
 - Subtle
-- Rounded
 - Soft
+- Rounded
 
 Each option defines an appropriate radius scale rather than applying one identical radius to every component.
 

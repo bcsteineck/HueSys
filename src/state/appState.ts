@@ -41,7 +41,7 @@ export interface TypographyState {
   weight: FontWeight
 }
 
-export type BorderRadius = 'sharp' | 'subtle' | 'rounded' | 'soft'
+export type BorderRadius = 'sharp' | 'subtle' | 'soft' | 'rounded'
 export type Spacing = 'compact' | 'medium' | 'spacious'
 
 export interface StyleState {
