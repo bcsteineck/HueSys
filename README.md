@@ -1,13 +1,13 @@
 # HueSys
 
-Build a React design system from a single color.
+Generate a production-ready React design system from your choice of colors, typography, and style.
 
 ## Status
 
-🚧 Early development
+MVP complete
 
 ## Vision
 
-HueSys generates production-ready React + TypeScript + SCSS design systems from a single primary color through curated theme generation.
+HueSys is a web application that generates production-ready React + TypeScript + SCSS design systems through three independent design areas — Colors, Typography, and Style — then exports clean source code you fully own.
 
 See the `/docs` directory for project documentation.
