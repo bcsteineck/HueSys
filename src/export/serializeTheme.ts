@@ -60,6 +60,7 @@ const EXPORTED_CSS_VARIABLES: readonly string[] = [
   '--radius-sm',
   '--radius-md',
   '--radius-lg',
+  '--radius-full',
 
   '--space-1',
   '--space-2',

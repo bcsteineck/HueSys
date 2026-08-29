@@ -42,6 +42,11 @@
   min-height: 0;
   gap: 1rem;
   padding: 1rem;
+  // Deliberately deviates from "HueSys chrome never consumes generated
+  // Theme state": the accent stop tracks the current Base Color (set
+  // inline on this element in App.tsx) instead of Figma's fixed #6f60f5,
+  // which remains the fallback if the variable is ever absent.
+  background: linear-gradient(124deg, #f6f6f6 70.19%, var(--workspace-gradient-accent, #6f60f5) 100%);
 
   // Options and Live Preview stack once there's no longer genuinely
   // enough width for both side by side.

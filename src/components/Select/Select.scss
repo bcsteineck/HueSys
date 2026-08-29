@@ -23,7 +23,7 @@
 }
 
 .select {
-  @include mixins.field-base;
+  @include mixins.field-base(var(--radius-full));
   appearance: none;
   padding-right: var(--space-6);
   cursor: pointer;

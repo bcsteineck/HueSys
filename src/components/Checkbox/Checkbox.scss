@@ -25,7 +25,11 @@
   height: 1.125rem;
   margin: 0;
   border: var(--border-width) solid var(--color-border);
-  border-radius: var(--radius-sm);
+  // Capped, not a bare var(--radius-sm): at 1.125rem (18px) square, any
+  // radius ≥9px makes the browser's corner-overlap correction round every
+  // corner up to a full circle — indistinguishable from Radio. The cap
+  // keeps this a clearly rounded box at every Style, including Rounded.
+  border-radius: min(var(--radius-sm), 8px);
   background-color: var(--color-background);
   transition:
     background-color var(--transition-fast),

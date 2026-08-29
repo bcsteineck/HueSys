@@ -64,6 +64,7 @@ export function themeToCssVariables(theme: Theme): Record<string, string> {
     '--radius-sm': theme.radius.sm,
     '--radius-md': theme.radius.md,
     '--radius-lg': theme.radius.lg,
+    '--radius-full': theme.radius.full,
     '--space-1': theme.spacing.space1,
     '--space-2': theme.spacing.space2,
     '--space-3': theme.spacing.space3,

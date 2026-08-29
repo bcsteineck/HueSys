@@ -468,9 +468,9 @@ Conceptually:
 
 ## 7.1 Entering Custom Mode
 
-The first time the user switches from Palette to Custom, initialize the Custom Brand Palette using the currently generated five-color Brand Palette.
+There is one current Brand Palette. Switching from Palette to Custom simply reveals editable controls for that same palette — it does not generate, copy, or seed a separate dataset.
 
-The Live Preview should therefore not visually change merely because the user entered Custom mode.
+The Live Preview therefore never visually changes merely because the user entered Custom mode.
 
 The user can then edit individual colors.
 
@@ -505,38 +505,38 @@ Those concepts belong to generated Palette mode and do not apply when the user c
 
 ---
 
-## 7.3 Palette and Custom State
+## 7.3 One Current Brand Palette
 
-Palette and Custom maintain independent state during the session.
+Palette and Custom are two ways of operating on the same current Brand Palette, not two independently persisted ones. `mode` selects which controls are visible; it never changes the colors.
 
 Example:
 
 ```text
-Palette:
+Palette generates:
 A B C D E
 
 ↓ switch to Custom
 
-Custom initially:
+Custom shows:
 A B C D E
 
-↓ edit
+↓ edit color 3
 
-Custom:
+Current palette is now:
 A B X D E
 
 ↓ switch to Palette
 
-Palette:
-A B C D E
+Palette shows:
+A B X D E
 
 ↓ switch back to Custom
 
-Custom:
+Custom shows:
 A B X D E
 ```
 
-Switching modes must not unnecessarily destroy the user's work.
+The edit in the example above is never lost or reverted by switching modes — there is no hidden second palette for either mode to fall back to. Only an actual generation action (Base Color entry, Refresh, Randomize) or a Custom edit changes the current palette; switching modes alone never does.
 
 ---
 

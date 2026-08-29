@@ -1,5 +1,5 @@
 @use '../../styles/mixins';
 
 .input {
-  @include mixins.field-base;
+  @include mixins.field-base(var(--radius-full));
 }

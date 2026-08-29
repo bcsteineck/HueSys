@@ -113,6 +113,8 @@ export interface ThemeRadius {
   sm: string
   md: string
   lg: string
+  /** For components that should read as a pill/capsule regardless of their own height (Button, Badge, single-line fields) — independent of sm/md/lg so Card/Alert/Textarea/Checkbox never get pulled into a full-round look by sharing a token with them. Equal to `md` except at the Rounded style, where it becomes a true 9999px pill. */
+  full: string
 }
 
 /** Generated spacing scale — consumed by the generated component library only, never by HueSys's own application layout. */

@@ -16,10 +16,9 @@ const MODE_OPTIONS: { value: ColorMode; label: string }[] = [
 ]
 
 /**
- * Palette and Custom are independent: switching modes never discards
- * either one's state, it only changes which is active. Custom seeds its
- * five colors from the current Palette the first time it's opened
- * (handled by switchColorMode) and is left alone after that.
+ * Palette and Custom are two ways of operating on the same current Brand
+ * Palette, not two independently persisted ones — switching modes only
+ * changes which controls are visible, never the colors themselves.
  */
 export function ColorControl({ color, onChange }: ColorControlProps) {
   return (
@@ -35,9 +34,9 @@ export function ColorControl({ color, onChange }: ColorControlProps) {
       </div>
 
       {color.mode === 'palette' ? (
-        <PaletteControl palette={color.palette} onChange={(palette) => onChange({ ...color, palette })} />
+        <PaletteControl colors={color.colors} onChange={(next) => onChange({ ...color, ...next })} />
       ) : (
-        <CustomColorControl colors={color.custom.colors} onChange={(colors) => onChange({ ...color, custom: { colors } })} />
+        <CustomColorControl colors={color.colors} onChange={(colors) => onChange({ ...color, colors })} />
       )}
     </div>
   )

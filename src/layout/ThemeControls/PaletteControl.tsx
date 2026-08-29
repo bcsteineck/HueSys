@@ -3,13 +3,14 @@ import { HueSysButton } from '../../huesys-ui/HueSysButton'
 import { HueSysInput } from '../../huesys-ui/HueSysInput'
 import { RandomizeIcon, RefreshIcon } from '../../huesys-ui/icons'
 import { isValidHexColor, normalizeColor } from '../../theme/color'
-import type { PaletteColorState } from '../../state/appState'
+import type { BrandPalette } from '../../theme/color'
+import type { GeneratedColors } from '../../state/colorActions'
 import { randomizePalette, refreshPalette, setBaseColor } from '../../state/colorActions'
 import './PaletteControl.scss'
 
 export interface PaletteControlProps {
-  palette: PaletteColorState
-  onChange: (next: PaletteColorState) => void
+  colors: BrandPalette
+  onChange: (next: GeneratedColors) => void
 }
 
 /**
@@ -18,20 +19,22 @@ export interface PaletteControlProps {
  * hex — incomplete values like "#6E5C" never touch design state);
  * Refresh keeps the current Base Color and explores another palette
  * around it; Randomize picks an entirely new Base Color and direction.
- * All three only ever touch Palette color state — never Typography or
- * Style.
+ * Base Color is always `colors.master` — including right after a Custom
+ * edit to color #1, since there's no separate generation-anchor field to
+ * fall out of sync with it.
  */
-export function PaletteControl({ palette, onChange }: PaletteControlProps) {
-  const [draft, setDraft] = useState(`#${palette.baseColor.replace('#', '')}`)
+export function PaletteControl({ colors, onChange }: PaletteControlProps) {
+  const baseColor = colors.master
+  const [draft, setDraft] = useState(`#${baseColor.replace('#', '')}`)
 
   // Keep the draft in sync whenever the committed Base Color changes from
-  // elsewhere (Randomize, Refresh, browser navigation). Adjusted during
-  // render, per React's own guidance for resetting local state when a
-  // prop changes.
-  const [syncedBaseColor, setSyncedBaseColor] = useState(palette.baseColor)
-  if (palette.baseColor !== syncedBaseColor) {
-    setSyncedBaseColor(palette.baseColor)
-    setDraft(`#${palette.baseColor.replace('#', '')}`)
+  // elsewhere (Randomize, Refresh, a Custom edit to color #1, browser
+  // navigation). Adjusted during render, per React's own guidance for
+  // resetting local state when a prop changes.
+  const [syncedBaseColor, setSyncedBaseColor] = useState(baseColor)
+  if (baseColor !== syncedBaseColor) {
+    setSyncedBaseColor(baseColor)
+    setDraft(`#${baseColor.replace('#', '')}`)
   }
 
   function handleDraftChange(value: string) {
@@ -66,7 +69,7 @@ export function PaletteControl({ palette, onChange }: PaletteControlProps) {
           <HueSysButton
             variant="outline"
             iconOnly
-            onClick={() => onChange(refreshPalette(palette.baseColor))}
+            onClick={() => onChange(refreshPalette(baseColor))}
             aria-label="Generate another palette"
             title="Generate another palette"
           >

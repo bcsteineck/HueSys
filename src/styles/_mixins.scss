@@ -5,7 +5,11 @@
   }
 }
 
-@mixin field-base {
+// $radius lets single-line fields (Input, Select) opt into a fully-round
+// treatment via var(--radius-full) while Textarea keeps the default
+// var(--radius-md) — a capsule reads fine on a single-line field but not
+// on a multi-line box.
+@mixin field-base($radius: var(--radius-md)) {
   width: 100%;
   font-family: var(--font-family);
   font-size: var(--font-size-base);
@@ -13,7 +17,7 @@
   color: var(--color-text);
   background-color: var(--color-field-background);
   border: var(--border-width) solid var(--color-border);
-  border-radius: var(--radius-md);
+  border-radius: $radius;
   padding: var(--space-2) var(--space-3);
   transition: border-color var(--transition-fast);
 

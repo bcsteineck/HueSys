@@ -379,29 +379,24 @@ It only bypasses generation of the five Brand Palette colors.
 
 # Palette and Custom State
 
-Palette and Custom maintain independent Brand Palette state.
+There is one current Brand Palette. Palette mode generates it. Custom mode edits it. They are not two independently persisted color datasets — `mode` describes which controls are visible, not which of two palettes is active.
 
 Conceptually:
 
 ```text
 ColorState
 ├── mode
-├── palette
-│   ├── baseColor
-│   ├── colors
-│   └── variation
-└── custom
-    └── colors
+├── colors
+└── variation
 ```
 
 The exact TypeScript structure may differ if a simpler representation is appropriate, but the behavior must remain:
 
-- Palette state survives switching to Custom.
-- Custom state survives switching to Palette.
-- Entering Custom for the first time initializes its five colors from the current generated Brand Palette.
-- Switching modes does not unnecessarily destroy previous work.
-
-The active Brand Palette is determined by the current mode.
+- Switching modes never itself changes `colors`.
+- Palette-mode generation (Base Color entry, Refresh, Randomize) replaces `colors` with a newly generated palette, which becomes the current palette regardless of which mode is active when it happens.
+- Custom-mode edits replace `colors` directly, one color at a time.
+- Color #1 (`colors.master`) is always the Base Color — there is no separate anchor field to fall out of sync with it. A Custom edit to color #1 is immediately reflected as the Base Color shown in Palette mode.
+- `variation` seeds Refresh's next generation and is independent of `colors` — it is never used to reconstruct them.
 
 ---
 

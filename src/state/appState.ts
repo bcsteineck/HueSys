@@ -6,30 +6,19 @@ export type ActiveSection = 'colors' | 'typography' | 'style'
 
 export type ColorMode = 'palette' | 'custom'
 
-export interface PaletteColorState {
-  /** Always equal to palette.colors.master — HueSys's own record of "what the user asked to anchor to." */
-  baseColor: string
-  colors: BrandPalette
-  /** Varies the palette's non-anchor roles across repeated generations from the same baseColor (Refresh). */
-  variation: number
-}
-
-export interface CustomColorState {
-  colors: BrandPalette
-}
-
 /**
- * Colors are either generated (Palette) or user-supplied (Custom). Both
- * modes keep their own independent state so switching back and forth
- * never loses work — only `mode` decides which one is active. `custom` is
- * seeded from the current Palette the first time Custom mode is entered
- * (tracked by customInitialized) and is left alone after that.
+ * Palette and Custom are two ways of operating on one current Brand
+ * Palette, not two separately persisted datasets — Palette mode generates
+ * `colors`, Custom mode edits it directly, and switching between them
+ * never itself changes `colors`. Color #1 (`colors.master`) is always the
+ * Base Color; there's no separate `baseColor` field to keep in sync or let
+ * go stale, it's simply read from `colors.master` wherever needed.
  */
 export interface ColorState {
   mode: ColorMode
-  palette: PaletteColorState
-  custom: CustomColorState
-  customInitialized: boolean
+  colors: BrandPalette
+  /** Seeds Refresh's next variation — varies the palette's non-anchor roles across repeated generations from the same Base Color. Independent of `colors`; not used to reconstruct them. */
+  variation: number
 }
 
 export type FontSize = 'small' | 'medium' | 'large'
@@ -65,15 +54,8 @@ export const defaultAppState: AppState = {
   activeSection: 'colors',
   color: {
     mode: 'palette',
-    palette: {
-      baseColor: DEFAULT_BRAND_PALETTE.master,
-      colors: DEFAULT_BRAND_PALETTE,
-      variation: 0,
-    },
-    custom: {
-      colors: DEFAULT_BRAND_PALETTE,
-    },
-    customInitialized: false,
+    colors: DEFAULT_BRAND_PALETTE,
+    variation: 0,
   },
   typography: {
     font: DEFAULT_FONT_ID,

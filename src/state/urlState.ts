@@ -75,30 +75,17 @@ export function readStateFromUrl(): AppState {
   // a deliberate shared/edited link.
   if ([...params.keys()].length === 0) return defaultAppState
 
-  const mode = parseMode(params.get('mode'))
-  const activeColors = parseActiveColors(params)
-  const baseParam = params.get('base')
-
-  const color: AppState['color'] =
-    mode === 'custom'
-      ? {
-          mode,
-          palette: defaultAppState.color.palette,
-          custom: { colors: activeColors ?? defaultAppState.color.custom.colors },
-          customInitialized: true,
-        }
-      : {
-          mode,
-          palette: activeColors
-            ? {
-                baseColor: baseParam !== null && isValidHexColor(baseParam) ? normalizeColor(baseParam) : activeColors.master,
-                colors: activeColors,
-                variation: parseInteger(params.get('seed'), defaultAppState.color.palette.variation),
-              }
-            : defaultAppState.color.palette,
-          custom: defaultAppState.color.custom,
-          customInitialized: false,
-        }
+  // c1-c5 are the one current Brand Palette regardless of mode — they're
+  // always authoritative and are never regenerated from `base`/`seed`.
+  // `base` no longer exists as its own param (see writeStateToUrl): color
+  // #1 of c1-c5 already is the Base Color, so a separate value could only
+  // ever go stale against it. `seed` only feeds a *future* Refresh; it
+  // plays no part in reconstructing the current colors on read.
+  const color: AppState['color'] = {
+    mode: parseMode(params.get('mode')),
+    colors: parseActiveColors(params) ?? defaultAppState.color.colors,
+    variation: parseInteger(params.get('seed'), defaultAppState.color.variation),
+  }
 
   return {
     activeSection: parseSection(params.get('section')),
@@ -116,27 +103,22 @@ export function readStateFromUrl(): AppState {
 }
 
 export function writeStateToUrl(state: AppState, mode: 'push' | 'replace') {
-  const activeColors = state.color.mode === 'custom' ? state.color.custom.colors : state.color.palette.colors
+  const colors = state.color.colors
   const params = new URLSearchParams({
     section: state.activeSection,
     mode: state.color.mode,
-    c1: activeColors.master,
-    c2: activeColors.deep,
-    c3: activeColors.muted,
-    c4: activeColors.accentA,
-    c5: activeColors.accentB,
+    c1: colors.master,
+    c2: colors.deep,
+    c3: colors.muted,
+    c4: colors.accentA,
+    c5: colors.accentB,
+    seed: String(state.color.variation),
     font: state.typography.font,
     size: state.typography.size,
     weight: state.typography.weight,
     radius: RADIUS_TO_URL[state.style.radius],
     spacing: state.style.spacing,
   })
-  // Base Color and variation only apply in Palette mode — Custom mode has
-  // no single anchor color driving generation.
-  if (state.color.mode === 'palette') {
-    params.set('base', state.color.palette.baseColor)
-    params.set('seed', String(state.color.palette.variation))
-  }
 
   const url = `?${params.toString()}`
   if (mode === 'push') {

@@ -6,6 +6,10 @@
   font-weight: var(--font-weight-control);
   line-height: 1;
   padding: var(--space-1) var(--space-2);
+  // Not --radius-full: sm already goes to a 9999px pill at the Rounded
+  // style on its own (see generateTheme.ts), so this stays pixel-identical
+  // to its prior Sharp/Subtle/Soft appearance rather than picking up
+  // Button's md-based sizing.
   border-radius: var(--radius-sm);
   white-space: nowrap;
 }
