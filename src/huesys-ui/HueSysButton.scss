@@ -62,6 +62,7 @@
 .huesys-button--special {
   background: linear-gradient(270deg, #38c6b8 0%, #6f5ff5 100%);
   color: var(--huesys-color-primary-text);
+  border: none;
 
   // Figma's Hover state swaps the teal stop for coral rather than just
   // brightening the resting gradient — a distinct color, not a filter.
