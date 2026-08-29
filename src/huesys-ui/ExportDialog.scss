@@ -85,34 +85,12 @@
   color: var(--huesys-color-text-muted);
 }
 
+// Colors, radius, height, and states all come from HueSysButton's own
+// "soft" variant (Figma's "Highlight" button style) — this just fits it
+// into the option card's layout.
 .export-dialog__action {
   align-self: stretch;
-  min-height: 2.5rem;
   margin-top: 0.25rem;
-  border: none;
-  border-radius: var(--huesys-radius-sm);
-  background-color: var(--huesys-color-primary);
-  color: var(--huesys-color-primary-text);
-  font-family: var(--huesys-font-family);
-  font-size: var(--huesys-font-size-base);
-  font-weight: var(--huesys-font-weight-semibold);
-  cursor: pointer;
-  transition: background-color var(--huesys-transition-fast);
-
-  &:hover:not(:disabled) {
-    background-color: var(--huesys-color-primary-hover);
-  }
-
-  &:disabled {
-    cursor: not-allowed;
-    background-color: var(--huesys-color-bg);
-    color: var(--huesys-color-text-muted);
-  }
-
-  &:focus-visible {
-    outline: 2px solid var(--huesys-color-primary);
-    outline-offset: 2px;
-  }
 }
 
 .export-dialog__error {

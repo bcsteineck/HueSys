@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import { exportComponentsOnly, exportStarterProject } from '../export'
 import type { Theme } from '../theme/types'
 import { CloseIcon } from './icons'
+import { HueSysButton } from './HueSysButton'
 import './ExportDialog.scss'
 
 export interface ExportDialogProps {
@@ -88,18 +89,18 @@ export function ExportDialog({ open, onClose, theme, fontId }: ExportDialogProps
         <div className="export-dialog__option">
           <h3 className="export-dialog__option-title">Starter Project</h3>
           <p className="export-dialog__option-description">Complete Vite + React + TypeScript project ready to run.</p>
-          <button type="button" className="export-dialog__action" disabled={busy} onClick={() => runExport('starter')}>
+          <HueSysButton variant="soft" className="export-dialog__action" disabled={busy} onClick={() => runExport('starter')}>
             {starterStatus === 'generating' ? 'Generating…' : 'Download Starter Project'}
-          </button>
+          </HueSysButton>
         </div>
         <div className="export-dialog__option">
           <h3 className="export-dialog__option-title">Components Only</h3>
           <p className="export-dialog__option-description">
             Portable component source, styles, and theme files for an existing project.
           </p>
-          <button type="button" className="export-dialog__action" disabled={busy} onClick={() => runExport('components')}>
+          <HueSysButton variant="soft" className="export-dialog__action" disabled={busy} onClick={() => runExport('components')}>
             {componentsStatus === 'generating' ? 'Generating…' : 'Download Components Only'}
-          </button>
+          </HueSysButton>
         </div>
       </div>
 
